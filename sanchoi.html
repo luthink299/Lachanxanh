@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b3d2a">
-<title>Sân chơi Lá chắn xanh</title>
+<title>Mini game Lá chắn xanh</title>
 <meta name="description" content="Chơi vui, nhận diện bẫy, tự bảo vệ mình. Mô hình Lá chắn xanh – Ban Thanh niên Công an tỉnh Lạng Sơn.">
 <style>
 :root{
@@ -296,7 +296,7 @@ a{color:inherit}
         <path d="M50 14 L79 25 V48 C79 66 66 79 50 86 C34 79 21 66 21 48 V25 Z" fill="#12a150"/>
         <path d="M50 30 C36 40 34 56 44 68 C46 60 50 52 58 46 C52 54 49 62 48 70 C62 68 68 52 62 38 C59 33 55 31 50 30 Z" fill="#c8f5d6"/>
       </svg>
-      <h1>Sân chơi Lá chắn xanh</h1>
+      <h1>Mini game Lá chắn xanh</h1>
       <p>Chơi vui · Nhận diện bẫy · Tự bảo vệ mình</p>
     </div>
     <div class="card">
@@ -323,29 +323,6 @@ a{color:inherit}
       </button>
     </div>
     <div class="card">
-      <h2>🎭 Nhập vai tình huống</h2>
-      <button class="story play" id="openStory">
-        <span class="sava">💬</span>
-        <span><b>Tin nhắn lạ</b><small>Lừa đảo qua mạng: mỗi lựa chọn dẫn tới một kết cục</small></span>
-        <span class="go">›</span>
-      </button>
-      <button class="story play" data-vn="vn2">
-        <span class="sava">💪</span>
-        <span><b>Bản lĩnh tuổi trẻ <span class="tag">Thử nghiệm</span></b><small>Nói "không" với vape, chất lạ và lời rủ rê</small><small class="rec" id="rec-vn2"></small></span>
-        <span class="go">›</span>
-      </button>
-      <button class="story play" data-vn="vn4">
-        <span class="sava">🛡️</span>
-        <span><b>Phá giải tình huống <span class="tag">Thử nghiệm</span></b><small>Bắt nạt, bạo lực học đường và những bí mật đáng sợ</small><small class="rec" id="rec-vn4"></small></span>
-        <span class="go">›</span>
-      </button>
-      <button class="story play" data-vn="vn5">
-        <span class="sava">🤝</span>
-        <span><b>Kết nối yêu thương <span class="tag">Thử nghiệm</span></b><small>Sẻ chia, không kỳ thị người tái hòa nhập</small><small class="rec" id="rec-vn5"></small></span>
-        <span class="go">›</span>
-      </button>
-    </div>
-    <div class="card">
       <h2>⚖️ Kiến thức pháp luật</h2>
       <button class="story play" id="openArena">
         <span class="sava">⚖️</span>
@@ -355,85 +332,10 @@ a{color:inherit}
     </div>
     <div class="foot">
       📸 Chụp màn hình điểm số để thi đua cùng bạn bè!<br><br>
-      Sân chơi thuộc mô hình <b>"Lá chắn xanh"</b><br>Ban Thanh niên Công an tỉnh Lạng Sơn<br>
+      Mini game thuộc mô hình <b>"Lá chắn xanh"</b><br>Ban Thanh niên Công an tỉnh Lạng Sơn<br>
       <a href="/" target="_top">← Về lachanxanh.vn</a><br>
       <button class="resetbtn" id="resetProg">🗑️ Xóa tiến độ chơi trên máy này</button>
     </div>
-  </section>
-
-  <!-- STORY HOME -->
-  <section id="storyHome" class="screen scrollpage">
-    <button class="topback" id="storyBack">‹ Sân chơi</button>
-    <div class="hero" style="padding-top:8px">
-      <h1>💬 Tin nhắn lạ</h1>
-      <p>Em sẽ làm gì khi tin nhắn lạ gõ cửa?</p>
-    </div>
-    <div class="card">
-      <h2>Cách chơi</h2>
-      <ul class="how">
-        <li><span>💬</span><div>Một người lạ nhắn tin cho em. Đọc kỹ và chọn câu trả lời.</div></li>
-        <li><span>⏳</span><div>Họ sẽ giục, sẽ dọa, sẽ hứa hẹn. Đừng vội!</div></li>
-        <li><span>🛡️</span><div>Thấy nghi ngờ, bấm <b>Hỏi Lá chắn xanh</b> bất cứ lúc nào.</div></li>
-        <li><span>⏪</span><div>Cuối mỗi chuyện, cùng tua lại xem em đã nhận ra bao nhiêu dấu hiệu.</div></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2>Chọn câu chuyện</h2>
-      <div class="progress" id="progress">Đã về đích an toàn: 0/3 chuyện</div>
-      <button class="story play" id="playS1">
-        <span class="sava">🎁</span>
-        <span><b>Chuyện 1 · Quà sự kiện</b><small id="s1note">"Chúc mừng! Em trúng skin giới hạn…"</small></span>
-        <span class="go">›</span>
-      </button>
-      <div class="story lock" aria-disabled="true">
-        <span class="sava">📞</span><span><b>Chuyện 2 · Cuộc gọi lạ</b><small>Sắp ra mắt</small></span><span class="go">🔒</span>
-      </div>
-      <div class="story lock" aria-disabled="true">
-        <span class="sava">🎮</span><span><b>Chuyện 3 · Bạn mới quen</b><small>Sắp ra mắt</small></span><span class="go">🔒</span>
-      </div>
-    </div>
-    <div class="foot">Ban Thanh niên Công an tỉnh Lạng Sơn</div>
-  </section>
-
-  <!-- CHAT -->
-  <section id="chat" class="screen" style="position:relative">
-    <header class="chat-head">
-      <button class="back" id="btnExit" aria-label="Thoát">‹</button>
-      <div class="ava" id="cAva">🎁</div>
-      <div class="who"><b id="cName">Admin Sự Kiện</b><small id="cSub">Ban tổ chức sự kiện</small></div>
-      <div class="timer hidden" id="timer">⏳ 10:00</div>
-    </header>
-    <div class="stranger">⚠️ Người lạ · Không có trong danh bạ của em</div>
-    <div class="log" id="log"></div>
-    <div class="dock" id="dock">
-      <button class="shieldbar" id="shieldBtn"><span>🛡️ Hỏi Lá chắn xanh</span><small>Thấy nghi ngờ? Bấm vào đây</small></button>
-      <div class="choices" id="choices"></div>
-    </div>
-    <div class="review-bar hidden" id="reviewBar">
-      <button class="btn pri" id="btnBackResult" style="width:100%;margin:0">← Quay lại kết quả</button>
-    </div>
-    <div class="banner" id="banner"></div>
-  </section>
-
-  <!-- STORY RESULT -->
-  <section id="result" class="screen">
-    <div class="verdict" id="verdict"><div class="v-icon" id="vIcon"></div><h2 id="vTitle"></h2><p id="vText"></p></div>
-    <h3 class="sec-t">⏪ Tua lại: các dấu hiệu lừa đảo</h3>
-    <ul class="signs" id="signList"></ul>
-    <button class="btn ghost" id="btnReview">Xem lại đoạn chat có đánh dấu 🚩</button>
-    <div class="real">
-      <h3>Nếu gặp chuyện này ngoài đời</h3>
-      <ul>
-        <li>Không bấm đường link lạ; không đưa mật khẩu, mã xác nhận; không chuyển tiền.</li>
-        <li>Lỡ đưa mật khẩu hoặc mã xác nhận: đổi mật khẩu ngay, báo bố mẹ, liên hệ bộ phận hỗ trợ chính thức của trò chơi.</li>
-        <li>Đã mất tiền: cùng bố mẹ đến Công an xã, phường gần nhất hoặc gọi 113 để được hướng dẫn trình báo.</li>
-        <li>Cần hỏi thêm: nhắn Zalo OA "Ban Thanh niên Công an tỉnh Lạng Sơn".</li>
-      </ul>
-    </div>
-    <a class="btn pri" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener">💬 Nhắn Lá chắn xanh qua Zalo</a>
-    <button class="btn ghost" id="btnReplay">↻ Chơi lại chuyện này</button>
-    <button class="btn dark" id="btnHome">Về danh sách chuyện</button>
-    <div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Đường dây nóng <a href="tel:0936692111" target="_top">0936.692.111</a></div>
   </section>
 
   <!-- ARENA -->
@@ -445,18 +347,6 @@ a{color:inherit}
     </div>
     <div class="an-flag">THỬ NGHIỆM · CÂU HỎI ĐANG CHỜ ĐẦU MỐI XÁC NHẬN</div>
     <div class="an-body" id="anBody"></div>
-  </section>
-
-  <!-- VN -->
-  <section id="vn" class="screen">
-    <div class="an-head">
-      <button class="back" id="vnBack" aria-label="Quay lại">‹</button>
-      <div class="ttl"><b id="vnTitle"></b><small id="vnSub"></small></div>
-    </div>
-    <div class="an-flag">THỬ NGHIỆM · NỘI DUNG CHỜ ĐẦU MỐI XÁC NHẬN</div>
-    <div class="vn-meter hidden" id="vnMeter"><span id="vnMName"></span><div class="bar"><i id="vnBar"></i></div><span id="vnVal"></span></div>
-    <div class="an-body" id="vnBody"></div>
-    <div class="vn-freeze hidden" id="vnFreeze"><div class="big">DỪNG LẠI!</div><p id="vnFreezeT"></p><button class="btn white" id="vnFreezeBtn">⏪ Xem lại các lựa chọn</button></div>
   </section>
 
   <!-- ARCADE -->
@@ -481,12 +371,12 @@ a{color:inherit}
         <h2 id="arsT"></h2>
         <ul id="arsHow"></ul>
         <button class="btn pri" id="arGo">▶ Bắt đầu</button>
-        <button class="btn ghost" id="arStartBack" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+        <button class="btn ghost" id="arStartBack" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về mini game</button>
       </div>
       <div class="ar-ov hidden" id="arPause">
         <div class="big-e">⏸️</div><h2>Tạm dừng</h2>
         <button class="btn pri" id="arResume" style="margin-top:20px">▶ Chơi tiếp</button>
-        <button class="btn ghost" id="arQuit" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+        <button class="btn ghost" id="arQuit" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về mini game</button>
       </div>
       <div class="ar-ov hidden" id="arOver">
         <div class="sub" id="aroName"></div>
@@ -499,318 +389,25 @@ a{color:inherit}
         <div class="snap">📸 Chụp màn hình để khoe điểm với bạn bè!</div>
         <button class="btn pri" id="arAgain">↻ Chơi lại</button>
         <a class="btn ghost" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">💬 Hỏi Lá chắn xanh qua Zalo</a>
-        <button class="btn ghost" id="arHub" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+        <button class="btn ghost" id="arHub" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về mini game</button>
         <div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Đường dây nóng <a href="tel:0936692111" target="_top">0936.692.111</a></div>
       </div>
     </div>
     <div class="ar-ctrl" id="arCtrl"></div>
   </section>
 
-  <!-- STORY OVERLAYS -->
-  <div class="overlay hidden" id="web">
-    <div class="browser">
-      <div class="urlbar"><span class="insecure">⚠ Không bảo mật</span><span class="url">chienbinh-huyenthoai-qua.xyz/nhan-skin</span></div>
-      <div class="fakepage">
-        <div class="logo">🐉</div><h3>SỰ KIỆN KỶ NIỆM</h3>
-        <p>Đăng nhập tài khoản để nhận Skin Rồng Lửa giới hạn</p>
-        <div class="fakefield">👤 Tên tài khoản</div><div class="fakefield">🔒 Mật khẩu</div>
-        <div class="fakebtn">NHẬN QUÀ NGAY</div>
-      </div>
-      <div class="webchoices" id="webChoices"></div>
-    </div>
-  </div>
-  <div class="overlay hidden" id="shield">
-    <div class="sheet">
-      <div class="sheet-head"><div class="ava">🛡️</div><div><b>Lá chắn xanh</b><small>Mô phỏng trong trò chơi</small></div></div>
-      <div class="log" id="shieldLog"></div>
-      <div class="sheet-foot">
-        <button class="btn pri hidden" id="btnShieldDone">Xem kết quả</button>
-        <p class="note">Ngoài đời, em nhắn Zalo OA "Ban Thanh niên Công an tỉnh Lạng Sơn" để được tư vấn.</p>
-      </div>
-    </div>
-  </div>
-  <div class="overlay hidden" id="freeze">
-    <div class="big">DỪNG LẠI!</div>
-    <p>Kẻ gian sẽ còn bịa thêm lý do để đòi tiền mãi. Hãy cùng tua lại xem em đã bỏ qua những dấu hiệu nào.</p>
-    <button class="btn white" id="btnRewind">⏪ Tua lại</button>
-  </div>
 </div>
 
 <script>
 (function(){
 "use strict";
 var $=function(id){return document.getElementById(id);};
-var SCREENS=["hub","storyHome","chat","result","arcade","arena","vn"];
+var SCREENS=["hub","arcade","arena"];
 function show(id){SCREENS.forEach(function(s){$(s).classList.toggle("active",s===id);});}
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
 var FONT='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
 var EMO=FONT+',"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji"';
-
-/* =====================================================================
-   CHẾ ĐỘ CỐT TRUYỆN: TIN NHẮN LẠ
-   ===================================================================== */
-var SIGNS=[
-  {id:"S1",t:"Quà “từ trên trời rơi xuống”",d:"Người lạ báo em trúng quà giá trị mà em không hề tham gia gì."},
-  {id:"S2",t:"Giục gấp, đếm ngược",d:"Ép thời gian để em không kịp suy nghĩ, không kịp hỏi ai."},
-  {id:"S3",t:"Đường link lạ",d:"Tên trang khác trang chính thức, đuôi lạ. Đây là trang giả."},
-  {id:"S4",t:"Đòi đăng nhập qua link",d:"Trang giả ghi lại tài khoản, mật khẩu em nhập vào."},
-  {id:"S5",t:"Đòi mã xác nhận",d:"Mã xác nhận là chìa khóa tài khoản. Không đưa cho bất kỳ ai, kể cả người xưng là ban tổ chức."},
-  {id:"S6",t:"Đòi chuyển “phí”",d:"Quà thật không bắt em trả tiền mới được nhận."},
-  {id:"S7",t:"Đòi chuyển thêm để “hoàn tiền”",d:"Chiêu kéo dài: càng chuyển càng mất, không có chuyện hoàn lại."}
-];
-var STORY={
-  contact:{name:"Admin Sự Kiện 🎁",sub:"Ban tổ chức sự kiện",ava:"🎁"},
-  nodes:{
-    n1:{msgs:[
-      {t:"sys",x:"Hôm nay, 19:42"},
-      {t:"them",x:"Chúc mừng em! 🎉"},
-      {t:"them",x:"Tài khoản Chiến Binh Huyền Thoại của em vừa được chọn nhận Skin Rồng Lửa giới hạn 🐉",s:"S1"},
-      {t:"them",x:"Chỉ còn 10 phút để nhận, quá hạn quà sẽ chuyển cho người khác nha!",s:"S2",timer:true}],
-     choices:[
-      {x:"Wow! Nhận kiểu gì ạ? 😍",go:"n2",pass:["S1","S2"]},
-      {x:"Sao em được chọn? Anh là ai?",go:"n1b"},
-      {x:"Lạ quá. Em không trả lời, chặn luôn!",go:"END:SAFE",catch:["S1","S2"],me:false,sys:"🚫 Em đã chặn người này"}]},
-    n1b:{msgs:[
-      {t:"them",x:"Anh là Ban tổ chức sự kiện chính thức 😊 Em may mắn được chọn thôi."},
-      {t:"them",x:"Nhanh lên kẻo hết giờ nhé!",s:"S2"}],
-     choices:[
-      {x:"Vâng, anh gửi em cách nhận đi",go:"n2",pass:["S1","S2"]},
-      {x:"Em sẽ tự kiểm tra trên trang chính thức của trò chơi",go:"END:SAFE",catch:["S1","S2"]}]},
-    n2:{msgs:[
-      {t:"them",x:"Em bấm vào link này, đăng nhập tài khoản game là nhận quà ngay 👇"},
-      {t:"link",title:"Nhận Skin Rồng Lửa – Sự kiện kỷ niệm",url:"chienbinh-huyenthoai-qua.xyz/nhan-skin",s:"S3"}],
-     choices:[
-      {x:"Bấm vào link",go:"WEB",pass:["S3"],me:false},
-      {x:"Link lạ quá, em không bấm đâu",go:"END:SAFE",catch:["S3"]}]},
-    web:{choices:[
-      {x:"Điền tài khoản và mật khẩu",go:"n4",pass:["S4"],lost:"pw",me:false,sys:"🔑 Em đã nhập tài khoản và mật khẩu"},
-      {x:"Thoát ra, không đăng nhập",go:"END:SAFE",catch:["S4"],me:false,sys:"↩️ Em đã thoát khỏi trang lạ"}]},
-    n4:{msgs:[
-      {t:"them",x:"Anh thấy em đăng nhập rồi 👍"},
-      {t:"them",x:"Hệ thống vừa gửi mã xác nhận 6 số về điện thoại em. Em đọc mã cho anh để kích hoạt quà nhé!",s:"S5"},
-      {t:"notif",title:"📩 Tin nhắn",x:"Mã xác nhận đăng nhập Chiến Binh Huyền Thoại của bạn là 48••••. Không chia sẻ mã này cho bất kỳ ai."}],
-     choices:[
-      {x:"Gửi mã cho anh ấy",me:"48••••",go:"n5",pass:["S5"],lost:"otp"},
-      {x:"Tin nhắn ghi không được chia sẻ mà anh?",go:"n4b"},
-      {x:"Không gửi. Em đổi mật khẩu ngay",go:"END:NEAR",catch:["S5"]}]},
-    n4b:{msgs:[
-      {t:"them",x:"Đó là tin tự động thôi em, Ban tổ chức thì được xem mà 😊"},
-      {t:"them",x:"Sắp hết giờ rồi, nhanh lên em!",s:"S2"}],
-     choices:[
-      {x:"Thôi được, em gửi",me:"48••••",go:"n5",pass:["S5"],lost:"otp"},
-      {x:"Không, em không gửi đâu",go:"END:NEAR",catch:["S5"]}]},
-    n5:{msgs:[
-      {t:"notif",alert:true,title:"⚠️ Cảnh báo bảo mật",x:"Tài khoản Chiến Binh Huyền Thoại của bạn vừa đăng nhập trên một thiết bị mới."},
-      {t:"them",x:"Quà đã sẵn sàng rồi! 🎁"},
-      {t:"them",x:"Em chuyển 200.000đ phí kích hoạt vào số tài khoản anh gửi nhé. Nhận quà xong bên anh hoàn lại ngay.",s:"S6"}],
-     choices:[
-      {x:"Chuyển 200.000đ",go:"n6",pass:["S6"],lost:"money",me:false,sys:"💸 Em đã chuyển 200.000đ"},
-      {x:"Sao lại mất phí? Em hỏi bố mẹ đã",go:"END:NEAR",catch:["S6"]}]},
-    n6:{msgs:[
-      {t:"them",x:"Ôi em ghi sai nội dung chuyển khoản rồi, hệ thống bị khóa ❌"},
-      {t:"them",x:"Em chuyển thêm 500.000đ để mở khóa, bên anh hoàn lại cả 700.000đ luôn!",s:"S7"}],
-     choices:[
-      {x:"Chuyển thêm 500.000đ",go:"END:TRAP",pass:["S7"],freeze:true,me:false,sys:"💸 Em đang chuyển thêm 500.000đ…"},
-      {x:"Dừng lại. Em kể với bố mẹ ngay",go:"END:LOSS",catch:["S7"]}]}
-  }
-};
-var st, safeDone=false, timerId=null;
-function reset(){st={token:(st?st.token:0)+1,met:{},pass:{},catch:{},lost:{},waiting:false,ended:false,ending:null,extended:false,sec:600,timerOn:false};}
-reset();
-function scrollLog(el){el=el||$("log");el.scrollTop=el.scrollHeight;}
-function flagChip(row,sid){
-  var s=SIGNS.filter(function(z){return z.id===sid;})[0];
-  var c=document.createElement("span");c.className="flag-chip";c.textContent="🚩 "+s.t;
-  row.classList.add("flagged");return c;
-}
-function addMsg(m,logEl,ava){
-  logEl=logEl||$("log");var el;
-  if(m.t==="sys"){
-    el=document.createElement("div");el.className="sys";el.textContent=m.x;
-    if(m.s){el.appendChild(flagChip(el,m.s));}
-  }else if(m.t==="notif"){
-    el=document.createElement("div");el.className="notif"+(m.alert?" alert":"");
-    var b=document.createElement("b");b.textContent=m.title;el.appendChild(b);
-    el.appendChild(document.createTextNode(m.x));banner(m);
-  }else{
-    el=document.createElement("div");el.className="row "+(m.t==="me"?"me":"them");
-    if(m.t!=="me"){var mi=document.createElement("div");mi.className="mini";mi.textContent=ava||STORY.contact.ava;el.appendChild(mi);}
-    var bub=document.createElement("div");bub.className="bub";
-    if(m.t==="link"){
-      var lc=document.createElement("span");lc.className="linkc";
-      lc.innerHTML='<span class="lt">🐉</span><span class="lb"><b></b><small></small></span>';
-      lc.querySelector("b").textContent=m.title;lc.querySelector("small").textContent=m.url;
-      bub.appendChild(lc);
-    }else{bub.textContent=m.x;}
-    if(m.s){bub.appendChild(flagChip(el,m.s));}
-    el.appendChild(bub);
-  }
-  if(m.s){st.met[m.s]=true;}
-  logEl.appendChild(el);scrollLog(logEl);return el;
-}
-function typing(logEl,ava){
-  logEl=logEl||$("log");
-  var el=document.createElement("div");el.className="row them typing";
-  el.innerHTML='<div class="mini"></div><div class="bub"><i></i><i></i><i></i></div>';
-  el.querySelector(".mini").textContent=ava||STORY.contact.ava;
-  logEl.appendChild(el);scrollLog(logEl);return el;
-}
-var bannerT=null;
-function banner(m){
-  var b=$("banner");b.className="banner"+(m.alert?" alert":"");
-  b.innerHTML="<b></b><span></span>";b.querySelector("b").textContent=m.title;b.querySelector("span").textContent=m.x;
-  requestAnimationFrame(function(){b.classList.add("show");});
-  try{if(navigator.vibrate)navigator.vibrate(120);}catch(e){}
-  clearTimeout(bannerT);bannerT=setTimeout(function(){b.classList.remove("show");},3200);
-}
-function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?"0":"")+m+":"+(x<10?"0":"")+x;}
-function startTimer(){
-  if(st.timerOn)return;st.timerOn=true;
-  var t=$("timer");t.classList.remove("hidden");clearInterval(timerId);
-  timerId=setInterval(function(){
-    if(st.ended){clearInterval(timerId);return;}
-    if(st.sec>0)st.sec--;
-    t.textContent="⏳ "+fmt(st.sec);t.classList.toggle("hot",st.sec<=120);
-    if(st.sec===0&&st.waiting&&!st.extended){
-      st.extended=true;st.sec=300;
-      addMsg({t:"them",x:"Hết giờ rồi nhưng anh gia hạn riêng cho em thêm 5 phút nhé 😉",s:"S2"});
-    }
-  },200);
-}
-async function playNode(id){
-  var tk=st.token,node=STORY.nodes[id];
-  $("choices").innerHTML="";st.waiting=false;
-  for(var i=0;i<(node.msgs||[]).length;i++){
-    var m=node.msgs[i];
-    if(m.t==="them"||m.t==="link"){
-      var ty=typing();await sleep(650+Math.min(1400,(m.x||"").length*22));
-      if(tk!==st.token)return;ty.remove();
-    }else{await sleep(500);if(tk!==st.token)return;}
-    addMsg(m);if(m.timer)startTimer();
-  }
-  await sleep(300);if(tk!==st.token)return;
-  showChoices(node.choices,$("choices"));
-}
-function showChoices(list,box){
-  box.innerHTML="";st.waiting=true;
-  list.forEach(function(c){
-    var b=document.createElement("button");b.className="choice";b.textContent=c.x;
-    b.onclick=function(){choose(c);};box.appendChild(b);
-  });
-  scrollLog();
-}
-async function choose(c){
-  if(!st.waiting)return;st.waiting=false;
-  $("choices").innerHTML="";$("webChoices").innerHTML="";$("web").classList.add("hidden");
-  (c.pass||[]).forEach(function(s){st.pass[s]=true;});
-  (c.catch||[]).forEach(function(s){st.catch[s]=true;});
-  if(c.lost)st.lost[c.lost]=true;
-  if(c.me!==false)addMsg({t:"me",x:typeof c.me==="string"?c.me:c.x});
-  if(c.sys){await sleep(250);addMsg({t:"sys",x:c.sys});}
-  if(c.go==="WEB"){openWeb();return;}
-  if(c.freeze){
-    var tk=st.token;await sleep(700);if(tk!==st.token)return;
-    st.ended=true;st.ending="TRAP";$("freeze").classList.remove("hidden");return;
-  }
-  if(c.go.indexOf("END:")===0){
-    var tk2=st.token;await sleep(700);if(tk2!==st.token)return;
-    finish(c.go.slice(4));return;
-  }
-  playNode(c.go);
-}
-async function openWeb(){
-  var tk=st.token;await sleep(400);if(tk!==st.token)return;
-  addMsg({t:"sys",x:"🌐 Em đã mở trang chienbinh-huyenthoai-qua.xyz",s:"S4"});
-  $("web").classList.remove("hidden");
-  showChoices(STORY.nodes.web.choices,$("webChoices"));
-}
-async function askShield(){
-  if(st.ended)return;
-  st.ended=true;st.waiting=false;st.ending="SHIELD";
-  var tk=st.token;
-  $("web").classList.add("hidden");$("choices").innerHTML="";
-  var lg=$("shieldLog");lg.innerHTML="";$("btnShieldDone").classList.add("hidden");
-  $("shield").classList.remove("hidden");
-  var sav="🛡️";
-  addMsg({t:"me",x:"Em nhận được tin nhắn báo trúng quà, có phải lừa đảo không ạ?"},lg,sav);
-  var replies=["Chào em! Đây là dấu hiệu lừa đảo chiếm đoạt tài khoản và tiền 🚩",
-    "Em không bấm link lạ, không đăng nhập qua link, không đưa mật khẩu, mã xác nhận và không chuyển tiền nhé."];
-  if(st.lost.pw||st.lost.otp)replies.push("Nếu đã lỡ đưa mật khẩu hoặc mã xác nhận: em đổi mật khẩu ngay và báo bố mẹ.");
-  if(st.lost.money)replies.push("Đã mất tiền: em cùng bố mẹ đến Công an xã, phường gần nhất hoặc gọi 113 để được hướng dẫn trình báo.");
-  replies.push("Em đã làm rất đúng khi hỏi ngay 💚");
-  for(var i=0;i<replies.length;i++){
-    await sleep(300);if(tk!==st.token)return;
-    var ty=typing(lg,sav);await sleep(900);if(tk!==st.token)return;ty.remove();
-    addMsg({t:"them",x:replies[i]},lg,sav);
-  }
-  $("btnShieldDone").classList.remove("hidden");
-}
-var ENDINGS={
-  SAFE:{lv:"safe",i:"🛡️",h:"An toàn!",p:"Em đã nhận ra cú lừa và dừng lại trước khi đưa ra bất kỳ thông tin nào."},
-  NEAR:{lv:"near",i:"⚠️",h:"Suýt sa bẫy",p:""},
-  LOSS:{lv:"trap",i:"🚨",h:"Sa bẫy",p:"Em đã mất tài khoản và 200.000đ. Rất may em dừng lại kịp, không chuyển thêm."},
-  TRAP:{lv:"trap",i:"🚨",h:"Sa bẫy",p:"Em đã mất tài khoản và tiền. Kẻ gian sẽ còn bịa lý do để đòi thêm; tiền đã chuyển rất khó lấy lại."},
-  SHIELD:{lv:"safe",i:"🛡️",h:"Lựa chọn tốt nhất!",p:"Hỏi ngay khi thấy nghi ngờ là cách tự bảo vệ hiệu quả nhất."}
-};
-function finish(code){
-  st.ended=true;st.ending=code;st.waiting=false;clearInterval(timerId);
-  $("freeze").classList.add("hidden");$("shield").classList.add("hidden");$("web").classList.add("hidden");
-  var e=ENDINGS[code],p=e.p;
-  if(code==="NEAR"){
-    p=st.lost.otp?"Em đã nhập mật khẩu vào trang giả và đưa cả mã xác nhận: tài khoản game đã bị chiếm. May là em dừng lại trước khi mất tiền."
-                  :"Em đã nhập mật khẩu vào trang giả, tài khoản có nguy cơ bị chiếm. May là em kịp dừng lại.";
-  }
-  if(code==="SHIELD"){
-    var loss=[];if(st.lost.pw)loss.push("mật khẩu");if(st.lost.otp)loss.push("mã xác nhận");if(st.lost.money)loss.push("200.000đ");
-    if(loss.length)p+=" Trước khi hỏi, em đã để lộ: "+loss.join(", ")+". Lần sau hãy hỏi sớm hơn nữa nhé!";
-  }
-  if(code==="SAFE"||code==="SHIELD"){safeDone=true;if(window.LCXS){LCXS.d.story1=true;LCXS.save();}}
-  $("verdict").className="verdict "+e.lv;$("vIcon").textContent=e.i;$("vTitle").textContent=e.h;$("vText").textContent=p;
-  Object.keys(st.met).forEach(function(s){if(!st.pass[s])st.catch[s]=true;});
-  var ul=$("signList");ul.innerHTML="";
-  SIGNS.forEach(function(s){
-    var li=document.createElement("li"),cls,lab;
-    if(st.pass[s.id]){cls="missed";lab="❌ Em đã bỏ qua";}
-    else if(st.catch[s.id]){cls="caught";lab="✅ Em đã nhận ra";}
-    else{cls="unmet";lab="Chưa xuất hiện trong lượt chơi này";}
-    li.className=cls;li.innerHTML='<div class="st"></div><b></b><span></span>';
-    li.querySelector(".st").textContent=lab;li.querySelector("b").textContent=s.t;
-    var d=s.d;if(s.id==="S2"&&st.extended)d+=" Hết giờ mà vẫn được “gia hạn”: đồng hồ chỉ là chiêu ép.";
-    li.querySelector("span").textContent=d;ul.appendChild(li);
-  });
-  $("progress").textContent="Đã về đích an toàn: "+(safeDone?1:0)+"/3 chuyện";
-  if(safeDone){$("s1note").innerHTML='<span class="done">✓ Đã về đích an toàn</span>';}
-  show("result");$("result").scrollTop=0;
-}
-function startStory(){
-  clearInterval(timerId);reset();
-  $("log").innerHTML="";$("choices").innerHTML="";
-  $("chat").classList.remove("review");$("reviewBar").classList.add("hidden");$("dock").classList.remove("hidden");
-  $("timer").classList.add("hidden");$("timer").classList.remove("hot");$("timer").textContent="⏳ 10:00";
-  $("cName").textContent=STORY.contact.name;$("cSub").textContent=STORY.contact.sub;$("cAva").textContent=STORY.contact.ava;
-  ["web","shield","freeze"].forEach(function(o){$(o).classList.add("hidden");});
-  show("chat");playNode("n1");
-}
-function storyHome(){
-  clearInterval(timerId);st.token++;st.ended=true;
-  ["web","shield","freeze"].forEach(function(o){$(o).classList.add("hidden");});
-  show("storyHome");$("storyHome").scrollTop=0;
-}
-$("openStory").onclick=function(){show("storyHome");$("storyHome").scrollTop=0;};
-$("storyBack").onclick=function(){show("hub");};
-$("playS1").onclick=startStory;
-$("btnExit").onclick=function(){if($("chat").classList.contains("review")){show("result");}else{storyHome();}};
-$("shieldBtn").onclick=askShield;
-$("btnShieldDone").onclick=function(){finish("SHIELD");};
-$("btnRewind").onclick=function(){finish("TRAP");};
-$("btnReplay").onclick=startStory;
-$("btnHome").onclick=storyHome;
-$("btnReview").onclick=function(){
-  $("chat").classList.add("review");$("dock").classList.add("hidden");$("reviewBar").classList.remove("hidden");
-  show("chat");var f=$("log").querySelector(".flagged");if(f)f.scrollIntoView({block:"center"});
-};
-$("btnBackResult").onclick=function(){show("result");};
 
 /* =====================================================================
    KHUNG GAME ARCADE (dùng chung)
@@ -1477,7 +1074,7 @@ var GAMES={g1:G1,g2:G2,g3:G3,g4:G4};
    LƯU TIẾN ĐỘ TRÊN MÁY NGƯỜI CHƠI (chỉ localStorage, không gửi đi đâu)
    ===================================================================== */
 var LCXS=window.LCXS={k:"lcx_sanchoi_v1",d:null,
-  blank:function(){return {cap:null,badges:{},floor:{},week:{},rec:{},story1:false,vn:{}};},
+  blank:function(){return {cap:null,badges:{},floor:{},week:{},rec:{}};},
   load:function(){var d=null;try{d=JSON.parse(localStorage.getItem(this.k)||"null");}catch(e){d=null;}
     var b=this.blank();if(!d||typeof d!=="object")d=b;Object.keys(b).forEach(function(x){if(d[x]==null)d[x]=b[x];});this.d=d;},
   save:function(){try{localStorage.setItem(this.k,JSON.stringify(this.d));}catch(e){}},
@@ -1485,13 +1082,11 @@ var LCXS=window.LCXS={k:"lcx_sanchoi_v1",d:null,
 };
 LCXS.load();
 Object.keys(LCXS.d.rec).forEach(function(k){AR.best[k]=LCXS.d.rec[k];});
-if(LCXS.d.story1){safeDone=true;$("progress").textContent="Đã về đích an toàn: 1/3 chuyện";$("s1note").innerHTML='<span class="done">✓ Đã về đích an toàn</span>';}
-function hubRefresh(){updateRecords();if(window.vnHub)vnHub();var n=Object.keys(LCXS.d.badges).length;$("rec-arena").textContent=n?"🏅 "+n+"/7 huy hiệu":"";}
+function hubRefresh(){updateRecords();var n=Object.keys(LCXS.d.badges).length;$("rec-arena").textContent=n?"🏅 "+n+"/7 huy hiệu":"";}
 hubRefresh();
 $("resetProg").onclick=function(){
   if(!window.confirm("Xóa toàn bộ điểm, kỷ lục và huy hiệu đã lưu trên máy này?"))return;
-  LCXS.clear();AR.best={};safeDone=false;
-  $("progress").textContent="Đã về đích an toàn: 0/3 chuyện";$("s1note").textContent="“Chúc mừng! Em trúng skin giới hạn…”";
+  LCXS.clear();AR.best={};
   hubRefresh();
 };
 
@@ -1545,7 +1140,7 @@ function anRender(){
     return;
   }
   if(AN.view==="cert"){
-    var h2='<div class="cert"><div class="seal">'+(nb>=7?"🎖️":"🔒")+'</div><div class="k1">SÂN CHƠI LÁ CHẮN XANH · CHỨNG NHẬN</div><h2>Chiến binh Lá chắn xanh</h2>';
+    var h2='<div class="cert"><div class="seal">'+(nb>=7?"🎖️":"🔒")+'</div><div class="k1">MINI GAME LÁ CHẮN XANH · CHỨNG NHẬN</div><h2>Chiến binh Lá chắn xanh</h2>';
     h2+=nb>=7?'<p class="an-muted">Đã vượt qua 7 tầng tháp pháp luật, cấp '+esc(cap)+'.<br>Ngày '+new Date().toLocaleDateString("vi-VN")+'</p>':'<p class="an-muted">Cần thêm '+(7-nb)+' huy hiệu để nhận chứng nhận.</p>';
     h2+='<div class="badgeline">';for(var i=1;i<=7;i++)h2+='<span class="'+(LCXS.d.badges[i]?"":"off")+'">'+LVS[i].e+" "+esc(LVS[i].b)+'</span>';
     h2+='</div><p class="an-muted" style="margin-top:14px">Lắng nghe · Đồng hành · Bảo vệ<br>Ban Thanh niên Công an tỉnh Lạng Sơn</p></div>';
@@ -1629,203 +1224,6 @@ $("anBack").onclick=function(){
 
 $("arQNo").onclick=function(){G2.answer(false);};
 $("arQYes").onclick=function(){G2.answer(true);};
-
-/* =====================================================================
-   KHUNG NHẬP VAI TÌNH HUỐNG (thử nghiệm – nội dung chờ đầu mối xác nhận)
-   ===================================================================== */
-var VNG={
- vn2:{name:"Bản lĩnh tuổi trẻ",icon:"💪",meter:"Bản lĩnh",field:"Lĩnh vực 2 · Ma túy, chất gây nghiện",
-  intro:"Em là một học sinh lớp 9. Những lời mời gọi đến từ người quen, trong lúc vui vẻ nhất. Em sẽ giữ được bản lĩnh chứ?",
-  verdicts:[[80,"🏆","Bản lĩnh thép","Em từ chối dứt khoát và biết tìm người lớn giúp đỡ."],[55,"👍","Khá vững vàng","Em đã tránh được nguy hiểm, nhưng còn vài lựa chọn có thể tốt hơn."],[0,"⚠️","Cần cảnh giác hơn","Một vài lựa chọn đã đưa em đến gần nguy hiểm. Xem lại bên dưới nhé."]],
-  chapters:[
-  {title:"Bữa tiệc sinh nhật",sum:"Bị rủ thử vape và “kẹo vui”",
-   key:["Thuốc lá điện tử, thuốc lá nung nóng đã bị cấm sử dụng từ năm 2025.","Không nhận, không thử bất cứ thứ gì không rõ nguồn gốc, kể cả “miễn phí”.","Kể với người lớn để bảo vệ cả các bạn khác."],
-   nodes:{
-    n1:{scene:["🎂","Tiệc sinh nhật nhà Tuấn","19:30 tối thứ Bảy"],ask:"Khi được mời thử vape",
-     lines:[["","",'Cả nhóm đang vui thì anh họ của Tuấn mang ra một chiếc vape màu hồng.'],["Anh Khánh","😎","Vị dưa hấu đấy, thơm lắm. Thử một hơi cho biết!"],["Tuấn","🧑","Mọi người thử hết rồi, còn mỗi cậu thôi đấy."]],
-     ch:[{x:"Thử một hơi thôi, cho vui",d:-30,go:"n1b",why:"Thuốc lá điện tử đã bị cấm sử dụng và có thể bị trộn chất gây nghiện."},
-         {x:"“Thôi, tớ không thích. Ra hát karaoke đi!”",d:25,go:"n2",best:1,why:"Từ chối rõ ràng, gợi ý việc khác giúp em thoát lời rủ rê mà không căng thẳng."},
-         {x:"Im lặng, lảng ra chỗ khác",d:5,go:"n2",why:"Rời đi là được, nhưng từ chối rõ ràng giúp em không bị rủ lại."}]},
-    n1b:{ask:"Sau khi lỡ thử",
-     lines:[["","","Một hơi... em thấy chóng mặt, buồn nôn."],["Anh Khánh","😎","Lần đầu thế thôi, lần sau quen!"],["","","Thứ em vừa hít, không ai biết thực sự có gì bên trong."]],
-     ch:[{x:"Dừng lại, gọi bố mẹ đến đón",d:15,go:"n2",best:1,why:"Nhận ra sai và dừng ngay là bản lĩnh."},
-         {x:"Thử thêm cho quen",d:-30,stop:"Càng thử càng dễ lệ thuộc. Không có “liều thử” nào an toàn.",why:"Không có “liều thử” nào an toàn."}]},
-    n2:{scene:["🌃","Ngoài cổng nhà Tuấn","21:00"],ask:"Khi được cho “kẹo vui” miễn phí",
-     lines:[["Anh Khánh","😎","Anh có loại “kẹo vui” này, ăn vào phê cả đêm. Cho em một viên, miễn phí."],["","","Viên kẹo nhiều màu, không nhãn mác."]],
-     ch:[{x:"Cầm lấy, mang về để mai thử",d:-30,stop:"Ma túy tổng hợp thường được ngụy trang thành kẹo. “Miễn phí lần đầu” là cách lôi kéo.",why:"Ma túy tổng hợp thường được ngụy trang thành kẹo; “miễn phí lần đầu” là cách lôi kéo."},
-         {x:"Không nhận, vào nhà kể với bố mẹ Tuấn",d:25,go:"n3",best:1,why:"Từ chối và báo ngay người lớn đang có mặt."},
-         {x:"Không nhận, nhưng không nói với ai",d:5,go:"n3",why:"Từ chối là đúng, nhưng kể với người lớn giúp bảo vệ các bạn khác."}]},
-    n3:{scene:["🏠","Về nhà","22:00"],ask:"Khi mẹ hỏi chuyện",
-     lines:[["Mẹ","👩","Tiệc vui không con?"],["","","Em nghĩ về chuyện tối nay..."]],
-     ch:[{x:"Kể hết với mẹ về chiếc vape và viên kẹo lạ",d:20,go:"END",best:1,why:"Người lớn cần biết để ngăn kẻ xấu tiếp cận các em."},
-         {x:"Không kể, sợ các bạn bị mắng",d:-5,go:"END",why:"Kể không phải là “mách lẻo”. Nếu ngại, em có thể nhắn Lá chắn xanh."}]}
-   }},
-  {title:"Người bạn thay đổi",sum:"Bạn thân có dấu hiệu dùng chất gây nghiện",
-   key:["Giữ bí mật không giúp được bạn; bạn cần người lớn hỗ trợ.","Không đưa tiền khi không rõ dùng vào việc gì.","Thông tin về kẻ lôi kéo nên được báo cho người lớn hoặc Công an xã, phường."],
-   nodes:{
-    n1:{scene:["🏫","Lớp 9A","Giờ ra chơi"],ask:"Khi bạn hỏi mượn tiền",
-     lines:[["","","Dạo này Nam hay ngủ gật, bỏ đá bóng, hay mượn tiền mà không nói để làm gì."],["Nam","🧒","Cho tớ mượn 100 nghìn. Đừng hỏi gì nhé."]],
-     ch:[{x:"Đưa tiền, không hỏi gì",d:-15,go:"n2",why:"Tiền có thể bị dùng để mua chất gây nghiện."},
-         {x:"Hỏi han nhẹ nhàng: “Dạo này cậu có chuyện gì à?”",d:20,go:"n2",best:1,why:"Quan tâm đúng lúc giúp bạn dám mở lòng."},
-         {x:"Kể với cả lớp là Nam dạo này lạ lắm",d:-20,go:"n2",why:"Bàn tán khiến bạn xấu hổ và càng giấu kín."}]},
-    n2:{ask:"Khi bạn tâm sự và xin giữ bí mật",
-     lines:[["Nam","🧒","...Tớ có thử mấy thứ anh Khánh cho. Giờ không có thì khó chịu lắm. Đừng nói với ai nhé."]],
-     ch:[{x:"“Ừ, tớ giữ bí mật.”",d:-20,go:"n3",why:"Giữ bí mật không giúp được bạn. Bạn cần người lớn hỗ trợ."},
-         {x:"“Tớ sẽ đi cùng cậu gặp cô chủ nhiệm hoặc bố mẹ cậu.”",d:25,go:"n3",best:1,why:"Đi cùng bạn giúp bạn bớt sợ và nhận được hỗ trợ sớm."},
-         {x:"Tránh xa Nam từ giờ",d:-10,go:"n3",why:"Xa lánh khiến bạn cô độc, dễ lún sâu hơn."}]},
-    n3:{scene:["👩‍🏫","Phòng cô chủ nhiệm","Chiều hôm đó"],ask:"Khi cô hỏi về người lôi kéo",
-     lines:[["Cô Hạnh","👩‍🏫","Cảm ơn em đã tin cô. Cô sẽ gặp gia đình Nam để cùng hỗ trợ bạn. Người tên Khánh, em có biết gì thêm không?"]],
-     ch:[{x:"Kể những gì em biết để cô báo Công an xã, phường",d:20,go:"END",best:1,why:"Thông tin của em giúp ngăn kẻ xấu lôi kéo thêm các bạn khác."},
-         {x:"Em sợ bị trả thù nên không nói",d:0,go:"END",why:"Em có thể cung cấp thông tin qua người lớn hoặc kênh Lá chắn xanh; thông tin được bảo mật theo quy định."}]}
-   }}
- ]},
- vn4:{name:"Phá giải tình huống",icon:"🛡️",meter:"An toàn",field:"Lĩnh vực 4 · Bạo lực học đường, xâm hại trẻ em",
-  intro:"Những tình huống có thể xảy ra ở trường, trên mạng, ngay cạnh nhà. Mỗi lựa chọn của em quyết định em và bạn bè có an toàn hay không.",
-  verdicts:[[80,"🏆","Người bảo vệ","Em giữ an toàn cho mình và giúp được bạn."],[55,"👍","Khá an toàn","Em đã tránh được nguy hiểm, còn vài lựa chọn có thể tốt hơn."],[0,"⚠️","Cần cảnh giác hơn","Một vài lựa chọn khiến em hoặc bạn gặp nguy hiểm. Xem lại bên dưới nhé."]],
-  chapters:[
-  {title:"Nhóm chat lớp",sum:"Bắt nạt trên mạng và lời hẹn chặn đường",
-   key:["Không hùa theo, không phát tán ảnh, clip bắt nạt.","Giữ bằng chứng và báo thầy cô, bố mẹ.","Không đánh trả; đi nơi đông người; nguy hiểm gọi 113."],
-   nodes:{
-    n1:{scene:["💬","Nhóm chat lớp 8A","22:10"],ask:"Khi bạn bị chế ảnh trong nhóm chat",
-     lines:[["","","Ai đó đăng ảnh chế của Lan kèm lời chê bai. Cả nhóm thả “haha”."],["Hùng","😏","Ảnh này chuẩn quá, share thêm đi!"]],
-     ch:[{x:"Thả “haha” cho vui",d:-20,go:"n2",why:"Một “haha” cũng là tiếp sức cho bắt nạt."},
-         {x:"Nhắn riêng hỏi thăm Lan, chụp màn hình làm bằng chứng",d:25,go:"n2",best:1,why:"Bạn cần được động viên; bằng chứng giúp người lớn xử lý đúng."},
-         {x:"Rời nhóm cho khỏi phiền",d:0,go:"n2",why:"Em giữ được mình, nhưng Lan vẫn một mình."}]},
-    n2:{ask:"Khi bạn bị dọa chặn đường",
-     lines:[["Lan","😢","Tớ không muốn đi học nữa... Mai họ còn hẹn chặn tớ ở cổng sau."]],
-     ch:[{x:"“Cứ mặc kệ họ.”",d:-15,go:"n3",why:"Lời đe dọa cần được người lớn biết để phòng ngừa."},
-         {x:"Nhắn bố mẹ Lan tối nay, sáng mai cùng Lan báo cô chủ nhiệm",d:25,go:"n3",best:1,why:"Báo sớm giúp nhà trường kịp ngăn chặn."},
-         {x:"Rủ nhóm mình ra “xử” lại bọn kia",d:-25,go:"n3",why:"Đánh trả biến em thành người vi phạm và dễ gây thương tích nghiêm trọng."}]},
-    n3:{scene:["🏫","Cổng sau trường","17:00"],ask:"Khi bị chặn đường",
-     lines:[["","","Hôm sau, Hùng và hai bạn đứng chặn ở cổng sau."],["Hùng","😏","Đi đâu đấy? Đứng lại!"]],
-     ch:[{x:"Cùng Lan quay lại cổng chính, nơi có bác bảo vệ và thầy cô",d:20,go:"END",best:1,why:"Đi về nơi đông người, có người lớn là cách an toàn nhất. Nếu bị tấn công, gọi 113."},
-         {x:"Lao vào đánh trước",d:-25,go:"END",why:"Đánh nhau có thể gây thương tích nghiêm trọng và bị xử lý theo quy định."},
-         {x:"Lấy điện thoại quay video đăng lên mạng",d:-15,go:"END",why:"Ưu tiên an toàn và báo người lớn; phát tán clip làm nạn nhân tổn thương thêm."}]}
-   }},
-  {title:"Người hàng xóm “tốt bụng”",sum:"Lời rủ kèm lời dặn giữ bí mật",
-   key:["“Đừng nói với bố mẹ” là dấu hiệu nguy hiểm.","Không vào nhà người khác khi bố mẹ không biết.","Bí mật khiến em sợ thì phải kể: bố mẹ, thầy cô, hoặc gọi 111."],
-   nodes:{
-    n1:{scene:["🏘️","Gần nhà","Chiều thứ Bảy"],ask:"Khi được rủ vào nhà và dặn giữ bí mật",
-     lines:[["","","Một anh hàng xóm mới chuyển đến hay cho em quà vặt, cho mượn điện thoại chơi."],["Anh hàng xóm","🙂","Vào nhà anh chơi game đi. Đừng nói với mẹ nhé, anh em mình thôi."]],
-     ch:[{x:"Vào chơi một lát",d:-30,stop:"Lời dặn “đừng nói với mẹ” là dấu hiệu nguy hiểm. Không vào nhà người khác khi bố mẹ không biết.",why:"Lời dặn giữ bí mật với bố mẹ là dấu hiệu nguy hiểm."},
-         {x:"“Em phải hỏi mẹ đã.” rồi đi về nhà",d:25,go:"n2",best:1,why:"Từ chối lịch sự và về ngay với người lớn."},
-         {x:"Từ chối, nhưng không kể với ai",d:5,go:"n2",why:"Kể với người lớn giúp bảo vệ cả các bạn nhỏ khác."}]},
-    n2:{scene:["🏠","Ở nhà","Tối hôm đó"],ask:"Khi mẹ thấy em lo lắng",
-     lines:[["Mẹ","👩","Sao trông con lo lắng thế?"]],
-     ch:[{x:"Kể với mẹ về lời rủ và lời dặn giữ bí mật",d:25,go:"n3",best:1,why:"Đó không phải lỗi của em. Kể ngay là đúng."},
-         {x:"“Không có gì đâu ạ.”",d:-15,go:"n3",why:"Đừng giữ những bí mật khiến em sợ. Em có thể kể với người lớn tin cậy hoặc gọi 111."}]},
-    n3:{ask:"Điều em ghi nhớ",
-     lines:[["Mẹ","👩","Con làm rất đúng. Có chuyện gì khiến con sợ, con luôn được kể với mẹ, thầy cô, hoặc gọi 111."],["","","Mẹ sẽ trao đổi với tổ dân phố và Công an phường."]],
-     ch:[{x:"“Bí mật làm mình sợ thì phải kể.”",d:10,go:"END",best:1,why:"Người lớn tin cậy và Tổng đài 111 luôn sẵn sàng giúp em."}]}
-   }}
- ]},
- vn5:{name:"Kết nối yêu thương",icon:"🤝",meter:"Tin tưởng",field:"Lĩnh vực 5 · Tái hòa nhập cộng đồng",
-  intro:"Người đã chấp hành xong án phạt cần cơ hội làm lại. Gia đình họ cần được đối xử công bằng. Thanh “Tin tưởng” cho biết bạn bè và hàng xóm có cảm thấy được đón nhận hay không.",
-  verdicts:[[80,"💚","Trái tim nhân ái","Em sẻ chia, không kỳ thị và lan tỏa sự tôn trọng."],[55,"👍","Biết sẻ chia","Em đã ứng xử khá tốt, còn vài lựa chọn có thể ấm áp hơn."],[0,"💭","Cần thấu hiểu hơn","Một vài lựa chọn có thể làm người khác tổn thương. Xem lại bên dưới nhé."]],
-  chapters:[
-  {title:"Bố của Minh trở về",sum:"Bạn cùng lớp bị bàn tán vì người thân",
-   key:["Con cái không phải chịu trách nhiệm về việc làm của bố mẹ.","Người đã chấp hành xong án phạt cần cơ hội việc làm để làm lại.","Không bàn tán, không gán nhãn bạn bè."],
-   nodes:{
-    n1:{scene:["🏫","Lớp 10B","Đầu giờ sáng"],ask:"Khi cả lớp bàn tán về bạn",
-     lines:[["","","Bố của Minh vừa chấp hành xong án phạt tù, về địa phương được một tuần."],["Hoa","🙊","Nghe nói bố Minh đi tù về đấy, tránh xa ra kẻo..."],["","","Minh ngồi một mình ở cuối lớp."]],
-     ch:[{x:"Gật gù theo Hoa",d:-20,go:"n2",why:"Minh không có lỗi; bàn tán khiến bạn tổn thương."},
-         {x:"Ngồi cạnh Minh, rủ bạn cùng làm bài nhóm",d:25,go:"n2",best:1,why:"Một hành động nhỏ giúp bạn thấy mình không bị bỏ rơi."},
-         {x:"Không tham gia, cũng không nói gì",d:0,go:"n2",why:"Không hùa theo là tốt, nhưng bạn cần thêm một người bạn."}]},
-    n2:{ask:"Khi bạn tâm sự",
-     lines:[["Minh","😔","Mọi người nhìn tớ khác hẳn. Bố tớ đi xin việc cũng chẳng ai nhận."]],
-     ch:[{x:"“Ai bảo bố cậu phạm tội.”",d:-25,go:"n3",why:"Câu nói này khiến bạn càng tổn thương và tự ti."},
-         {x:"“Bố cậu đã chấp hành xong rồi, ai cũng cần được làm lại. Tớ vẫn là bạn cậu.”",d:25,go:"n3",best:1,why:"Thấu hiểu và đứng về phía bạn giúp bạn vững vàng hơn."},
-         {x:"“Thôi đừng kể nữa.”",d:-10,go:"n3",why:"Lắng nghe là cách đơn giản nhất để giúp bạn."}]},
-    n3:{scene:["🏪","Cửa hàng nhà em","Buổi tối"],ask:"Khi bố hỏi ý kiến em",
-     lines:[["Bố","👨","Bố của Minh hỏi xin phụ giao hàng cho nhà mình. Con thấy sao?"]],
-     ch:[{x:"“Nên cho chú ấy cơ hội, chú đã chấp hành xong án rồi bố ạ.”",d:20,go:"END",best:1,why:"Việc làm ổn định giúp người tái hòa nhập không quay lại con đường cũ."},
-         {x:"“Thôi bố ạ, người ta dị nghị.”",d:-15,go:"END",why:"Định kiến khiến người muốn làm lại khó có cơ hội."}]}
-   }},
-  {title:"Tin đồn trong xóm",sum:"Vu cho người từng có án mà không có căn cứ",
-   key:["Không lan truyền tin đồn chưa được kiểm chứng.","Đăng tin sai sự thật có thể bị xử lý theo quy định.","Đón nhận người tái hòa nhập là trách nhiệm của cả cộng đồng."],
-   nodes:{
-    n1:{scene:["📱","Nhóm Zalo khu phố","20:00"],ask:"Khi thấy tin đồn trên nhóm",
-     lines:[["","","Có người đăng: “Nhà cô Lan mất xe đạp. Chú Tâm đầu ngõ từng đi tù, hỏi chú ấy là biết.”"],["Bà Ba","👵","Chắc chắn là nó rồi!"]],
-     ch:[{x:"Chia sẻ tin cho cả lớp biết",d:-25,go:"n2",why:"Tin chưa có căn cứ có thể vu oan người khác."},
-         {x:"Không chia sẻ, nhắc bố mẹ: chưa có căn cứ thì không nên kết luận",d:25,go:"n2",best:1,why:"Bình tĩnh và tôn trọng sự thật là cách ứng xử văn minh."},
-         {x:"Bỏ qua",d:0,go:"n2",why:"Không lan truyền là tốt; lên tiếng đúng lúc còn tốt hơn."}]},
-    n2:{scene:["🏘️","Đầu ngõ","Hôm sau"],ask:"Khi sự thật được làm rõ",
-     lines:[["","","Công an phường xác định người lấy xe là một người nơi khác đến."],["Chú Tâm","👨‍🔧","Cảm ơn nhà cháu đã không vội tin."]],
-     ch:[{x:"Rủ chú Tâm cùng tham gia tổng vệ sinh khu phố cuối tuần",d:20,go:"END",best:1,why:"Kết nối giúp mọi người hiểu và tin nhau hơn."},
-         {x:"“Vẫn nên tránh xa cho chắc.”",d:-15,go:"END",why:"Định kiến kéo dài khiến người tái hòa nhập bị cô lập."}]}
-   }}
- ]}
-};
-var VN={id:null,g:null,ch:0,m:50,dec:[],tok:0,view:"home"};
-function vnBest(id,i){return LCXS.d.vn[id+"-"+i];}
-window.vnHub=function(){Object.keys(VNG).forEach(function(id){var n=VNG[id].chapters.filter(function(_,i){return vnBest(id,i)!=null;}).length;var el=$("rec-"+id);if(el)el.textContent=n?"✓ "+n+"/"+VNG[id].chapters.length+" chương":"";});};
-vnHub();
-function vnSetMeter(){$("vnBar").style.width=VN.m+"%";$("vnVal").textContent=VN.m;}
-function vnOpen(id){VN.id=id;VN.g=VNG[id];VN.view="home";VN.tok++;show("vn");vnRender();}
-function vnRender(){
-  var g=VN.g,b=$("vnBody");$("vnTitle").textContent=g.icon+" "+g.name;$("vnSub").textContent=g.field;$("vnFreeze").classList.add("hidden");
-  $("vnMeter").classList.toggle("hidden",VN.view!=="play");$("vnMName").textContent=g.meter;
-  if(VN.view==="home"){
-    var h='<div class="an-card"><h3>'+g.icon+' '+esc(g.name)+'</h3><p class="an-muted">'+esc(g.intro)+'</p><p class="an-muted" style="margin-top:8px">Thanh <b>'+esc(g.meter)+'</b> tăng hay giảm theo từng lựa chọn của em.</p>';
-    g.chapters.forEach(function(c,i){var bs=vnBest(VN.id,i);h+='<button class="chap" data-ch="'+i+'"><span class="n">'+(i+1)+'</span><span><b>'+esc(c.title)+'</b><small>'+esc(c.sum)+(bs!=null?' · Tốt nhất: '+bs+'/100':'')+'</small></span></button>';});
-    h+='</div>';b.innerHTML=h;b.scrollTop=0;
-    Array.prototype.forEach.call(b.querySelectorAll("[data-ch]"),function(x){x.onclick=function(){vnStart(+x.getAttribute("data-ch"));};});
-  }
-}
-function vnStart(i){VN.ch=i;VN.m=50;VN.dec=[];VN.view="play";VN.tok++;vnRender();vnSetMeter();var b=$("vnBody");b.innerHTML='<div id="vnLog"></div><div id="vnCh"></div>';b.scrollTop=0;vnNode("n1");}
-function vnScroll(){var b=$("vnBody");b.scrollTop=b.scrollHeight;}
-async function vnNode(k){
-  var tk=VN.tok,c=VN.g.chapters[VN.ch],n=c.nodes[k],log=$("vnLog");$("vnCh").innerHTML="";
-  if(n.scene){var sc=document.createElement("div");sc.className="vn-scene";sc.innerHTML='<span class="e"></span><span><b></b><small></small></span>';
-    sc.querySelector(".e").textContent=n.scene[0];sc.querySelector("b").textContent=n.scene[1];sc.querySelector("small").textContent=n.scene[2];log.appendChild(sc);vnScroll();await sleep(500);if(tk!==VN.tok)return;}
-  for(var i=0;i<n.lines.length;i++){
-    var L=n.lines[i],el=document.createElement("div");
-    if(!L[0]){el.className="vn-nar";el.textContent=L[2];}
-    else{el.className="vn-line";el.innerHTML='<div class="av"></div><div class="bb"><small></small><span></span></div>';el.querySelector(".av").textContent=L[1];el.querySelector("small").textContent=L[0];el.querySelector("span").textContent=L[2];}
-    log.appendChild(el);vnScroll();await sleep(500+Math.min(1300,L[2].length*14));if(tk!==VN.tok)return;
-  }
-  var box=$("vnCh"),ask=document.createElement("div");ask.className="vn-ask";ask.textContent="Em sẽ làm gì?";box.appendChild(ask);
-  n.ch.forEach(function(o){var bt=document.createElement("button");bt.className="choice";bt.style.width="100%";bt.style.marginBottom="7px";bt.textContent=o.x;bt.onclick=function(){vnChoose(n,o);};box.appendChild(bt);});
-  vnScroll();
-}
-async function vnChoose(n,o){
-  var tk=VN.tok,log=$("vnLog");$("vnCh").innerHTML="";
-  var best=n.ch.filter(function(z){return z.best;})[0];VN.dec.push({ask:n.ask,pick:o,best:best});
-  var me=document.createElement("div");me.className="vn-line me";me.innerHTML='<div class="bb"></div>';me.querySelector(".bb").textContent=o.x;log.appendChild(me);
-  VN.m=Math.max(0,Math.min(100,VN.m+o.d));vnSetMeter();
-  var dl=document.createElement("div");dl.className="vn-delta "+(o.d>0?"up":(o.d<0?"down":"flat"));dl.textContent=(o.d>0?"▲ +":(o.d<0?"▼ ":"● "))+o.d+" "+VN.g.meter;log.appendChild(dl);vnScroll();
-  await sleep(700);if(tk!==VN.tok)return;
-  if(o.stop){$("vnFreezeT").textContent=o.stop;$("vnFreeze").classList.remove("hidden");VN.failed=true;return;}
-  VN.failed=false;
-  if(o.go==="END"){vnEnd();return;}
-  vnNode(o.go);
-}
-function vnEnd(){
-  VN.tok++;VN.view="end";var g=VN.g,c=g.chapters[VN.ch],b=$("vnBody"),m=VN.failed?Math.min(VN.m,30):VN.m;
-  $("vnFreeze").classList.add("hidden");$("vnMeter").classList.add("hidden");
-  var v=g.verdicts.filter(function(x){return m>=x[0];})[0];if(VN.failed)v=["🚨","Dừng lại!","Lựa chọn vừa rồi đã đưa em vào nguy hiểm. Hãy xem lại và thử lại nhé."];else v=v.slice(1);
-  var key="vn-"+VN.id+"-"+VN.ch;var prev=vnBest(VN.id,VN.ch);if(prev==null||m>prev){LCXS.d.vn[VN.id+"-"+VN.ch]=m;LCXS.save();}vnHub();
-  var h='<div class="verdict '+(VN.failed?"trap":(m>=80?"safe":(m>=55?"safe":"near")))+'" style="margin:0 0 12px"><div class="v-icon">'+v[0]+'</div><h2>'+esc(v[1])+'</h2><p>'+esc(v[2])+'</p><p style="margin-top:6px;font-weight:800">'+esc(g.meter)+': '+m+'/100</p></div>';
-  h+='<h3 class="sec-t" style="margin:6px 0 8px">⏪ Những khoảnh khắc quyết định</h3><ul class="dec">';
-  VN.dec.forEach(function(d){var cls=d.pick.d>=20?"good":(d.pick.d>0||d.pick.d===0&&d.pick.best?"mid":"bad");if(d.pick.best)cls="good";
-    h+='<li class="'+cls+'"><b>'+esc(d.ask)+'</b>'+(d.pick.best?"✅ ":(cls==="mid"?"➖ ":"❌ "))+'Em chọn: '+esc(d.pick.x)+'<div>'+esc(d.pick.why||"")+'</div>';
-    if(!d.pick.best&&d.best)h+='<div class="best">👉 Tốt nhất: '+esc(d.best.x)+'</div>';h+='</li>';});
-  h+='</ul><div class="keybox"><h4>📌 Ghi nhớ</h4><ul>'+c.key.map(function(k){return "<li>"+esc(k)+"</li>";}).join("")+'</ul></div>';
-  if(VN.ch+1<g.chapters.length)h+='<button class="btn pri" id="vnNext" style="width:100%;margin:0 0 8px">Chương tiếp: '+esc(g.chapters[VN.ch+1].title)+' ›</button>';
-  h+='<button class="btn ghost" id="vnAgain" style="width:100%;margin:0 0 8px">↻ Chơi lại chương này</button><button class="btn ghost" id="vnList" style="width:100%;margin:0 0 8px">‹ Danh sách chương</button>';
-  h+='<a class="btn pri" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener" style="width:100%;margin:0">💬 Cần tư vấn? Nhắn Lá chắn xanh qua Zalo</a>';
-  h+='<div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Bảo vệ trẻ em <a href="tel:111" target="_top">111</a> · <a href="tel:0936692111" target="_top">0936.692.111</a></div>';
-  b.innerHTML=h;b.scrollTop=0;
-  if($("vnNext"))$("vnNext").onclick=function(){vnStart(VN.ch+1);};
-  $("vnAgain").onclick=function(){vnStart(VN.ch);};$("vnList").onclick=function(){VN.view="home";vnRender();};
-}
-$("vnFreezeBtn").onclick=function(){vnEnd();};
-$("vnBack").onclick=function(){
-  if(VN.view==="play"){if(!window.confirm("Thoát chương này?"))return;VN.tok++;VN.view="home";vnRender();return;}
-  if(VN.view==="end"){VN.view="home";vnRender();return;}
-  VN.tok++;show("hub");hubRefresh();
-};
-Array.prototype.forEach.call(document.querySelectorAll("[data-vn]"),function(b){b.onclick=function(){vnOpen(b.getAttribute("data-vn"));};});
 })();
 </script>
 </body>

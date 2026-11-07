@@ -1,0 +1,1832 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d2a">
+<title>Sân chơi Lá chắn xanh</title>
+<meta name="description" content="Chơi vui, nhận diện bẫy, tự bảo vệ mình. Mô hình Lá chắn xanh – Ban Thanh niên Công an tỉnh Lạng Sơn.">
+<style>
+:root{
+  --bg:#0b3d2a; --brand:#12a150; --brand-d:#0d7a3c; --brand-l:#e3f6ea;
+  --chat:#eaf1ec; --them:#ffffff; --me:#d6f4df; --ink:#16241c; --muted:#5f6f66;
+  --danger:#d93025; --danger-l:#fde8e6; --warn:#e8870b; --warn-l:#fff3df; --line:#d5e0d9;
+  --gold:#ffd54f; --radius:16px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;-webkit-user-select:none;user-select:none}
+a{color:inherit}
+#app{position:relative;max-width:440px;height:100vh;height:100dvh;margin:0 auto;background:var(--chat);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.35)}
+.ribbon{flex:none;background:var(--warn);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-align:center;padding:3px 8px;z-index:30}
+.screen{display:none;flex:1;min-height:0;flex-direction:column}
+.screen.active{display:flex}
+.hidden{display:none!important}
+
+/* HUB + STORY HOME */
+.scrollpage{overflow-y:auto;background:linear-gradient(180deg,#0f5a3a 0%,#12a150 34%,var(--chat) 34%)}
+.hero{padding:26px 20px 16px;color:#fff;text-align:center}
+.hero svg{width:80px;height:80px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.25))}
+.hero h1{font-size:28px;line-height:1.15;margin-top:8px;letter-spacing:-.01em}
+.hero p{opacity:.92;margin-top:6px;font-size:15px}
+.topback{display:flex;align-items:center;gap:6px;color:#fff;font-weight:600;font-size:14px;padding:12px 14px 0}
+.card{background:#fff;border-radius:var(--radius);margin:0 16px 14px;padding:16px;box-shadow:0 4px 18px rgba(11,61,42,.10)}
+.card h2{font-size:16px;margin-bottom:6px}
+.how li{list-style:none;display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;margin-bottom:8px}
+.how li>span{flex:none;width:26px;height:26px;border-radius:50%;background:var(--brand-l);display:grid;place-items:center;font-size:14px}
+.story{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:12px;border-radius:12px;border:1.5px solid var(--line);margin-top:10px;background:#fff}
+.story .sava{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--brand-l)}
+.story b{display:block;font-size:15px}
+.story small{display:block;color:var(--muted);font-size:13px;margin-top:2px;line-height:1.35}
+.story .go{margin-left:auto;font-size:20px;color:var(--brand-d)}
+.story.play{border-color:var(--brand)}
+.story.play:active{transform:scale(.99)}
+.story.lock{opacity:.55;cursor:default}
+.story .done,.story .rec{color:var(--brand-d);font-weight:700}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--warn-l);color:var(--warn);margin-left:6px;vertical-align:middle}
+.progress{font-size:13px;color:var(--muted);margin-top:2px}
+.foot{text-align:center;font-size:12px;color:var(--muted);padding:6px 20px 24px;line-height:1.5}
+.foot a{color:var(--brand-d);font-weight:600}
+
+/* CHAT */
+.chat-head{flex:none;display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line)}
+.chat-head .back{font-size:26px;line-height:1;width:30px;color:var(--muted)}
+.ava{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:#fde7c8}
+.who{min-width:0;flex:1}
+.who b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who small{font-size:12px;color:var(--muted)}
+.timer{flex:none;font-weight:700;font-size:13px;padding:5px 9px;border-radius:999px;background:var(--warn-l);color:var(--warn);font-variant-numeric:tabular-nums}
+.timer.hot{background:var(--danger-l);color:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+.stranger{flex:none;font-size:12px;text-align:center;padding:6px;background:#fff8e6;color:#8a5a00;border-bottom:1px solid #f3e2b8}
+.log{flex:1;min-height:0;overflow-y:auto;padding:14px 12px 8px;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
+.row{display:flex;gap:8px;align-items:flex-end;animation:pop .22s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}}
+.row.me{justify-content:flex-end}
+.row .mini{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:14px;background:#fde7c8}
+.bub{position:relative;max-width:78%;padding:9px 12px;border-radius:16px;font-size:15px;line-height:1.4;background:var(--them);box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.row.them .bub{border-bottom-left-radius:5px}
+.row.me .bub{background:var(--me);border-bottom-right-radius:5px}
+.typing .bub{display:flex;gap:4px;padding:12px 14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:#9aa8a0;animation:dot 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{30%{transform:translateY(-4px);opacity:.5}}
+.sys{align-self:center;font-size:12px;color:var(--muted);background:rgba(255,255,255,.7);padding:4px 10px;border-radius:999px;text-align:center;max-width:90%;animation:pop .22s ease-out}
+.linkc{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#f7faf8}
+.linkc .lt{display:grid;height:56px;background:linear-gradient(135deg,#ff7a18,#c2185b);place-items:center;font-size:26px}
+.linkc .lb{display:block;padding:7px 9px;font-size:13px}
+.linkc .lb b{display:block}
+.linkc .lb small{color:#1a73e8;word-break:break-all}
+.notif{align-self:stretch;margin:4px 6px;background:#fff;border-radius:14px;padding:10px 12px;border-left:4px solid #1a73e8;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:13px;line-height:1.4;animation:pop .22s ease-out}
+.notif b{display:block;font-size:12px;color:#1a73e8;margin-bottom:2px}
+.notif.alert{border-left-color:var(--danger)}.notif.alert b{color:var(--danger)}
+.flag-chip{display:none}
+.review .flagged .bub,.review .flagged.sys,.review .flagged.notif{outline:2.5px solid var(--danger);outline-offset:2px}
+.review .flagged .flag-chip,.review .sys.flagged .flag-chip{display:block;margin-top:6px;font-size:12px;font-weight:700;color:var(--danger)}
+.review .flagged.sys{background:#fff}
+.dock{flex:none;background:#fff;border-top:1px solid var(--line);padding:8px 10px calc(10px + env(safe-area-inset-bottom))}
+.shieldbar{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:8px 12px;border-radius:12px;background:var(--brand-l);color:var(--brand-d);font-size:14px;font-weight:700}
+.shieldbar small{font-weight:500;color:var(--muted);font-size:12px}
+.choices{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.choices:empty{display:none}
+.choice{text-align:left;padding:11px 14px;border-radius:12px;border:1.5px solid var(--brand);color:var(--ink);background:#fff;font-size:15px;line-height:1.35;animation:pop .22s ease-out}
+.choice:active{background:var(--brand-l)}
+.review-bar{flex:none;padding:10px;background:#fff;border-top:1px solid var(--line)}
+.banner{position:absolute;left:10px;right:10px;top:-120px;z-index:40;background:rgba(255,255,255,.98);border-radius:16px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:13px;line-height:1.4;transition:top .35s ease}
+.banner.show{top:30px}
+.banner b{display:block;font-size:12px;color:#1a73e8}
+.banner.alert b{color:var(--danger)}
+.overlay{position:absolute;inset:0;z-index:35;display:flex;flex-direction:column;background:rgba(10,25,18,.55);animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.browser{margin-top:auto;height:92%;background:#fff;border-radius:18px 18px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:up .3s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.urlbar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#f1f3f4;font-size:13px;border-bottom:1px solid #ddd}
+.insecure{flex:none;color:var(--danger);font-weight:700;font-size:12px}
+.url{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333}
+.fakepage{flex:1;overflow-y:auto;padding:22px 20px;background:linear-gradient(180deg,#2b0b3f,#5b1a6e);color:#fff;text-align:center}
+.fakepage .logo{font-size:44px}
+.fakepage h3{font-size:20px;margin-top:6px}
+.fakepage p{opacity:.85;font-size:14px;margin:6px 0 18px}
+.fakefield{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:12px;text-align:left;font-size:14px;color:rgba(255,255,255,.7);margin-bottom:10px}
+.fakebtn{background:linear-gradient(90deg,#ffb300,#ff6f00);color:#2b0b3f;font-weight:800;border-radius:10px;padding:12px;margin-top:6px}
+.webchoices{padding:10px 10px calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:7px;background:#fff}
+.sheet{margin-top:auto;background:#fff;border-radius:18px 18px 0 0;max-height:90%;display:flex;flex-direction:column;animation:up .3s ease-out}
+.sheet-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.sheet-head .ava{background:var(--brand-l)}
+.sheet-head small{display:block;font-size:12px;color:var(--muted)}
+.sheet .log{background:var(--chat);min-height:220px}
+.sheet .row .mini{background:var(--brand-l)}
+.sheet-foot{padding:10px 12px calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+.note{font-size:12px;color:var(--muted);text-align:center;line-height:1.45}
+#freeze{background:rgba(120,10,10,.82);color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px}
+#freeze .big{font-size:44px;font-weight:900;letter-spacing:.04em;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#freeze p{margin:12px 0 22px;font-size:16px;line-height:1.5;max-width:320px}
+#result{overflow-y:auto;padding-bottom:20px}
+.verdict{margin:16px;border-radius:var(--radius);padding:22px 18px;text-align:center;color:#fff}
+.verdict.safe{background:linear-gradient(135deg,#0d7a3c,#12a150)}
+.verdict.near{background:linear-gradient(135deg,#b86200,#e8870b)}
+.verdict.trap{background:linear-gradient(135deg,#9b1c13,#d93025)}
+.v-icon{font-size:46px}
+.verdict h2{font-size:24px;margin-top:4px}
+.verdict p{margin-top:8px;font-size:15px;line-height:1.5;opacity:.95}
+.sec-t{font-size:16px;margin:6px 16px 10px}
+.signs{list-style:none;margin:0 16px}
+.signs li{background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:8px;border-left:5px solid var(--line);font-size:14px;line-height:1.45}
+.signs li b{display:block}
+.signs li .st{font-size:12px;font-weight:700;margin-bottom:2px}
+.signs li.caught{border-left-color:var(--brand)}.signs li.caught .st{color:var(--brand-d)}
+.signs li.missed{border-left-color:var(--danger)}.signs li.missed .st{color:var(--danger)}
+.signs li.unmet{opacity:.6}.signs li.unmet .st{color:var(--muted)}
+.real{background:#fff;margin:14px 16px;border-radius:var(--radius);padding:14px 16px;border:1.5px solid var(--brand)}
+.real h3{font-size:15px;margin-bottom:8px;color:var(--brand-d)}
+.real li{font-size:14px;line-height:1.5;margin:0 0 6px 18px}
+.btn{display:block;width:calc(100% - 32px);margin:8px 16px 0;padding:13px;border-radius:12px;font-weight:700;font-size:15px;text-align:center;text-decoration:none}
+.btn.pri{background:var(--brand);color:#fff}
+.btn.ghost{background:#fff;color:var(--brand-d);border:1.5px solid var(--brand)}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.white{background:#fff;color:#9b1c13;width:auto;display:inline-block;padding:12px 28px;margin:0}
+.sosline{text-align:center;font-size:13px;color:var(--muted);margin:14px 16px 0;line-height:1.6}
+.sosline a{font-weight:700;color:var(--danger);text-decoration:none}
+.sheet-foot .btn{width:100%;margin:0}
+
+/* ARCADE */
+#arcade{background:#0b2419}
+.ar-hud{flex:none;display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0b3d2a;color:#fff}
+.ar-hud .back{font-size:26px;line-height:1;width:28px;color:#bfe9cf}
+.ar-hud .ttl{min-width:0;flex:1}
+.ar-hud .ttl b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-hud .ttl small{font-size:12px;color:#a8d9bb}
+#arScore{font-size:22px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums}
+#arLives{font-size:15px;letter-spacing:1px}
+.ar-stage{position:relative;flex:1;min-height:0;overflow:hidden}
+#arCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.ar-ctrl{flex:none;display:flex;gap:8px;padding:8px 10px calc(10px + env(safe-area-inset-bottom));background:#0b3d2a}
+.ar-ctrl:empty{display:none}
+.cbtn{flex:1;padding:12px 4px;border-radius:14px;background:#fff;color:var(--ink);font-weight:800;font-size:13px;line-height:1.2;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.cbtn .e{display:block;font-size:22px;margin-bottom:2px}
+.cbtn:active,.cbtn.on{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.cbtn.brake{background:#ffe1de;color:#9b1c13;font-size:16px;padding:16px 4px}
+.cbtn.brake.on{background:var(--danger);color:#fff}
+.ar-toast{position:absolute;left:10px;right:10px;top:10px;z-index:5;background:rgba(255,255,255,.97);color:var(--ink);border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.3);border-left:5px solid var(--danger);transform:translateY(calc(-100% - 40px));opacity:0;transition:transform .25s ease,opacity .25s;pointer-events:none}
+.ar-toast.good{border-left-color:var(--brand)}
+.ar-toast.show{transform:translateY(0);opacity:1}
+.ar-banner{position:absolute;left:0;right:0;top:38%;z-index:4;text-align:center;font-size:24px;font-weight:900;color:#fff;text-shadow:0 3px 12px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .25s}
+.ar-banner.show{opacity:1}
+.ar-ov{position:absolute;inset:0;z-index:8;background:rgba(6,24,16,.92);color:#fff;display:flex;flex-direction:column;align-items:center;padding:24px 18px;overflow-y:auto;text-align:center}
+.ar-ov .big-e{font-size:56px;margin-top:8px}
+.ar-ov h2{font-size:26px;margin-top:6px}
+.ar-ov .sub{color:#bfe9cf;margin-top:4px;font-size:14px}
+.ar-ov ul{list-style:none;text-align:left;margin:16px 0 4px;width:100%;max-width:360px}
+.ar-ov ul li{background:rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:14px;line-height:1.45}
+.ar-ov .btn{width:100%;max-width:360px;margin:8px 0 0}
+.ar-ov .score{font-size:56px;font-weight:900;color:var(--gold);line-height:1;margin-top:10px}
+.ar-ov .rank{display:inline-block;margin-top:8px;padding:6px 14px;border-radius:999px;background:var(--brand);font-weight:800}
+.stats{display:flex;gap:8px;justify-content:center;margin-top:14px;width:100%;max-width:360px}
+.stats div{flex:1;background:rgba(255,255,255,.08);border-radius:12px;padding:8px 4px;font-size:12px;color:#bfe9cf}
+.stats b{display:block;font-size:20px;color:#fff}
+.mist-t{margin-top:16px;font-weight:800;font-size:15px;align-self:center}
+.ar-ov .mist li{border-left:4px solid var(--danger)}
+.ar-ov .mist li b{display:block;color:#ffb4ac;font-size:13px}
+.snap{margin-top:12px;font-size:13px;color:#bfe9cf}
+.ar-ov .sosline{color:#a8d9bb}
+.ar-ov .sosline a{color:#ff8a80}
+.ar-quick{position:absolute;left:10px;right:10px;bottom:10px;z-index:6;background:#fff;border-radius:16px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:up .25s ease-out}
+.ar-quick p{font-size:15px;font-weight:700;margin-bottom:8px}
+.ar-quick .qb{display:flex;gap:8px}
+.ar-quick .qb button{flex:1;padding:12px 6px;border-radius:12px;font-weight:800;font-size:14px}
+.ar-quick .qno{background:var(--brand);color:#fff}
+.ar-quick .qyes{background:#ffe1de;color:#9b1c13}
+.qbar{height:5px;border-radius:5px;background:#eee;margin-top:10px;overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--warn);width:100%}
+
+/* ARENA */
+#arena{background:var(--chat)}
+.an-head{flex:none;display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0b3d2a;color:#fff}
+.an-head .back{font-size:26px;line-height:1;width:28px;color:#bfe9cf}
+.an-head .ttl{flex:1;min-width:0}.an-head .ttl b{display:block;font-size:15px}.an-head .ttl small{font-size:12px;color:#a8d9bb}
+.an-chip{flex:none;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:#ffd54f;color:#3b2a00}
+.an-flag{flex:none;background:var(--warn);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-align:center;padding:3px 8px}
+.an-body{flex:1;min-height:0;overflow-y:auto;padding:14px 14px 28px}
+.an-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 18px rgba(11,61,42,.10);margin-bottom:12px}
+.an-card h3{font-size:17px;margin-bottom:6px}
+.an-muted{color:var(--muted);font-size:13px;line-height:1.5}
+.lvpick{display:flex;gap:10px;margin-top:14px}
+.lvpick button{flex:1;padding:18px 8px;border-radius:16px;border:2px solid var(--brand);background:#fff;font-weight:800;font-size:18px;color:var(--brand-d)}
+.lvpick button small{display:block;font-weight:500;font-size:12px;color:var(--muted);margin-top:4px}
+.week{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border-radius:16px;background:linear-gradient(135deg,#0d7a3c,#12a150);color:#fff;margin-bottom:12px;box-shadow:0 6px 18px rgba(13,122,60,.3)}
+.week .e{font-size:30px}.week b{display:block;font-size:16px}.week small{font-size:12px;opacity:.9}
+.tower{display:flex;flex-direction:column;gap:8px}
+.floor{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px;border-radius:14px;background:#fff;border:1.5px solid var(--line);box-shadow:0 2px 8px rgba(11,61,42,.06)}
+.floor .fn{flex:none;width:30px;font-weight:900;font-size:13px;color:var(--muted);text-align:center}
+.floor .fe{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--brand-l)}
+.floor b{display:block;font-size:15px}.floor small{display:block;font-size:12px;color:var(--muted)}
+.floor.won{border-color:var(--brand);background:#f3fbf6}.floor.won .fe{background:#ffd54f}
+.floor .go{margin-left:auto;color:var(--brand-d);font-size:20px}
+.prog{display:flex;gap:6px;margin-bottom:12px}.prog i{flex:1;height:6px;border-radius:6px;background:#d5e0d9}.prog i.ok{background:var(--brand)}.prog i.no{background:var(--danger)}.prog i.cur{background:#ffd54f}
+.qtype{font-size:12px;font-weight:800;color:var(--brand-d);letter-spacing:.04em;text-transform:uppercase}
+.qtext{font-size:18px;font-weight:700;line-height:1.45;margin:6px 0 14px}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin-bottom:8px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:15px;line-height:1.4}
+.opt .k{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--brand-l);color:var(--brand-d);font-weight:800;font-size:13px;margin-right:8px}
+.opt.right{border-color:var(--brand);background:#e3f6ea}.opt.wrong{border-color:var(--danger);background:var(--danger-l)}.opt.gone{opacity:.25;text-decoration:line-through;pointer-events:none}
+.opt.pick .k{background:var(--brand);color:#fff}
+.tfrow{display:flex;gap:10px}.tfrow .opt{text-align:center;font-weight:800;font-size:17px;padding:18px}
+.ordslot{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;min-height:20px}
+.ordslot div{padding:10px 12px;border-radius:10px;background:var(--brand-l);font-size:14px;line-height:1.4}
+.ordslot div b{color:var(--brand-d);margin-right:6px}
+.help{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;border-radius:12px;background:var(--brand-l);color:var(--brand-d);font-weight:700;font-size:14px;margin-top:4px}
+.help[disabled]{opacity:.45}
+.fb{border-radius:14px;padding:14px;margin-top:10px;line-height:1.5;font-size:14px}
+.fb.ok{background:#e3f6ea;border-left:5px solid var(--brand)}.fb.no{background:var(--danger-l);border-left:5px solid var(--danger)}
+.fb h4{font-size:16px;margin-bottom:4px}
+.fb .cc{margin-top:8px;font-size:13px;color:#2c3a33}.fb .draft{margin-top:4px;font-size:11px;color:var(--warn);font-weight:700}
+.bigres{text-align:center;padding:10px 0}
+.bigres .e{font-size:64px}.bigres .sc{font-size:44px;font-weight:900;color:var(--brand-d)}
+.badgeline{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.badgeline span{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;background:var(--brand-l);font-size:13px;font-weight:700;color:var(--brand-d)}
+.badgeline span.off{background:#eef1ef;color:#a3b0a8}
+.cert{position:relative;border-radius:20px;padding:26px 18px;text-align:center;background:linear-gradient(160deg,#fffbe8,#fff 40%,#e9f8ef);border:3px solid #d4af37;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.cert .k1{font-size:12px;font-weight:800;letter-spacing:.14em;color:#8a6d1a}
+.cert h2{font-size:26px;color:#0b3d2a;margin:8px 0 4px}
+.cert .seal{font-size:54px}
+.resetbtn{display:inline-block;margin-top:14px;padding:8px 14px;border-radius:999px;border:1px solid #c9d6ce;color:var(--muted);font-size:12px;background:#fff}
+
+/* VN */
+#vn{background:var(--chat);position:relative}
+.vn-meter{flex:none;display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;color:var(--brand-d)}
+.vn-meter .bar{flex:1;height:10px;border-radius:10px;background:#e3ebe6;overflow:hidden}
+.vn-meter .bar i{display:block;height:100%;width:50%;background:linear-gradient(90deg,#e8870b,#12a150);transition:width .5s}
+.vn-scene{border-radius:16px;padding:16px;color:#fff;background:linear-gradient(135deg,#0d6b3c,#12a150);display:flex;align-items:center;gap:12px;margin:6px 0 10px;animation:pop .3s}
+.vn-scene .e{font-size:40px}.vn-scene b{display:block;font-size:16px}.vn-scene small{font-size:12px;opacity:.9}
+.vn-line{display:flex;gap:8px;align-items:flex-end;margin-bottom:8px;animation:pop .22s}
+.vn-line .av{flex:none;width:34px;height:34px;border-radius:50%;background:#fde7c8;display:grid;place-items:center;font-size:18px}
+.vn-line .bb{background:#fff;border-radius:16px;border-bottom-left-radius:5px;padding:9px 12px;font-size:15px;line-height:1.45;box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.vn-line .bb small{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.vn-line.me{justify-content:flex-end}.vn-line.me .bb{background:var(--me);border-bottom-left-radius:16px;border-bottom-right-radius:5px}
+.vn-nar{font-style:italic;color:#44544b;font-size:14px;line-height:1.5;margin:4px 6px 10px;animation:pop .22s}
+.vn-delta{align-self:center;display:block;text-align:center;font-size:13px;font-weight:800;margin:2px 0 10px;animation:pop .22s}
+.vn-delta.up{color:var(--brand-d)}.vn-delta.down{color:var(--danger)}.vn-delta.flat{color:var(--muted)}
+.vn-ask{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--brand-d);text-transform:uppercase;margin:10px 0 6px}
+.vn-freeze{position:absolute;inset:0;z-index:20;background:rgba(120,10,10,.88);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.vn-freeze .big{font-size:42px;font-weight:900;animation:shake .4s}.vn-freeze p{margin:12px 0 20px;font-size:16px;line-height:1.5;max-width:330px}
+.dec{list-style:none}.dec li{background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:8px;border-left:5px solid var(--line);font-size:14px;line-height:1.45}
+.dec li.good{border-left-color:var(--brand)}.dec li.mid{border-left-color:var(--warn)}.dec li.bad{border-left-color:var(--danger)}
+.dec li b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.dec li .best{margin-top:4px;color:var(--brand-d);font-weight:600}
+.keybox{background:#fff;border:1.5px solid var(--brand);border-radius:14px;padding:12px 14px;margin:10px 0}
+.keybox h4{color:var(--brand-d);margin-bottom:6px}.keybox li{margin:0 0 4px 18px;font-size:14px;line-height:1.45}
+.chap{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:14px;border-radius:14px;border:1.5px solid var(--brand);background:#fff;margin-top:10px}
+.chap .n{flex:none;width:38px;height:38px;border-radius:50%;background:var(--brand-l);display:grid;place-items:center;font-weight:900;color:var(--brand-d)}
+.chap b{display:block}.chap small{color:var(--muted);font-size:12px}
+.ar-quick .qopts{display:flex;flex-direction:column;gap:8px}
+.ar-quick .qopts button{padding:12px;border-radius:12px;font-weight:700;font-size:14px;text-align:left;background:var(--brand-l);color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HUB -->
+  <section id="hub" class="screen active scrollpage">
+    <div class="hero">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M50 6 L86 20 V48 C86 70 70 86 50 94 C30 86 14 70 14 48 V20 Z" fill="#fff"/>
+        <path d="M50 14 L79 25 V48 C79 66 66 79 50 86 C34 79 21 66 21 48 V25 Z" fill="#12a150"/>
+        <path d="M50 30 C36 40 34 56 44 68 C46 60 50 52 58 46 C52 54 49 62 48 70 C62 68 68 52 62 38 C59 33 55 31 50 30 Z" fill="#c8f5d6"/>
+      </svg>
+      <h1>Sân chơi Lá chắn xanh</h1>
+      <p>Chơi vui · Nhận diện bẫy · Tự bảo vệ mình</p>
+    </div>
+    <div class="card">
+      <h2>🎮 Trò chơi hành động</h2>
+      <button class="story play" data-game="g1">
+        <span class="sava">🗡️</span>
+        <span><b>Chém bẫy</b><small>Chém tin nhắn lừa đảo, tha tin an toàn</small><small class="rec" id="rec-g1"></small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-game="g2">
+        <span class="sava">🚲</span>
+        <span><b>Đến trường an toàn</b><small>Né chướng ngại, dừng đèn đỏ, nói "không" với trò nguy hiểm</small><small class="rec" id="rec-g2"></small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-game="g3">
+        <span class="sava">📱</span>
+        <span><b>Phòng thủ điện thoại</b><small>Chọn đúng lá chắn trước quái vật tin nhắn</small><small class="rec" id="rec-g3"></small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-game="g4">
+        <span class="sava">🚒</span>
+        <span><b>Chiến binh an toàn <span class="tag">Thử nghiệm</span></b><small>Thoát khỏi đám cháy, ném phao cứu bạn đuối nước</small><small class="rec" id="rec-g4"></small></span>
+        <span class="go">›</span>
+      </button>
+    </div>
+    <div class="card">
+      <h2>🎭 Nhập vai tình huống</h2>
+      <button class="story play" id="openStory">
+        <span class="sava">💬</span>
+        <span><b>Tin nhắn lạ</b><small>Lừa đảo qua mạng: mỗi lựa chọn dẫn tới một kết cục</small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-vn="vn2">
+        <span class="sava">💪</span>
+        <span><b>Bản lĩnh tuổi trẻ <span class="tag">Thử nghiệm</span></b><small>Nói "không" với vape, chất lạ và lời rủ rê</small><small class="rec" id="rec-vn2"></small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-vn="vn4">
+        <span class="sava">🛡️</span>
+        <span><b>Phá giải tình huống <span class="tag">Thử nghiệm</span></b><small>Bắt nạt, bạo lực học đường và những bí mật đáng sợ</small><small class="rec" id="rec-vn4"></small></span>
+        <span class="go">›</span>
+      </button>
+      <button class="story play" data-vn="vn5">
+        <span class="sava">🤝</span>
+        <span><b>Kết nối yêu thương <span class="tag">Thử nghiệm</span></b><small>Sẻ chia, không kỳ thị người tái hòa nhập</small><small class="rec" id="rec-vn5"></small></span>
+        <span class="go">›</span>
+      </button>
+    </div>
+    <div class="card">
+      <h2>⚖️ Kiến thức pháp luật</h2>
+      <button class="story play" id="openArena">
+        <span class="sava">⚖️</span>
+        <span><b>Đấu trường pháp luật <span class="tag">Thử nghiệm</span></b><small>Leo tháp 7 lĩnh vực, sưu tầm huy hiệu</small><small class="rec" id="rec-arena"></small></span>
+        <span class="go">›</span>
+      </button>
+    </div>
+    <div class="foot">
+      📸 Chụp màn hình điểm số để thi đua cùng bạn bè!<br><br>
+      Sân chơi thuộc mô hình <b>"Lá chắn xanh"</b><br>Ban Thanh niên Công an tỉnh Lạng Sơn<br>
+      <a href="/" target="_top">← Về lachanxanh.vn</a><br>
+      <button class="resetbtn" id="resetProg">🗑️ Xóa tiến độ chơi trên máy này</button>
+    </div>
+  </section>
+
+  <!-- STORY HOME -->
+  <section id="storyHome" class="screen scrollpage">
+    <button class="topback" id="storyBack">‹ Sân chơi</button>
+    <div class="hero" style="padding-top:8px">
+      <h1>💬 Tin nhắn lạ</h1>
+      <p>Em sẽ làm gì khi tin nhắn lạ gõ cửa?</p>
+    </div>
+    <div class="card">
+      <h2>Cách chơi</h2>
+      <ul class="how">
+        <li><span>💬</span><div>Một người lạ nhắn tin cho em. Đọc kỹ và chọn câu trả lời.</div></li>
+        <li><span>⏳</span><div>Họ sẽ giục, sẽ dọa, sẽ hứa hẹn. Đừng vội!</div></li>
+        <li><span>🛡️</span><div>Thấy nghi ngờ, bấm <b>Hỏi Lá chắn xanh</b> bất cứ lúc nào.</div></li>
+        <li><span>⏪</span><div>Cuối mỗi chuyện, cùng tua lại xem em đã nhận ra bao nhiêu dấu hiệu.</div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Chọn câu chuyện</h2>
+      <div class="progress" id="progress">Đã về đích an toàn: 0/3 chuyện</div>
+      <button class="story play" id="playS1">
+        <span class="sava">🎁</span>
+        <span><b>Chuyện 1 · Quà sự kiện</b><small id="s1note">"Chúc mừng! Em trúng skin giới hạn…"</small></span>
+        <span class="go">›</span>
+      </button>
+      <div class="story lock" aria-disabled="true">
+        <span class="sava">📞</span><span><b>Chuyện 2 · Cuộc gọi lạ</b><small>Sắp ra mắt</small></span><span class="go">🔒</span>
+      </div>
+      <div class="story lock" aria-disabled="true">
+        <span class="sava">🎮</span><span><b>Chuyện 3 · Bạn mới quen</b><small>Sắp ra mắt</small></span><span class="go">🔒</span>
+      </div>
+    </div>
+    <div class="foot">Ban Thanh niên Công an tỉnh Lạng Sơn</div>
+  </section>
+
+  <!-- CHAT -->
+  <section id="chat" class="screen" style="position:relative">
+    <header class="chat-head">
+      <button class="back" id="btnExit" aria-label="Thoát">‹</button>
+      <div class="ava" id="cAva">🎁</div>
+      <div class="who"><b id="cName">Admin Sự Kiện</b><small id="cSub">Ban tổ chức sự kiện</small></div>
+      <div class="timer hidden" id="timer">⏳ 10:00</div>
+    </header>
+    <div class="stranger">⚠️ Người lạ · Không có trong danh bạ của em</div>
+    <div class="log" id="log"></div>
+    <div class="dock" id="dock">
+      <button class="shieldbar" id="shieldBtn"><span>🛡️ Hỏi Lá chắn xanh</span><small>Thấy nghi ngờ? Bấm vào đây</small></button>
+      <div class="choices" id="choices"></div>
+    </div>
+    <div class="review-bar hidden" id="reviewBar">
+      <button class="btn pri" id="btnBackResult" style="width:100%;margin:0">← Quay lại kết quả</button>
+    </div>
+    <div class="banner" id="banner"></div>
+  </section>
+
+  <!-- STORY RESULT -->
+  <section id="result" class="screen">
+    <div class="verdict" id="verdict"><div class="v-icon" id="vIcon"></div><h2 id="vTitle"></h2><p id="vText"></p></div>
+    <h3 class="sec-t">⏪ Tua lại: các dấu hiệu lừa đảo</h3>
+    <ul class="signs" id="signList"></ul>
+    <button class="btn ghost" id="btnReview">Xem lại đoạn chat có đánh dấu 🚩</button>
+    <div class="real">
+      <h3>Nếu gặp chuyện này ngoài đời</h3>
+      <ul>
+        <li>Không bấm đường link lạ; không đưa mật khẩu, mã xác nhận; không chuyển tiền.</li>
+        <li>Lỡ đưa mật khẩu hoặc mã xác nhận: đổi mật khẩu ngay, báo bố mẹ, liên hệ bộ phận hỗ trợ chính thức của trò chơi.</li>
+        <li>Đã mất tiền: cùng bố mẹ đến Công an xã, phường gần nhất hoặc gọi 113 để được hướng dẫn trình báo.</li>
+        <li>Cần hỏi thêm: nhắn Zalo OA "Ban Thanh niên Công an tỉnh Lạng Sơn".</li>
+      </ul>
+    </div>
+    <a class="btn pri" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener">💬 Nhắn Lá chắn xanh qua Zalo</a>
+    <button class="btn ghost" id="btnReplay">↻ Chơi lại chuyện này</button>
+    <button class="btn dark" id="btnHome">Về danh sách chuyện</button>
+    <div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Đường dây nóng <a href="tel:0936692111" target="_top">0936.692.111</a></div>
+  </section>
+
+  <!-- ARENA -->
+  <section id="arena" class="screen">
+    <div class="an-head">
+      <button class="back" id="anBack" aria-label="Quay lại">‹</button>
+      <div class="ttl"><b>⚖️ Đấu trường pháp luật</b><small id="anSub"></small></div>
+      <button class="an-chip" id="anCap"></button>
+    </div>
+    <div class="an-flag">THỬ NGHIỆM · CÂU HỎI ĐANG CHỜ ĐẦU MỐI XÁC NHẬN</div>
+    <div class="an-body" id="anBody"></div>
+  </section>
+
+  <!-- VN -->
+  <section id="vn" class="screen">
+    <div class="an-head">
+      <button class="back" id="vnBack" aria-label="Quay lại">‹</button>
+      <div class="ttl"><b id="vnTitle"></b><small id="vnSub"></small></div>
+    </div>
+    <div class="an-flag">THỬ NGHIỆM · NỘI DUNG CHỜ ĐẦU MỐI XÁC NHẬN</div>
+    <div class="vn-meter hidden" id="vnMeter"><span id="vnMName"></span><div class="bar"><i id="vnBar"></i></div><span id="vnVal"></span></div>
+    <div class="an-body" id="vnBody"></div>
+    <div class="vn-freeze hidden" id="vnFreeze"><div class="big">DỪNG LẠI!</div><p id="vnFreezeT"></p><button class="btn white" id="vnFreezeBtn">⏪ Xem lại các lựa chọn</button></div>
+  </section>
+
+  <!-- ARCADE -->
+  <section id="arcade" class="screen">
+    <div class="ar-hud">
+      <button class="back" id="arBack" aria-label="Thoát">‹</button>
+      <div class="ttl"><b id="arTitle"></b><small id="arInfo"></small></div>
+      <div id="arLives"></div>
+      <div id="arScore">0</div>
+    </div>
+    <div class="ar-stage" id="arStage">
+      <canvas id="arCanvas"></canvas>
+      <div class="ar-toast" id="arToast"></div>
+      <div class="ar-banner" id="arBanner"></div>
+      <div class="ar-quick hidden" id="arQuick">
+        <p id="arQText"></p>
+        <div class="qb"><button class="qno" id="arQNo">🙅 Không, đi an toàn</button><button class="qyes" id="arQYes">😎 Chơi luôn!</button></div>
+        <div class="qbar"><i id="arQBar"></i></div>
+      </div>
+      <div class="ar-ov" id="arStart">
+        <div class="big-e" id="arsE"></div>
+        <h2 id="arsT"></h2>
+        <ul id="arsHow"></ul>
+        <button class="btn pri" id="arGo">▶ Bắt đầu</button>
+        <button class="btn ghost" id="arStartBack" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+      </div>
+      <div class="ar-ov hidden" id="arPause">
+        <div class="big-e">⏸️</div><h2>Tạm dừng</h2>
+        <button class="btn pri" id="arResume" style="margin-top:20px">▶ Chơi tiếp</button>
+        <button class="btn ghost" id="arQuit" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+      </div>
+      <div class="ar-ov hidden" id="arOver">
+        <div class="sub" id="aroName"></div>
+        <div class="score" id="aroScore">0</div>
+        <div class="rank" id="aroRank"></div>
+        <div class="sub" id="aroBest"></div>
+        <div class="stats" id="aroStats"></div>
+        <div class="mist-t" id="aroMistT">Cần nhớ</div>
+        <ul class="mist" id="aroMist"></ul>
+        <div class="snap">📸 Chụp màn hình để khoe điểm với bạn bè!</div>
+        <button class="btn pri" id="arAgain">↻ Chơi lại</button>
+        <a class="btn ghost" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">💬 Hỏi Lá chắn xanh qua Zalo</a>
+        <button class="btn ghost" id="arHub" style="background:transparent;color:#bfe9cf;border-color:#2f6b4c">‹ Về sân chơi</button>
+        <div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Đường dây nóng <a href="tel:0936692111" target="_top">0936.692.111</a></div>
+      </div>
+    </div>
+    <div class="ar-ctrl" id="arCtrl"></div>
+  </section>
+
+  <!-- STORY OVERLAYS -->
+  <div class="overlay hidden" id="web">
+    <div class="browser">
+      <div class="urlbar"><span class="insecure">⚠ Không bảo mật</span><span class="url">chienbinh-huyenthoai-qua.xyz/nhan-skin</span></div>
+      <div class="fakepage">
+        <div class="logo">🐉</div><h3>SỰ KIỆN KỶ NIỆM</h3>
+        <p>Đăng nhập tài khoản để nhận Skin Rồng Lửa giới hạn</p>
+        <div class="fakefield">👤 Tên tài khoản</div><div class="fakefield">🔒 Mật khẩu</div>
+        <div class="fakebtn">NHẬN QUÀ NGAY</div>
+      </div>
+      <div class="webchoices" id="webChoices"></div>
+    </div>
+  </div>
+  <div class="overlay hidden" id="shield">
+    <div class="sheet">
+      <div class="sheet-head"><div class="ava">🛡️</div><div><b>Lá chắn xanh</b><small>Mô phỏng trong trò chơi</small></div></div>
+      <div class="log" id="shieldLog"></div>
+      <div class="sheet-foot">
+        <button class="btn pri hidden" id="btnShieldDone">Xem kết quả</button>
+        <p class="note">Ngoài đời, em nhắn Zalo OA "Ban Thanh niên Công an tỉnh Lạng Sơn" để được tư vấn.</p>
+      </div>
+    </div>
+  </div>
+  <div class="overlay hidden" id="freeze">
+    <div class="big">DỪNG LẠI!</div>
+    <p>Kẻ gian sẽ còn bịa thêm lý do để đòi tiền mãi. Hãy cùng tua lại xem em đã bỏ qua những dấu hiệu nào.</p>
+    <button class="btn white" id="btnRewind">⏪ Tua lại</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var SCREENS=["hub","storyHome","chat","result","arcade","arena","vn"];
+function show(id){SCREENS.forEach(function(s){$(s).classList.toggle("active",s===id);});}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var FONT='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+var EMO=FONT+',"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji"';
+
+/* =====================================================================
+   CHẾ ĐỘ CỐT TRUYỆN: TIN NHẮN LẠ
+   ===================================================================== */
+var SIGNS=[
+  {id:"S1",t:"Quà “từ trên trời rơi xuống”",d:"Người lạ báo em trúng quà giá trị mà em không hề tham gia gì."},
+  {id:"S2",t:"Giục gấp, đếm ngược",d:"Ép thời gian để em không kịp suy nghĩ, không kịp hỏi ai."},
+  {id:"S3",t:"Đường link lạ",d:"Tên trang khác trang chính thức, đuôi lạ. Đây là trang giả."},
+  {id:"S4",t:"Đòi đăng nhập qua link",d:"Trang giả ghi lại tài khoản, mật khẩu em nhập vào."},
+  {id:"S5",t:"Đòi mã xác nhận",d:"Mã xác nhận là chìa khóa tài khoản. Không đưa cho bất kỳ ai, kể cả người xưng là ban tổ chức."},
+  {id:"S6",t:"Đòi chuyển “phí”",d:"Quà thật không bắt em trả tiền mới được nhận."},
+  {id:"S7",t:"Đòi chuyển thêm để “hoàn tiền”",d:"Chiêu kéo dài: càng chuyển càng mất, không có chuyện hoàn lại."}
+];
+var STORY={
+  contact:{name:"Admin Sự Kiện 🎁",sub:"Ban tổ chức sự kiện",ava:"🎁"},
+  nodes:{
+    n1:{msgs:[
+      {t:"sys",x:"Hôm nay, 19:42"},
+      {t:"them",x:"Chúc mừng em! 🎉"},
+      {t:"them",x:"Tài khoản Chiến Binh Huyền Thoại của em vừa được chọn nhận Skin Rồng Lửa giới hạn 🐉",s:"S1"},
+      {t:"them",x:"Chỉ còn 10 phút để nhận, quá hạn quà sẽ chuyển cho người khác nha!",s:"S2",timer:true}],
+     choices:[
+      {x:"Wow! Nhận kiểu gì ạ? 😍",go:"n2",pass:["S1","S2"]},
+      {x:"Sao em được chọn? Anh là ai?",go:"n1b"},
+      {x:"Lạ quá. Em không trả lời, chặn luôn!",go:"END:SAFE",catch:["S1","S2"],me:false,sys:"🚫 Em đã chặn người này"}]},
+    n1b:{msgs:[
+      {t:"them",x:"Anh là Ban tổ chức sự kiện chính thức 😊 Em may mắn được chọn thôi."},
+      {t:"them",x:"Nhanh lên kẻo hết giờ nhé!",s:"S2"}],
+     choices:[
+      {x:"Vâng, anh gửi em cách nhận đi",go:"n2",pass:["S1","S2"]},
+      {x:"Em sẽ tự kiểm tra trên trang chính thức của trò chơi",go:"END:SAFE",catch:["S1","S2"]}]},
+    n2:{msgs:[
+      {t:"them",x:"Em bấm vào link này, đăng nhập tài khoản game là nhận quà ngay 👇"},
+      {t:"link",title:"Nhận Skin Rồng Lửa – Sự kiện kỷ niệm",url:"chienbinh-huyenthoai-qua.xyz/nhan-skin",s:"S3"}],
+     choices:[
+      {x:"Bấm vào link",go:"WEB",pass:["S3"],me:false},
+      {x:"Link lạ quá, em không bấm đâu",go:"END:SAFE",catch:["S3"]}]},
+    web:{choices:[
+      {x:"Điền tài khoản và mật khẩu",go:"n4",pass:["S4"],lost:"pw",me:false,sys:"🔑 Em đã nhập tài khoản và mật khẩu"},
+      {x:"Thoát ra, không đăng nhập",go:"END:SAFE",catch:["S4"],me:false,sys:"↩️ Em đã thoát khỏi trang lạ"}]},
+    n4:{msgs:[
+      {t:"them",x:"Anh thấy em đăng nhập rồi 👍"},
+      {t:"them",x:"Hệ thống vừa gửi mã xác nhận 6 số về điện thoại em. Em đọc mã cho anh để kích hoạt quà nhé!",s:"S5"},
+      {t:"notif",title:"📩 Tin nhắn",x:"Mã xác nhận đăng nhập Chiến Binh Huyền Thoại của bạn là 48••••. Không chia sẻ mã này cho bất kỳ ai."}],
+     choices:[
+      {x:"Gửi mã cho anh ấy",me:"48••••",go:"n5",pass:["S5"],lost:"otp"},
+      {x:"Tin nhắn ghi không được chia sẻ mà anh?",go:"n4b"},
+      {x:"Không gửi. Em đổi mật khẩu ngay",go:"END:NEAR",catch:["S5"]}]},
+    n4b:{msgs:[
+      {t:"them",x:"Đó là tin tự động thôi em, Ban tổ chức thì được xem mà 😊"},
+      {t:"them",x:"Sắp hết giờ rồi, nhanh lên em!",s:"S2"}],
+     choices:[
+      {x:"Thôi được, em gửi",me:"48••••",go:"n5",pass:["S5"],lost:"otp"},
+      {x:"Không, em không gửi đâu",go:"END:NEAR",catch:["S5"]}]},
+    n5:{msgs:[
+      {t:"notif",alert:true,title:"⚠️ Cảnh báo bảo mật",x:"Tài khoản Chiến Binh Huyền Thoại của bạn vừa đăng nhập trên một thiết bị mới."},
+      {t:"them",x:"Quà đã sẵn sàng rồi! 🎁"},
+      {t:"them",x:"Em chuyển 200.000đ phí kích hoạt vào số tài khoản anh gửi nhé. Nhận quà xong bên anh hoàn lại ngay.",s:"S6"}],
+     choices:[
+      {x:"Chuyển 200.000đ",go:"n6",pass:["S6"],lost:"money",me:false,sys:"💸 Em đã chuyển 200.000đ"},
+      {x:"Sao lại mất phí? Em hỏi bố mẹ đã",go:"END:NEAR",catch:["S6"]}]},
+    n6:{msgs:[
+      {t:"them",x:"Ôi em ghi sai nội dung chuyển khoản rồi, hệ thống bị khóa ❌"},
+      {t:"them",x:"Em chuyển thêm 500.000đ để mở khóa, bên anh hoàn lại cả 700.000đ luôn!",s:"S7"}],
+     choices:[
+      {x:"Chuyển thêm 500.000đ",go:"END:TRAP",pass:["S7"],freeze:true,me:false,sys:"💸 Em đang chuyển thêm 500.000đ…"},
+      {x:"Dừng lại. Em kể với bố mẹ ngay",go:"END:LOSS",catch:["S7"]}]}
+  }
+};
+var st, safeDone=false, timerId=null;
+function reset(){st={token:(st?st.token:0)+1,met:{},pass:{},catch:{},lost:{},waiting:false,ended:false,ending:null,extended:false,sec:600,timerOn:false};}
+reset();
+function scrollLog(el){el=el||$("log");el.scrollTop=el.scrollHeight;}
+function flagChip(row,sid){
+  var s=SIGNS.filter(function(z){return z.id===sid;})[0];
+  var c=document.createElement("span");c.className="flag-chip";c.textContent="🚩 "+s.t;
+  row.classList.add("flagged");return c;
+}
+function addMsg(m,logEl,ava){
+  logEl=logEl||$("log");var el;
+  if(m.t==="sys"){
+    el=document.createElement("div");el.className="sys";el.textContent=m.x;
+    if(m.s){el.appendChild(flagChip(el,m.s));}
+  }else if(m.t==="notif"){
+    el=document.createElement("div");el.className="notif"+(m.alert?" alert":"");
+    var b=document.createElement("b");b.textContent=m.title;el.appendChild(b);
+    el.appendChild(document.createTextNode(m.x));banner(m);
+  }else{
+    el=document.createElement("div");el.className="row "+(m.t==="me"?"me":"them");
+    if(m.t!=="me"){var mi=document.createElement("div");mi.className="mini";mi.textContent=ava||STORY.contact.ava;el.appendChild(mi);}
+    var bub=document.createElement("div");bub.className="bub";
+    if(m.t==="link"){
+      var lc=document.createElement("span");lc.className="linkc";
+      lc.innerHTML='<span class="lt">🐉</span><span class="lb"><b></b><small></small></span>';
+      lc.querySelector("b").textContent=m.title;lc.querySelector("small").textContent=m.url;
+      bub.appendChild(lc);
+    }else{bub.textContent=m.x;}
+    if(m.s){bub.appendChild(flagChip(el,m.s));}
+    el.appendChild(bub);
+  }
+  if(m.s){st.met[m.s]=true;}
+  logEl.appendChild(el);scrollLog(logEl);return el;
+}
+function typing(logEl,ava){
+  logEl=logEl||$("log");
+  var el=document.createElement("div");el.className="row them typing";
+  el.innerHTML='<div class="mini"></div><div class="bub"><i></i><i></i><i></i></div>';
+  el.querySelector(".mini").textContent=ava||STORY.contact.ava;
+  logEl.appendChild(el);scrollLog(logEl);return el;
+}
+var bannerT=null;
+function banner(m){
+  var b=$("banner");b.className="banner"+(m.alert?" alert":"");
+  b.innerHTML="<b></b><span></span>";b.querySelector("b").textContent=m.title;b.querySelector("span").textContent=m.x;
+  requestAnimationFrame(function(){b.classList.add("show");});
+  try{if(navigator.vibrate)navigator.vibrate(120);}catch(e){}
+  clearTimeout(bannerT);bannerT=setTimeout(function(){b.classList.remove("show");},3200);
+}
+function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?"0":"")+m+":"+(x<10?"0":"")+x;}
+function startTimer(){
+  if(st.timerOn)return;st.timerOn=true;
+  var t=$("timer");t.classList.remove("hidden");clearInterval(timerId);
+  timerId=setInterval(function(){
+    if(st.ended){clearInterval(timerId);return;}
+    if(st.sec>0)st.sec--;
+    t.textContent="⏳ "+fmt(st.sec);t.classList.toggle("hot",st.sec<=120);
+    if(st.sec===0&&st.waiting&&!st.extended){
+      st.extended=true;st.sec=300;
+      addMsg({t:"them",x:"Hết giờ rồi nhưng anh gia hạn riêng cho em thêm 5 phút nhé 😉",s:"S2"});
+    }
+  },200);
+}
+async function playNode(id){
+  var tk=st.token,node=STORY.nodes[id];
+  $("choices").innerHTML="";st.waiting=false;
+  for(var i=0;i<(node.msgs||[]).length;i++){
+    var m=node.msgs[i];
+    if(m.t==="them"||m.t==="link"){
+      var ty=typing();await sleep(650+Math.min(1400,(m.x||"").length*22));
+      if(tk!==st.token)return;ty.remove();
+    }else{await sleep(500);if(tk!==st.token)return;}
+    addMsg(m);if(m.timer)startTimer();
+  }
+  await sleep(300);if(tk!==st.token)return;
+  showChoices(node.choices,$("choices"));
+}
+function showChoices(list,box){
+  box.innerHTML="";st.waiting=true;
+  list.forEach(function(c){
+    var b=document.createElement("button");b.className="choice";b.textContent=c.x;
+    b.onclick=function(){choose(c);};box.appendChild(b);
+  });
+  scrollLog();
+}
+async function choose(c){
+  if(!st.waiting)return;st.waiting=false;
+  $("choices").innerHTML="";$("webChoices").innerHTML="";$("web").classList.add("hidden");
+  (c.pass||[]).forEach(function(s){st.pass[s]=true;});
+  (c.catch||[]).forEach(function(s){st.catch[s]=true;});
+  if(c.lost)st.lost[c.lost]=true;
+  if(c.me!==false)addMsg({t:"me",x:typeof c.me==="string"?c.me:c.x});
+  if(c.sys){await sleep(250);addMsg({t:"sys",x:c.sys});}
+  if(c.go==="WEB"){openWeb();return;}
+  if(c.freeze){
+    var tk=st.token;await sleep(700);if(tk!==st.token)return;
+    st.ended=true;st.ending="TRAP";$("freeze").classList.remove("hidden");return;
+  }
+  if(c.go.indexOf("END:")===0){
+    var tk2=st.token;await sleep(700);if(tk2!==st.token)return;
+    finish(c.go.slice(4));return;
+  }
+  playNode(c.go);
+}
+async function openWeb(){
+  var tk=st.token;await sleep(400);if(tk!==st.token)return;
+  addMsg({t:"sys",x:"🌐 Em đã mở trang chienbinh-huyenthoai-qua.xyz",s:"S4"});
+  $("web").classList.remove("hidden");
+  showChoices(STORY.nodes.web.choices,$("webChoices"));
+}
+async function askShield(){
+  if(st.ended)return;
+  st.ended=true;st.waiting=false;st.ending="SHIELD";
+  var tk=st.token;
+  $("web").classList.add("hidden");$("choices").innerHTML="";
+  var lg=$("shieldLog");lg.innerHTML="";$("btnShieldDone").classList.add("hidden");
+  $("shield").classList.remove("hidden");
+  var sav="🛡️";
+  addMsg({t:"me",x:"Em nhận được tin nhắn báo trúng quà, có phải lừa đảo không ạ?"},lg,sav);
+  var replies=["Chào em! Đây là dấu hiệu lừa đảo chiếm đoạt tài khoản và tiền 🚩",
+    "Em không bấm link lạ, không đăng nhập qua link, không đưa mật khẩu, mã xác nhận và không chuyển tiền nhé."];
+  if(st.lost.pw||st.lost.otp)replies.push("Nếu đã lỡ đưa mật khẩu hoặc mã xác nhận: em đổi mật khẩu ngay và báo bố mẹ.");
+  if(st.lost.money)replies.push("Đã mất tiền: em cùng bố mẹ đến Công an xã, phường gần nhất hoặc gọi 113 để được hướng dẫn trình báo.");
+  replies.push("Em đã làm rất đúng khi hỏi ngay 💚");
+  for(var i=0;i<replies.length;i++){
+    await sleep(300);if(tk!==st.token)return;
+    var ty=typing(lg,sav);await sleep(900);if(tk!==st.token)return;ty.remove();
+    addMsg({t:"them",x:replies[i]},lg,sav);
+  }
+  $("btnShieldDone").classList.remove("hidden");
+}
+var ENDINGS={
+  SAFE:{lv:"safe",i:"🛡️",h:"An toàn!",p:"Em đã nhận ra cú lừa và dừng lại trước khi đưa ra bất kỳ thông tin nào."},
+  NEAR:{lv:"near",i:"⚠️",h:"Suýt sa bẫy",p:""},
+  LOSS:{lv:"trap",i:"🚨",h:"Sa bẫy",p:"Em đã mất tài khoản và 200.000đ. Rất may em dừng lại kịp, không chuyển thêm."},
+  TRAP:{lv:"trap",i:"🚨",h:"Sa bẫy",p:"Em đã mất tài khoản và tiền. Kẻ gian sẽ còn bịa lý do để đòi thêm; tiền đã chuyển rất khó lấy lại."},
+  SHIELD:{lv:"safe",i:"🛡️",h:"Lựa chọn tốt nhất!",p:"Hỏi ngay khi thấy nghi ngờ là cách tự bảo vệ hiệu quả nhất."}
+};
+function finish(code){
+  st.ended=true;st.ending=code;st.waiting=false;clearInterval(timerId);
+  $("freeze").classList.add("hidden");$("shield").classList.add("hidden");$("web").classList.add("hidden");
+  var e=ENDINGS[code],p=e.p;
+  if(code==="NEAR"){
+    p=st.lost.otp?"Em đã nhập mật khẩu vào trang giả và đưa cả mã xác nhận: tài khoản game đã bị chiếm. May là em dừng lại trước khi mất tiền."
+                  :"Em đã nhập mật khẩu vào trang giả, tài khoản có nguy cơ bị chiếm. May là em kịp dừng lại.";
+  }
+  if(code==="SHIELD"){
+    var loss=[];if(st.lost.pw)loss.push("mật khẩu");if(st.lost.otp)loss.push("mã xác nhận");if(st.lost.money)loss.push("200.000đ");
+    if(loss.length)p+=" Trước khi hỏi, em đã để lộ: "+loss.join(", ")+". Lần sau hãy hỏi sớm hơn nữa nhé!";
+  }
+  if(code==="SAFE"||code==="SHIELD"){safeDone=true;if(window.LCXS){LCXS.d.story1=true;LCXS.save();}}
+  $("verdict").className="verdict "+e.lv;$("vIcon").textContent=e.i;$("vTitle").textContent=e.h;$("vText").textContent=p;
+  Object.keys(st.met).forEach(function(s){if(!st.pass[s])st.catch[s]=true;});
+  var ul=$("signList");ul.innerHTML="";
+  SIGNS.forEach(function(s){
+    var li=document.createElement("li"),cls,lab;
+    if(st.pass[s.id]){cls="missed";lab="❌ Em đã bỏ qua";}
+    else if(st.catch[s.id]){cls="caught";lab="✅ Em đã nhận ra";}
+    else{cls="unmet";lab="Chưa xuất hiện trong lượt chơi này";}
+    li.className=cls;li.innerHTML='<div class="st"></div><b></b><span></span>';
+    li.querySelector(".st").textContent=lab;li.querySelector("b").textContent=s.t;
+    var d=s.d;if(s.id==="S2"&&st.extended)d+=" Hết giờ mà vẫn được “gia hạn”: đồng hồ chỉ là chiêu ép.";
+    li.querySelector("span").textContent=d;ul.appendChild(li);
+  });
+  $("progress").textContent="Đã về đích an toàn: "+(safeDone?1:0)+"/3 chuyện";
+  if(safeDone){$("s1note").innerHTML='<span class="done">✓ Đã về đích an toàn</span>';}
+  show("result");$("result").scrollTop=0;
+}
+function startStory(){
+  clearInterval(timerId);reset();
+  $("log").innerHTML="";$("choices").innerHTML="";
+  $("chat").classList.remove("review");$("reviewBar").classList.add("hidden");$("dock").classList.remove("hidden");
+  $("timer").classList.add("hidden");$("timer").classList.remove("hot");$("timer").textContent="⏳ 10:00";
+  $("cName").textContent=STORY.contact.name;$("cSub").textContent=STORY.contact.sub;$("cAva").textContent=STORY.contact.ava;
+  ["web","shield","freeze"].forEach(function(o){$(o).classList.add("hidden");});
+  show("chat");playNode("n1");
+}
+function storyHome(){
+  clearInterval(timerId);st.token++;st.ended=true;
+  ["web","shield","freeze"].forEach(function(o){$(o).classList.add("hidden");});
+  show("storyHome");$("storyHome").scrollTop=0;
+}
+$("openStory").onclick=function(){show("storyHome");$("storyHome").scrollTop=0;};
+$("storyBack").onclick=function(){show("hub");};
+$("playS1").onclick=startStory;
+$("btnExit").onclick=function(){if($("chat").classList.contains("review")){show("result");}else{storyHome();}};
+$("shieldBtn").onclick=askShield;
+$("btnShieldDone").onclick=function(){finish("SHIELD");};
+$("btnRewind").onclick=function(){finish("TRAP");};
+$("btnReplay").onclick=startStory;
+$("btnHome").onclick=storyHome;
+$("btnReview").onclick=function(){
+  $("chat").classList.add("review");$("dock").classList.add("hidden");$("reviewBar").classList.remove("hidden");
+  show("chat");var f=$("log").querySelector(".flagged");if(f)f.scrollIntoView({block:"center"});
+};
+$("btnBackResult").onclick=function(){show("result");};
+
+/* =====================================================================
+   KHUNG GAME ARCADE (dùng chung)
+   ===================================================================== */
+var AR={g:null,run:false,raf:0,last:0,W:0,H:0,ctx:null,dpr:1,fx:[],best:{},shake:0};
+var cv=$("arCanvas");
+function arSize(){
+  var r=$("arStage").getBoundingClientRect();
+  AR.dpr=Math.min(2,window.devicePixelRatio||1);
+  AR.W=r.width;AR.H=r.height;
+  cv.width=Math.round(r.width*AR.dpr);cv.height=Math.round(r.height*AR.dpr);
+  AR.ctx=cv.getContext("2d");AR.ctx.setTransform(AR.dpr,0,0,AR.dpr,0,0);
+}
+window.addEventListener("resize",function(){if($("arcade").classList.contains("active"))arSize();});
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function wrapText(c,t,maxW){
+  var ws=t.split(" "),ls=[],cur="";
+  ws.forEach(function(w){var tt=cur?cur+" "+w:w;if(c.measureText(tt).width>maxW&&cur){ls.push(cur);cur=w;}else cur=tt;});
+  if(cur)ls.push(cur);return ls;
+}
+function fx(x,y,txt,col,size){AR.fx.push({x:x,y:y,txt:txt,col:col||"#fff",t:0,size:size||16});}
+function drawFx(c,dt){
+  AR.fx=AR.fx.filter(function(f){f.t+=dt;return f.t<1;});
+  AR.fx.forEach(function(f){
+    c.globalAlpha=1-f.t;c.font="800 "+f.size+"px "+EMO;c.textAlign="center";
+    c.lineWidth=4;c.strokeStyle="rgba(0,0,0,.55)";c.strokeText(f.txt,f.x,f.y-f.t*44);
+    c.fillStyle=f.col;c.fillText(f.txt,f.x,f.y-f.t*44);
+  });
+  c.globalAlpha=1;
+}
+var toastT=null;
+function toast(txt,good){
+  var t=$("arToast");t.textContent=txt;t.className="ar-toast show"+(good?" good":"");
+  clearTimeout(toastT);toastT=setTimeout(function(){t.className="ar-toast"+(good?" good":"");},2600);
+  if(!good){try{if(navigator.vibrate)navigator.vibrate(90);}catch(e){}}
+}
+var bannerT2=null;
+function arBanner(txt){
+  var b=$("arBanner");b.textContent=txt;b.classList.add("show");
+  clearTimeout(bannerT2);bannerT2=setTimeout(function(){b.classList.remove("show");},1400);
+}
+function hearts(n,max){var s="";for(var i=0;i<max;i++)s+=i<n?"❤️":"🤍";return s;}
+function rankOf(score,list){var r=list[0][1];list.forEach(function(x){if(score>=x[0])r=x[1];});return r;}
+
+function arOpen(id){
+  AR.g=GAMES[id];show("arcade");arSize();
+  $("arTitle").textContent=AR.g.icon+" "+AR.g.name;$("arInfo").textContent="";$("arScore").textContent="0";
+  $("arLives").textContent=hearts(AR.g.maxLives,AR.g.maxLives);
+  $("arsE").textContent=AR.g.icon;$("arsT").textContent=AR.g.name;
+  var ul=$("arsHow");ul.innerHTML="";
+  AR.g.how.forEach(function(h){var li=document.createElement("li");li.innerHTML=h;ul.appendChild(li);});
+  $("arStart").classList.remove("hidden");$("arOver").classList.add("hidden");$("arPause").classList.add("hidden");
+  $("arQuick").classList.add("hidden");$("arToast").className="ar-toast";
+  var box=$("arCtrl");box.innerHTML="";if(AR.g.ctrl)AR.g.ctrl(box);
+  AR.g.drawIdle(AR.ctx);
+}
+function arBegin(){
+  arSize();AR.fx=[];AR.g.init();
+  $("arStart").classList.add("hidden");$("arOver").classList.add("hidden");$("arPause").classList.add("hidden");
+  AR.run=true;AR.last=performance.now();cancelAnimationFrame(AR.raf);AR.raf=requestAnimationFrame(loop);
+}
+function loop(t){
+  if(!AR.run)return;
+  var dt=Math.min(0.05,(t-AR.last)/1000);AR.last=t;
+  var g=AR.g,c=AR.ctx;
+  g.update(dt);
+  c.save();
+  if(AR.shake>0){AR.shake-=dt;c.translate((Math.random()-.5)*8,(Math.random()-.5)*8);}
+  g.draw(c,dt);drawFx(c,dt);c.restore();
+  $("arScore").textContent=Math.floor(g.score);
+  $("arLives").textContent=hearts(Math.max(0,g.lives),g.maxLives);
+  $("arInfo").textContent=g.info?g.info():"";
+  if(g.over){arEnd();return;}
+  AR.raf=requestAnimationFrame(loop);
+}
+function arEnd(){
+  AR.run=false;clearTimeout(toastT);$("arToast").className="ar-toast";var g=AR.g,res=g.result();
+  var sc=Math.floor(g.score),prev=AR.best[g.id]||0,isBest=sc>prev;
+  if(isBest){AR.best[g.id]=sc;if(window.LCXS){LCXS.d.rec[g.id]=sc;LCXS.save();}}
+  $("aroName").textContent=g.icon+" "+g.name;
+  $("aroScore").textContent=sc;$("aroRank").textContent="🏅 "+rankOf(sc,g.ranks);
+  $("aroBest").textContent=isBest&&prev>0?"🎉 Kỷ lục mới!":(prev>0?"Kỷ lục lượt này: "+Math.max(prev,sc):"");
+  var sb=$("aroStats");sb.innerHTML="";
+  res.stats.forEach(function(s){var d=document.createElement("div");d.innerHTML="<b></b>";d.querySelector("b").textContent=s[1];d.appendChild(document.createTextNode(s[0]));sb.appendChild(d);});
+  var ml=$("aroMist");ml.innerHTML="";
+  var seen={},list=res.mist.filter(function(m){if(seen[m.a])return false;seen[m.a]=1;return true;}).slice(0,4);
+  list.forEach(function(m){var li=document.createElement("li");li.innerHTML="<b></b><span></span>";li.querySelector("b").textContent=m.a;li.querySelector("span").textContent=m.b;ml.appendChild(li);});
+  $("aroMistT").classList.toggle("hidden",!list.length);
+  $("arQuick").classList.add("hidden");
+  $("arOver").classList.remove("hidden");$("arOver").scrollTop=0;
+  updateRecords();
+}
+function arPause(){if(!AR.run)return;AR.run=false;cancelAnimationFrame(AR.raf);if(AR.g.release)AR.g.release();$("arPause").classList.remove("hidden");}
+function arResume(){$("arPause").classList.add("hidden");AR.run=true;AR.last=performance.now();AR.raf=requestAnimationFrame(loop);}
+function arExit(){AR.run=false;cancelAnimationFrame(AR.raf);if(AR.g&&AR.g.release)AR.g.release();show("hub");hubRefresh();}
+function updateRecords(){["g1","g2","g3","g4"].forEach(function(id){$("rec-"+id).textContent=AR.best[id]?"🏆 Kỷ lục: "+AR.best[id]:"";});}
+document.addEventListener("visibilitychange",function(){if(document.hidden)arPause();});
+$("arGo").onclick=arBegin;$("arAgain").onclick=arBegin;
+$("arBack").onclick=function(){if(AR.run)arPause();else arExit();};
+$("arStartBack").onclick=arExit;$("arQuit").onclick=arExit;$("arHub").onclick=arExit;$("arResume").onclick=arResume;
+Array.prototype.forEach.call(document.querySelectorAll("[data-game]"),function(b){b.onclick=function(){arOpen(b.getAttribute("data-game"));};});
+
+function ptr(e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+cv.addEventListener("pointerdown",function(e){if(!AR.run||!AR.g.pdown)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(_){}var p=ptr(e);AR.g.pdown(p.x,p.y);});
+cv.addEventListener("pointermove",function(e){if(!AR.run||!AR.g.pmove)return;var p=ptr(e);AR.g.pmove(p.x,p.y);});
+cv.addEventListener("pointerup",function(e){if(!AR.run||!AR.g.pup)return;var p=ptr(e);AR.g.pup(p.x,p.y);});
+cv.addEventListener("pointercancel",function(){if(AR.g&&AR.g.pup)AR.g.pup(-1,-1,true);});
+document.addEventListener("keydown",function(e){if(AR.run&&AR.g.key)AR.g.key(e.key,true,e);});
+document.addEventListener("keyup",function(e){if(AR.run&&AR.g.key)AR.g.key(e.key,false,e);});
+
+/* =====================================================================
+   GAME 1: CHÉM BẪY  (nội dung chờ đầu mối LV3 duyệt)
+   ===================================================================== */
+var POOL1=[
+ {f:"Số lạ",x:"Chúc mừng! Số của bạn trúng xe máy, bấm link nhận ngay",tr:1,k:"Trúng thưởng ảo",w:"Báo trúng thưởng bất ngờ kèm link lạ là dấu hiệu lừa đảo."},
+ {f:"Admin Game",x:"Nạp 50k nhận ngay 10.000 kim cương, chỉ hôm nay!",tr:1,k:"Nạp game nhận quà",w:"Khuyến mãi quá hời từ người lạ, giục nạp tiền gấp."},
+ {f:"Tuyển dụng",x:"Việc nhẹ lương cao: like video kiếm 500k/ngày",tr:1,k:"Việc nhẹ lương cao",w:"Việc quá dễ mà lương quá cao là mồi nhử, thường bắt nạp tiền trước."},
+ {f:"Hỗ trợ tài khoản",x:"Tài khoản của bạn bị khóa, đăng nhập tại link này để mở",tr:1,k:"Link đăng nhập giả",w:"Trang giả để lấy mật khẩu. Chỉ đăng nhập trên ứng dụng chính thức."},
+ {f:"Người lạ",x:"Cho mình xin mã OTP vừa gửi về máy bạn nhé",tr:1,k:"Đòi mã OTP",w:"Mã OTP là chìa khóa tài khoản, không đưa cho bất kỳ ai."},
+ {f:"Số lạ",x:"Công an đây! Em liên quan một vụ án, nghe máy video ngay",tr:1,k:"Giả danh công an",w:"Người xưng cơ quan chức năng đe dọa qua mạng: báo ngay bố mẹ, gọi 113."},
+ {f:"Người lạ",x:"Gửi tiền đi, không thì ảnh của em bị tung lên mạng",tr:1,k:"Dọa tung ảnh",w:"Bị dọa dẫm: không chuyển tiền, không gửi thêm gì, báo ngay người lớn."},
+ {f:"Bạn mới quen",x:"Chuyện của hai đứa mình, đừng kể với bố mẹ nhé",tr:1,k:"Bắt giữ bí mật",w:"Người tốt không bắt em giấu bố mẹ. Hãy kể với người lớn tin cậy."},
+ {f:"Bạn mới quen",x:"Mai ra quán net gặp anh, đi một mình thôi nhé",tr:1,k:"Hẹn gặp riêng",w:"Người quen qua mạng hẹn gặp riêng là nguy hiểm."},
+ {f:"Vay nhanh",x:"Vay 5 triệu không cần giấy tờ, duyệt trong 5 phút",tr:1,k:"Vay qua mạng",w:"Vay dễ qua mạng dễ dính lãi cắt cổ, bị đòi nợ, bôi nhọ."},
+ {f:"Kèo thơm",x:"Soi kèo chắc thắng, vào tiền x10 tối nay",tr:1,k:"Cá độ",w:"Cá độ là vi phạm pháp luật, dễ mất tiền, nợ nần."},
+ {f:"Shop vape",x:"Vape hương trái cây, giao tận cổng trường",tr:1,k:"Thuốc lá điện tử",w:"Thuốc lá điện tử có hại, có thể bị trộn chất gây nghiện."},
+ {f:"Người lạ",x:"Thử viên kẹo này đi, vui lắm, không nghiện đâu",tr:1,k:"Mời dùng chất lạ",w:"Không thử bất cứ thứ gì người lạ mời. Có thể là ma túy."},
+ {f:"Shop acc",x:"Bán acc game VIP giá rẻ, chuyển khoản trước giao sau",tr:1,k:"Chuyển khoản trước",w:"Mua bán tài khoản game với người lạ, đòi tiền trước dễ bị lừa."},
+ {f:"Ngân hàng XYZ",x:"Tài khoản sắp bị khóa! Cập nhật thông tin tại link này",tr:1,k:"Giả danh ngân hàng",w:"Ngân hàng không gửi link yêu cầu nhập thông tin."},
+ {f:"Người lạ",x:"Cho mình thuê tài khoản ngân hàng, trả 1 triệu/tháng",tr:1,k:"Thuê tài khoản",w:"Cho thuê, mua bán tài khoản ngân hàng có thể bị lợi dụng phạm tội."},
+ {f:"Nhóm chat lạ",x:"Vào nhóm làm nhiệm vụ, hoàn tiền 30% mỗi đơn",tr:1,k:"Làm nhiệm vụ",w:"Chiêu “làm nhiệm vụ” cho thắng nhỏ rồi lừa nạp tiền lớn."},
+ {f:"Người lạ",x:"Cho mình mượn tài khoản Zalo một lát thôi",tr:1,k:"Mượn tài khoản",w:"Kẻ gian dùng tài khoản của em để lừa người thân, bạn bè."},
+ {f:"Sự kiện",x:"Bạn được chọn làm người mẫu nhí, gửi ảnh để duyệt",tr:1,k:"Mời làm mẫu",w:"Lời mời hấp dẫn đòi gửi ảnh là cách tiếp cận nguy hiểm."},
+ {f:"Anh lớp trên",x:"Tan học ra sau trường, tao xử mày",tr:1,k:"Hẹn đánh",w:"Bị đe dọa: không đi, báo ngay thầy cô, bố mẹ."},
+ {f:"Người lạ",x:"Đơn hàng giao lỗi, bấm link để được hoàn tiền",tr:1,k:"Hoàn tiền giả",w:"Link hoàn tiền giả để lấy thông tin, chiếm tài khoản."},
+ {f:"Bạn game",x:"Đưa mật khẩu đây mình cày rank hộ cho",tr:1,k:"Đòi mật khẩu",w:"Không đưa mật khẩu cho ai, kể cả bạn bè."},
+ {f:"Tuyển CTV",x:"Làm cộng tác viên, đặt cọc 300k để nhận việc",tr:1,k:"Đặt cọc nhận việc",w:"Việc làm thật không bắt nộp tiền cọc qua mạng."},
+ {f:"Livestream",x:"Quay số trúng thưởng, chuyển phí ship 99k nhận quà",tr:1,k:"Phí nhận quà",w:"Quà thật không bắt em trả phí để nhận."},
+ {f:"Mẹ",x:"Chiều nay mưa, con nhớ mang áo mưa nhé",tr:0,w:"Tin nhắn bình thường từ người thân."},
+ {f:"Cô chủ nhiệm",x:"Mai lớp mình học tiết 1 ở phòng 203 các em nhé",tr:0,w:"Thông báo học tập bình thường."},
+ {f:"Bố",x:"Bố đón con lúc 5 giờ ở cổng trường",tr:0,w:"Tin nhắn người thân, không đòi hỏi gì."},
+ {f:"Bạn cùng bàn",x:"Gửi cậu ảnh chụp bài tập Toán hôm nay nè",tr:0,w:"Trao đổi học tập bình thường."},
+ {f:"Ngân hàng",x:"Ngân hàng không bao giờ yêu cầu bạn cung cấp mã OTP",tr:0,w:"Tin cảnh báo an toàn: không có link, không đòi thông tin."},
+ {f:"Lá chắn xanh",x:"Gặp tin nhắn lạ? Hỏi Lá chắn xanh trên Zalo nhé!",tr:0,w:"Kênh tư vấn của Ban Thanh niên Công an tỉnh."},
+ {f:"Câu lạc bộ",x:"Thứ Bảy CLB bóng rổ tập lúc 7h ở sân trường",tr:0,w:"Thông báo hoạt động bình thường."},
+ {f:"Bà ngoại",x:"Cuối tuần về chơi với bà nhé, bà làm bánh cho cháu",tr:0,w:"Tin nhắn người thân."},
+ {f:"Nhà trường",x:"Kế hoạch tham quan sẽ gửi qua sổ liên lạc điện tử",tr:0,w:"Thông báo chính thức qua kênh của trường."},
+ {f:"Anh trai",x:"Em nhớ đội mũ bảo hiểm khi ngồi sau xe nhé",tr:0,w:"Lời nhắc an toàn."},
+ {f:"Bạn thân",x:"Chúc mừng sinh nhật cậu! 🎂",tr:0,w:"Lời chúc bình thường."},
+ {f:"Thầy thể dục",x:"Ngày mai các em mặc đồ thể dục nhé",tr:0,w:"Thông báo học tập."}
+];
+var TRAPS1=POOL1.filter(function(p){return p.tr;});
+var G1={
+  id:"g1",name:"Chém bẫy",icon:"🗡️",maxLives:3,
+  how:["💬 Tin nhắn bay lên màn hình. <b>Vuốt hoặc chạm để chém tin BẪY</b>.","✅ Để <b>tin an toàn</b> bay qua, đừng chém nhầm.","❤️ Bỏ lọt bẫy hoặc chém nhầm tin an toàn: mất 1 mạng. Hết 3 mạng là thua.","🔥 Chém liên tiếp để nhân combo. Cẩn thận đợt tấn công dồn dập!"],
+  ranks:[[0,"Tập sự"],[150,"Hiệp sĩ mạng"],[500,"Lá chắn bạc"],[1000,"Lá chắn vàng"]],
+  init:function(){var s=this;s.items=[];s.trail=[];s.t=0;s.spawnT=0.5;s.lives=3;s.score=0;s.combo=0;s.bestC=0;s.cut=0;s.passOk=0;s.mist=[];s.deck=[];s.bossT=24;s.burst=0;s.burstT=0;s.over=false;s.down=false;},
+  next:function(){if(!this.deck.length)this.deck=shuffle(POOL1.slice());return this.deck.pop();},
+  spawn:function(d){
+    var c=AR.ctx,W=AR.W,H=AR.H;d=d||this.next();
+    c.font="600 15px "+EMO;var mw=Math.min(220,W*0.6);var ls=wrapText(c,d.x,mw-24);
+    var bw=0;ls.forEach(function(l){bw=Math.max(bw,c.measureText(l).width);});bw+=26;
+    c.font="600 12px "+FONT;bw=Math.max(bw,c.measureText(d.f).width+44);
+    var bh=30+ls.length*19+8;
+    var T=Math.max(2.4,3.7-this.t*0.012),Hp=H*(0.58+Math.random()*0.2),g=8*Hp/(T*T);
+    var x=bw/2+8+Math.random()*Math.max(1,W-bw-16);
+    var vx=(W/2-x)/T*(0.2+Math.random()*0.5);
+    this.items.push({d:d,ls:ls,bw:bw,bh:bh,x:x,y:H+bh/2+6,vx:vx,vy:-g*T/2,g:g,rot:(Math.random()-.5)*0.14,sl:false,st:0});
+  },
+  lose:function(a,b){var s=this;s.lives--;s.combo=0;s.mist.push({a:a,b:b});toast(a+" "+b);AR.shake=0.25;if(s.lives<=0)s.over=true;},
+  slice:function(i){
+    var s=this;i.sl=true;i.st=0;
+    if(i.d.tr){s.combo++;s.bestC=Math.max(s.bestC,s.combo);s.cut++;var m=Math.min(s.combo,5),pts=10*m;s.score+=pts;
+      fx(i.x,i.y-6,"+"+pts+(m>1?"  x"+m:""),"#ffd54f",20);fx(i.x,i.y+20,"🚩 "+i.d.k,"#ffffff",14);}
+    else{i.bad=true;s.lose("Chém nhầm tin an toàn!","“"+i.d.x+"” – "+i.d.w);}
+  },
+  hit:function(x0,y0,x1,y1){
+    var s=this,dist=Math.hypot(x1-x0,y1-y0),n=Math.ceil(dist/6)+1;
+    s.items.forEach(function(i){
+      if(i.sl)return;
+      for(var k=0;k<=n;k++){var px=x0+(x1-x0)*k/n,py=y0+(y1-y0)*k/n;
+        if(Math.abs(px-i.x)<i.bw/2+4&&Math.abs(py-i.y)<i.bh/2+4){s.slice(i);break;}}
+    });
+  },
+  pdown:function(x,y){this.down=true;this.trail=[{x:x,y:y,t:this.t}];this.hit(x,y,x,y);},
+  pmove:function(x,y){if(!this.down)return;var p=this.trail[this.trail.length-1]||{x:x,y:y};this.trail.push({x:x,y:y,t:this.t});this.hit(p.x,p.y,x,y);},
+  pup:function(){this.down=false;},
+  update:function(dt){
+    var s=this,H=AR.H;s.t+=dt;s.spawnT-=dt;s.bossT-=dt;
+    if(s.burst>0){s.burstT-=dt;if(s.burstT<=0){s.spawn(s.burst===3?null:TRAPS1[Math.floor(Math.random()*TRAPS1.length)]);s.burst--;s.burstT=0.38;}}
+    else if(s.bossT<=0){s.bossT=24;s.burst=5;s.burstT=0.9;arBanner("⚠️ Tấn công dồn dập!");}
+    else if(s.spawnT<=0){if(s.items.filter(function(i){return !i.sl;}).length<4)s.spawn();s.spawnT=Math.max(0.65,1.45-s.t*0.008);}
+    s.items.forEach(function(i){i.vy+=i.g*dt;i.x+=i.vx*dt;i.y+=i.vy*dt;if(i.sl)i.st+=dt;});
+    s.items=s.items.filter(function(i){
+      if(i.sl)return i.st<0.8;
+      if(i.vy>0&&i.y-i.bh/2>H){
+        if(i.d.tr){s.lose("Bỏ lọt bẫy!","“"+i.d.x+"” – "+i.d.w);}
+        else{s.passOk++;s.score+=5;fx(Math.min(Math.max(i.x,60),AR.W-60),H-24,"+5 ✓ tin an toàn","#7cffb0",14);}
+        return false;
+      }
+      return true;
+    });
+    s.trail=s.trail.filter(function(p){return s.t-p.t<0.16;});
+  },
+  bubble:function(c,i){
+    c.shadowColor="rgba(0,0,0,.35)";c.shadowBlur=12;c.shadowOffsetY=4;
+    rr(c,-i.bw/2,-i.bh/2,i.bw,i.bh,14);c.fillStyle=i.bad?"#ffd9d5":"#fff";c.fill();
+    c.shadowColor="transparent";c.shadowBlur=0;c.shadowOffsetY=0;
+    c.textAlign="left";c.textBaseline="top";
+    c.font="600 12px "+EMO;c.fillStyle="#5f6f66";c.fillText("👤 "+i.d.f,-i.bw/2+12,-i.bh/2+9);
+    c.font="600 15px "+EMO;c.fillStyle="#16241c";
+    i.ls.forEach(function(l,k){c.fillText(l,-i.bw/2+12,-i.bh/2+28+k*19);});
+  },
+  bg:function(c){
+    var W=AR.W,H=AR.H,g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0b3d2a");g.addColorStop(1,"#062016");
+    c.fillStyle=g;c.fillRect(0,0,W,H);
+    c.globalAlpha=.06;c.fillStyle="#fff";c.font="64px "+EMO;c.textAlign="center";c.textBaseline="middle";c.fillText("🛡️",W/2,H/2);c.globalAlpha=1;
+  },
+  draw:function(c){
+    var s=this;s.bg(c);
+    s.items.forEach(function(i){
+      c.save();c.translate(i.x,i.y);c.rotate(i.rot);
+      if(!i.sl){s.bubble(c,i);}
+      else{
+        var a=Math.max(0,1-i.st/0.8);c.globalAlpha=a;
+        [-1,1].forEach(function(dir){
+          c.save();c.translate(dir*i.st*90,i.st*i.st*120);c.rotate(dir*i.st*0.6);
+          c.beginPath();c.rect(dir<0?-i.bw/2-4:0,-i.bh/2-4,i.bw/2+4,i.bh+8);c.clip();s.bubble(c,i);c.restore();
+        });
+      }
+      c.restore();
+    });
+    if(s.trail.length>1){
+      c.lineCap="round";c.lineJoin="round";
+      for(var k=1;k<s.trail.length;k++){var a=s.trail[k-1],b=s.trail[k];c.strokeStyle="rgba(180,255,210,"+(k/s.trail.length)+")";c.lineWidth=2+6*k/s.trail.length;c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.stroke();}
+    }
+  },
+  drawIdle:function(c){this.bg(c);},
+  info:function(){return this.combo>1?"🔥 Combo x"+Math.min(this.combo,5):"Chém tin bẫy, tha tin an toàn";},
+  result:function(){return {stats:[["Bẫy đã chém",this.cut],["Tin an toàn",this.passOk],["Combo cao nhất",this.bestC]],mist:this.mist};}
+};
+
+/* =====================================================================
+   GAME 2: ĐẾN TRƯỜNG AN TOÀN  (nội dung chờ đầu mối LV1 duyệt)
+   ===================================================================== */
+var RACE=["Ê, đua đến cổng trường không?","Thả hai tay lái xem ai giỏi hơn!","Đi hàng ba nói chuyện cho vui đi!","Bám vào xe máy kia cho nhanh!"];
+var G2={
+  id:"g2",name:"Đến trường an toàn",icon:"🚲",maxLives:3,
+  how:["👆 <b>Vuốt trái/phải</b> hoặc chạm hai bên màn hình để đổi làn.","🚧 Né ổ gà, xe đỗ, rào chắn. Nhặt ⛑️ mũ bảo hiểm để được bảo vệ 1 lần, 📚 sách để cộng điểm.","🔴 Gặp đèn đỏ: <b>giữ nút PHANH</b> để dừng trước vạch, đèn xanh mới đi tiếp.","🙅 Bạn rủ làm trò nguy hiểm? Chọn cho đúng!"],
+  ranks:[[0,"Tập đi xe"],[400,"Học sinh đúng giờ"],[1200,"Học sinh gương mẫu"],[2500,"Đại sứ an toàn giao thông"]],
+  brake:false,
+  ctrl:function(box){
+    var b=document.createElement("button");b.className="cbtn brake";b.id="brakeBtn";b.innerHTML="✋ GIỮ ĐỂ PHANH";
+    var on=function(e){e.preventDefault();G2.brake=true;b.classList.add("on");},off=function(){G2.brake=false;b.classList.remove("on");};
+    b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointerleave",off);b.addEventListener("pointercancel",off);
+    b.addEventListener("contextmenu",function(e){e.preventDefault();});
+    box.appendChild(b);
+  },
+  release:function(){this.brake=false;var b=$("brakeBtn");if(b)b.classList.remove("on");},
+  road:function(){var W=AR.W,rw=Math.min(W*0.84,330);return {l:(W-rw)/2,w:rw,lw:rw/3};},
+  laneX:function(i){var r=this.road();return r.l+r.lw*(i+0.5);},
+  init:function(){var s=this;s.lane=1;s.px=s.laneX(1);s.v=0;s.base=230;s.d=0;s.bonus=0;s.score=0;s.lives=3;s.shield=false;s.inv=0;s.objs=[];
+    s.nextSpawn=280;s.lineT=7;s.raceT=15;s.day=1;s.nextSchool=600;s.release();s.slow=1;s.quick=null;s.mist=[];s.helmets=0;s.lights=0;s.refuse=0;s.t=0;s.over=false;s.sx=null;s.st0=0;},
+  py:function(){return AR.H*0.8;},
+  hurt:function(a,b){var s=this;s.lives--;s.inv=1.3;s.mist.push({a:a,b:b});toast(a+" "+b);AR.shake=0.3;if(s.lives<=0)s.over=true;},
+  lineNear:function(){return this.objs.some(function(o){return o.type==="line"&&o.y<AR.H*0.9;});},
+  spawnRow:function(){
+    var s=this;if(s.objs.some(function(o){return o.type==="line"&&o.y<170;}))return;
+    var r=Math.random(),lane=Math.floor(Math.random()*3);
+    if(r<0.24){var it=(!s.shield&&Math.random()<0.45)?"helmet":"book";s.objs.push({type:it,lane:lane,y:-40});return;}
+    var types=["hole","car","cone"],t=types[Math.floor(Math.random()*3)];
+    s.objs.push({type:t,lane:lane,y:-40});
+    if(s.day>=2&&Math.random()<0.35){var l2=(lane+1+Math.floor(Math.random()*2))%3;s.objs.push({type:types[Math.floor(Math.random()*3)],lane:l2,y:-40});}
+  },
+  startQuick:function(){
+    var s=this;s.quick={t:3,txt:RACE[Math.floor(Math.random()*RACE.length)]};s.slow=0.25;
+    var rl=s.lane===2?1:s.lane+1;s.objs.push({type:"racer",lane:rl,y:AR.H+40,txt:s.quick.txt});
+    $("arQText").textContent="🚴 Bạn rủ: “"+s.quick.txt+"”";$("arQuick").classList.remove("hidden");$("arQBar").style.width="100%";
+  },
+  answer:function(yes,auto){
+    var s=this;if(!s.quick)return;$("arQuick").classList.add("hidden");s.slow=1;
+    var txt=s.quick.txt;s.quick=null;
+    s.objs.forEach(function(o){if(o.type==="racer")o.leave=true;});
+    if(yes){s.hurt("Nguy hiểm!","“"+txt+"”: đua xe, buông tay lái, đi hàng ba, bám xe khác rất dễ gây tai nạn.");}
+    else{var p=auto?10:30;s.bonus+=p;s.refuse++;fx(s.px,s.py()-50,"+"+p+" 🙅 Từ chối đúng","#7cffb0",16);}
+  },
+  key:function(k,down,e){
+    if(k===" "||k==="ArrowDown"){e.preventDefault();this.brake=down;var b=$("brakeBtn");if(b)b.classList.toggle("on",down);return;}
+    if(!down)return;
+    if(k==="ArrowLeft")this.lane=Math.max(0,this.lane-1);
+    if(k==="ArrowRight")this.lane=Math.min(2,this.lane+1);
+  },
+  pdown:function(x,y){this.sx=x;this.st0=this.t;},
+  pup:function(x,y,cancel){
+    if(this.sx==null||cancel){this.sx=null;return;}
+    var dx=x-this.sx;
+    if(Math.abs(dx)>28)this.lane=Math.max(0,Math.min(2,this.lane+(dx>0?1:-1)));
+    else if(this.t-this.st0<0.35)this.lane=Math.max(0,Math.min(2,this.lane+(x<AR.W/2?-1:1)));
+    this.sx=null;
+  },
+  update:function(dt){
+    var s=this,H=AR.H,py=s.py();s.t+=dt;
+    if(s.quick){s.quick.t-=dt;$("arQBar").style.width=Math.max(0,s.quick.t/3*100)+"%";if(s.quick.t<=0)s.answer(false,true);}
+    var target=s.brake?0:s.base;
+    if(s.v<target)s.v=Math.min(target,s.v+380*dt);else s.v=Math.max(target,s.v-(s.brake?900:380)*dt);
+    var mv=s.v*dt*s.slow;s.d+=mv;
+    s.base=Math.min(420,230+s.d*0.011);
+    s.px+=(s.laneX(s.lane)-s.px)*Math.min(1,dt*14);
+    if(s.inv>0)s.inv-=dt;
+    s.objs.forEach(function(o){
+      if(o.type==="racer"){var ty=o.leave?-200:py;o.y+=(ty-o.y)*Math.min(1,dt*(o.leave?1.5:4));}
+      else o.y+=mv;
+    });
+    if(s.d>=s.nextSpawn){s.nextSpawn=s.d+150+Math.random()*120;if(!s.quick)s.spawnRow();}
+    s.lineT-=dt;
+    if(s.lineT<=0&&!s.quick&&!s.lineNear()){
+      var red=s.t+(py+30)/Math.max(s.base,1)+1.1+Math.random()*1.4;
+      s.objs=s.objs.filter(function(o){return !(o.type!=="racer"&&o.y<120);});
+      s.objs.push({type:"line",y:-30,red:red});s.lineT=11+Math.random()*6;
+    }
+    s.raceT-=dt;
+    if(s.raceT<=0&&!s.quick&&!s.lineNear()){s.startQuick();s.raceT=18+Math.random()*8;}
+    var R=s.road();
+    s.objs.forEach(function(o){
+      if(o.done||o.type==="racer")return;
+      if(o.type==="line"){
+        if(o.y>=py-30){o.done=true;
+          if(s.t<o.red){s.hurt("Vượt đèn đỏ!","Gặp đèn đỏ phải dừng trước vạch, chờ đèn xanh mới đi.");}
+          else{s.lights++;s.bonus+=25;fx(s.px,py-50,"+25 Đúng luật 🟢","#7cffb0",16);}
+        }
+        return;
+      }
+      var ox=s.laneX(o.lane);
+      if(Math.abs(ox-s.px)<R.lw*0.55&&Math.abs(o.y-py)<32){
+        o.done=true;
+        if(o.type==="helmet"){s.shield=true;s.helmets++;fx(ox,py-40,"⛑️ Đã đội mũ bảo hiểm","#7cffb0",15);o.gone=true;return;}
+        if(o.type==="book"){s.bonus+=20;fx(ox,py-40,"+20 📚","#ffd54f",18);o.gone=true;return;}
+        if(s.inv>0)return;
+        if(s.shield){s.shield=false;s.inv=1;toast("⛑️ Mũ bảo hiểm đã bảo vệ em! Luôn đội mũ khi đi xe.",true);return;}
+        var msg={hole:["Sập ổ gà!","Quan sát mặt đường, giảm tốc khi đường xấu."],car:["Va vào xe đỗ!","Quan sát phía trước, giữ khoảng cách an toàn."],cone:["Đâm vào rào chắn!","Chú ý biển báo, rào chắn công trình."]}[o.type];
+        s.hurt(msg[0],msg[1]);
+      }
+    });
+    s.objs=s.objs.filter(function(o){return !o.gone&&o.y<H+60&&!(o.type==="racer"&&o.leave&&o.y<-150);});
+    var m=s.d/10;
+    if(m>=s.nextSchool){s.bonus+=100;arBanner("🏫 Đến trường rồi! +100");s.day++;s.nextSchool+=600;}
+    s.score=Math.floor(m/2)+s.bonus;
+  },
+  draw:function(c){
+    var s=this,W=AR.W,H=AR.H,R=s.road(),py=s.py();
+    c.fillStyle="#3f8f52";c.fillRect(0,0,W,H);
+    c.fillStyle="#c9c3b5";c.fillRect(R.l-14,0,14,H);c.fillRect(R.l+R.w,0,14,H);
+    c.fillStyle="#4a4f55";c.fillRect(R.l,0,R.w,H);
+    var off=(s.d||0)%60;
+    c.strokeStyle="rgba(255,255,255,.75)";c.lineWidth=3;c.setLineDash([26,34]);c.lineDashOffset=-off;
+    for(var k=1;k<3;k++){c.beginPath();c.moveTo(R.l+R.lw*k,-60);c.lineTo(R.l+R.lw*k,H+60);c.stroke();}
+    c.setLineDash([]);
+    c.font="30px "+EMO;c.textAlign="center";c.textBaseline="middle";
+    var toff=(s.d||0)%160;
+    for(var y=-160;y<H+160;y+=160){if(R.l>40)c.fillText("🌳",R.l/2-4,y+toff);if(W-R.l-R.w>40)c.fillText("🌳",W-(W-R.l-R.w)/2+4,y+toff+80);}
+    var redAhead=false;
+    (s.objs||[]).forEach(function(o){
+      var x=s.laneX(o.lane);
+      if(o.type==="hole"){c.fillStyle="#2a2d31";c.beginPath();c.ellipse(x,o.y,R.lw*0.32,15,0,0,Math.PI*2);c.fill();c.fillStyle="#1b1d20";c.beginPath();c.ellipse(x+3,o.y+3,R.lw*0.22,9,0,0,Math.PI*2);c.fill();}
+      else if(o.type==="line"){
+        var isRed=s.t<o.red;if(isRed&&o.y>-20)redAhead=true;
+        c.fillStyle="#fff";c.fillRect(R.l,o.y-4,R.w,8);
+        for(var z=0;z<6;z++){c.fillStyle="rgba(255,255,255,.55)";c.fillRect(R.l+8+z*(R.w-16)/6,o.y-34,(R.w-16)/12,22);}
+        var lx=R.l+R.w+6;c.fillStyle="#222";c.fillRect(lx-2,o.y-66,8,60);rr(c,lx-10,o.y-96,24,44,6);c.fill();
+        c.fillStyle=isRed?"#ff3b30":"#3a1513";c.beginPath();c.arc(lx+2,o.y-84,7,0,Math.PI*2);c.fill();
+        c.fillStyle=isRed?"#0f3d1f":"#34c759";c.beginPath();c.arc(lx+2,o.y-64,7,0,Math.PI*2);c.fill();
+      }
+      else{
+        var e={car:"🚗",cone:"🚧",helmet:"⛑️",book:"📚",racer:"🚴"}[o.type];
+        c.font=(o.type==="car"?40:32)+"px "+EMO;c.fillText(e,x,o.y);
+        if(o.type==="racer"&&!o.leave){
+          c.font="600 13px "+FONT;var tw=Math.min(c.measureText(o.txt).width+18,W-20);var bx=Math.max(10,Math.min(W-10-tw,x-tw/2));
+          rr(c,bx,o.y-62,tw,26,10);c.fillStyle="#fff";c.fill();c.fillStyle="#16241c";c.textAlign="left";c.fillText(o.txt,bx+9,o.y-49,tw-18);c.textAlign="center";c.font="32px "+EMO;
+        }
+      }
+    });
+    if(!(s.inv>0&&Math.floor(s.t*10)%2===0)){c.font="44px "+EMO;c.fillText("🚴",s.px,py);}
+    if(s.shield){c.font="20px "+EMO;c.fillText("⛑️",s.px+22,py-26);}
+    if(redAhead&&s.v>5){
+      rr(c,W/2-120,12,240,38,19);c.fillStyle="rgba(217,48,37,.95)";c.fill();
+      c.fillStyle="#fff";c.font="800 15px "+EMO;c.fillText("🔴 ĐÈN ĐỎ – GIỮ PHANH!",W/2,31);
+    }
+  },
+  drawIdle:function(c){this.objs=[];this.d=0;this.t=0;this.px=this.laneX(1);this.shield=false;this.inv=0;this.draw(c);},
+  info:function(){return "Ngày "+this.day+" · "+Math.floor(this.d/10)+" m"+(this.shield?" · ⛑️":"");},
+  result:function(){return {stats:[["Ngày đến trường",this.day-1],["Dừng đèn đỏ đúng",this.lights],["Từ chối rủ rê",this.refuse]],mist:this.mist};}
+};
+
+/* =====================================================================
+   GAME 3: PHÒNG THỦ ĐIỆN THOẠI  (nội dung chờ đầu mối LV3, LV4 duyệt)
+   ===================================================================== */
+var CAT={
+  sec:{b:"🔐",n:"Bảo mật",w:"Không đưa mã OTP, mật khẩu; không đăng nhập qua link lạ; đổi mật khẩu nếu nghi bị lộ."},
+  block:{b:"🚫",n:"Chặn & báo cáo",w:"Trúng thưởng, việc nhẹ lương cao, vay nhanh, cá độ, hàng cấm: không trả lời, chặn và báo cáo tài khoản."},
+  adult:{b:"🙋",n:"Báo người lớn",w:"Bị dọa dẫm, đòi gặp riêng, bắt giữ bí mật, giả danh cơ quan chức năng: kể ngay với bố mẹ, thầy cô; nguy hiểm gọi 113."}
+};
+var POOL3=[
+ {c:"sec",x:"Cho mình xin mã OTP vừa gửi nhé"},{c:"sec",x:"Tài khoản bị khóa, đăng nhập lại tại link này"},
+ {c:"sec",x:"Đưa mật khẩu đây mình nạp game hộ"},{c:"sec",x:"Có người đăng nhập lạ? Xác minh tại link này"},
+ {c:"sec",x:"Cho mượn tài khoản Zalo một lát thôi"},{c:"sec",x:"Đọc giúp mình mã 6 số trong tin nhắn"},
+ {c:"block",x:"Trúng thưởng xe máy, bấm link nhận ngay"},{c:"block",x:"Việc nhẹ lương cao 500k/ngày"},
+ {c:"block",x:"Vay 5 triệu không cần giấy tờ"},{c:"block",x:"Kèo bóng đá chắc thắng x10"},
+ {c:"block",x:"Vape giao tận cổng trường"},{c:"block",x:"Nạp 50k nhận 10.000 kim cương"},
+ {c:"block",x:"Làm nhiệm vụ hoàn tiền 30%"},{c:"block",x:"Thuê tài khoản ngân hàng 1 triệu/tháng"},
+ {c:"adult",x:"Gửi tiền không tao tung ảnh của mày"},{c:"adult",x:"Đừng kể với bố mẹ chuyện của mình nhé"},
+ {c:"adult",x:"Ra quán net gặp anh, đi một mình thôi"},{c:"adult",x:"Công an đây, em phải đến khách sạn một mình"},
+ {c:"adult",x:"Tan học ra sau trường, tao xử mày"},{c:"adult",x:"Mách cô thì cả nhóm tẩy chay mày"}
+];
+var MON=["👾","👹","👻","🦠","👺","🤖"];
+var G3={
+  id:"g3",name:"Phòng thủ điện thoại",icon:"📱",maxLives:5,
+  how:["👾 Tin nhắn lạ biến thành quái vật lao về điện thoại của em.","🎯 Đọc tin của quái vật có <b>vòng sáng</b> (chạm vào quái vật khác để đổi mục tiêu), rồi bấm đúng lá chắn:","🔐 <b>Bảo mật</b>: đòi mã, mật khẩu, đăng nhập lạ, mượn tài khoản.","🚫 <b>Chặn & báo cáo</b>: trúng thưởng, việc nhẹ lương cao, vay, cá độ, hàng cấm.","🙋 <b>Báo người lớn</b>: dọa dẫm, đòi gặp riêng, bắt giữ bí mật. Không chắc? Báo người lớn luôn an toàn (ít điểm hơn)."],
+  ranks:[[0,"Tân binh"],[200,"Vệ binh điện thoại"],[500,"Chiến binh bảo mật"],[900,"Lá chắn vàng"]],
+  ctrl:function(box){
+    ["sec","block","adult"].forEach(function(k){
+      var b=document.createElement("button");b.className="cbtn";b.innerHTML='<span class="e"></span>';b.querySelector(".e").textContent=CAT[k].b;
+      b.appendChild(document.createTextNode(CAT[k].n));
+      b.addEventListener("pointerdown",function(e){e.preventDefault();G3.fire(k);});box.appendChild(b);
+    });
+  },
+  init:function(){var s=this;s.lives=5;s.score=0;s.wave=0;s.toSpawn=0;s.spawnT=0;s.mons=[];s.beams=[];s.combo=0;s.bestC=0;s.ok=0;s.mist=[];s.over=false;s.between=1.2;s.tgt=null;s.deck=[];s.t=0;},
+  phoneTop:function(){return AR.H-74;},
+  cols:function(){var W=AR.W;return W>=520?[0.2,0.5,0.8]:[0.27,0.73];},
+  startWave:function(){var s=this;s.wave++;s.toSpawn=3+2*s.wave;s.spawnI=Math.max(1.3,3.2-0.3*s.wave);s.speed=20+s.wave*5;s.spawnT=0.4;arBanner("Đợt "+s.wave);},
+  spawn:function(){
+    var s=this,c=AR.ctx,W=AR.W;if(!s.deck.length)s.deck=shuffle(POOL3.slice());var d=s.deck.pop();
+    var cols=s.cols(),best=0,bestY=-1e9;
+    cols.forEach(function(cx,k){var minY=1e9;s.mons.forEach(function(m){if(m.col===k&&!m.dead)minY=Math.min(minY,m.y);});if(minY>bestY){bestY=minY;best=k;}});
+    if(bestY<170)return false;
+    var mw=Math.min(W/cols.length-14,190);c.font="600 13px "+FONT;var ls=wrapText(c,d.x,mw-18);
+    var bw=0;ls.forEach(function(l){bw=Math.max(bw,c.measureText(l).width);});bw+=18;var bh=ls.length*17+12;
+    s.mons.push({d:d,ls:ls,bw:bw,bh:bh,col:best,x:W*cols[best],y:-20,vy:s.speed*(0.85+Math.random()*0.3),emo:MON[Math.floor(Math.random()*MON.length)],dead:false,dt:0});
+    return true;
+  },
+  target:function(){
+    var s=this;if(s.tgt&&!s.tgt.dead)return s.tgt;s.tgt=null;
+    var t=null;s.mons.forEach(function(m){if(!m.dead&&(!t||m.y>t.y))t=m;});return t;
+  },
+  fire:function(k){
+    var s=this;if(!AR.run||s.over)return;var t=s.target();if(!t)return;
+    var ok=t.d.c===k;s.beams.push({x:t.x,y:t.y,t:0,ok:ok||k==="adult",e:CAT[k].b});
+    if(ok){s.combo++;s.bestC=Math.max(s.bestC,s.combo);s.ok++;var p=20+Math.min(s.combo,5)*5;s.score+=p;t.dead=true;fx(t.x,t.y-10,"+"+p+" "+CAT[k].b,"#ffd54f",18);}
+    else if(k==="adult"){s.ok++;s.score+=10;t.dead=true;fx(t.x,t.y-10,"+10 🙋","#7cffb0",16);
+      toast("Không chắc thì báo người lớn: luôn đúng! Cách tốt nhất cho tin này: "+CAT[t.d.c].b+" "+CAT[t.d.c].n+".",true);}
+    else{s.combo=0;t.vy*=1.5;s.mist.push({a:"“"+t.d.x+"” → "+CAT[t.d.c].b+" "+CAT[t.d.c].n,b:CAT[t.d.c].w});
+      toast("Chưa đúng! Tin này cần "+CAT[t.d.c].b+" "+CAT[t.d.c].n+". "+CAT[t.d.c].w);AR.shake=0.15;}
+  },
+  pdown:function(x,y){
+    var s=this,hit=null;
+    s.mons.forEach(function(m){if(m.dead)return;if(Math.abs(x-m.x)<Math.max(m.bw/2,26)&&y>m.y-46-m.bh&&y<m.y+24)hit=m;});
+    if(hit)s.tgt=hit;
+  },
+  update:function(dt){
+    var s=this;s.t+=dt;
+    if(s.between>0){s.between-=dt;if(s.between<=0)s.startWave();return;}
+    if(s.toSpawn>0){s.spawnT-=dt;if(s.spawnT<=0){if(s.spawn()){s.toSpawn--;s.spawnT=s.spawnI;}else s.spawnT=0.3;}}
+    var top=s.phoneTop();
+    s.mons.forEach(function(m){
+      if(m.dead){m.dt+=dt;return;}
+      m.y+=m.vy*dt;
+      if(m.y+20>=top){m.dead=true;m.dt=0;m.reached=true;s.lives--;s.combo=0;AR.shake=0.3;
+        s.mist.push({a:"Bỏ lọt: “"+m.d.x+"” → "+CAT[m.d.c].b+" "+CAT[m.d.c].n,b:CAT[m.d.c].w});
+        toast("Bỏ lọt! “"+m.d.x+"” cần "+CAT[m.d.c].b+" "+CAT[m.d.c].n+".");if(s.lives<=0)s.over=true;}
+    });
+    s.mons=s.mons.filter(function(m){return !m.dead||m.dt<0.5;});
+    s.beams.forEach(function(b){b.t+=dt;});s.beams=s.beams.filter(function(b){return b.t<0.25;});
+    if(s.toSpawn===0&&!s.mons.some(function(m){return !m.dead;})){s.score+=20*s.wave;fx(AR.W/2,AR.H*0.45,"Hoàn thành đợt "+s.wave+" +"+(20*s.wave),"#7cffb0",18);s.between=1.6;}
+  },
+  bg:function(c){
+    var W=AR.W,H=AR.H,g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,"#081a2b");g.addColorStop(1,"#0b3d2a");c.fillStyle=g;c.fillRect(0,0,W,H);
+    c.fillStyle="rgba(255,255,255,.35)";for(var i=0;i<40;i++){var x=(i*97)%W,y=(i*53+((this.t||0)*8*(1+i%3)))%H;c.fillRect(x,y,2,2);}
+    var pw=Math.min(170,W*0.46),top=this.phoneTop(),lv=this.lives==null?5:this.lives;
+    rr(c,W/2-pw/2,top,pw,120,22);c.fillStyle="#1d2b25";c.fill();
+    rr(c,W/2-pw/2+8,top+8,pw-16,110,16);c.fillStyle=lv>=3?"#12a150":(lv>=2?"#e8870b":"#d93025");c.fill();
+    c.font="26px "+EMO;c.textAlign="center";c.textBaseline="middle";c.fillText("🛡️",W/2,top+36);
+  },
+  draw:function(c){
+    var s=this,t=s.target(),top=s.phoneTop();s.bg(c);
+    s.mons.forEach(function(m){
+      c.save();
+      if(m.dead){c.globalAlpha=Math.max(0,1-m.dt/0.5);c.font=(34+m.dt*60)+"px "+EMO;c.textAlign="center";c.textBaseline="middle";c.fillText(m.reached?"💢":"💥",m.x,m.y);c.restore();return;}
+      var isT=m===t,bx=Math.max(6,Math.min(AR.W-6-m.bw,m.x-m.bw/2)),by=m.y-30-m.bh;
+      if(isT){c.strokeStyle="#7cffb0";c.lineWidth=3;c.setLineDash([6,5]);c.lineDashOffset=-(s.t*30);c.beginPath();c.arc(m.x,m.y,26,0,Math.PI*2);c.stroke();c.setLineDash([]);}
+      rr(c,bx,by,m.bw,m.bh,10);c.fillStyle="#fff";c.fill();if(isT){c.lineWidth=3;c.strokeStyle="#7cffb0";c.stroke();}
+      c.fillStyle="#16241c";c.font="600 13px "+FONT;c.textAlign="left";c.textBaseline="top";
+      m.ls.forEach(function(l,k){c.fillText(l,bx+9,by+6+k*17);});
+      c.font="34px "+EMO;c.textAlign="center";c.textBaseline="middle";c.fillText(m.emo,m.x,m.y);
+      c.restore();
+    });
+    s.beams.forEach(function(b){
+      c.strokeStyle=b.ok?"rgba(124,255,176,"+(1-b.t*4)+")":"rgba(255,90,78,"+(1-b.t*4)+")";c.lineWidth=6;
+      c.beginPath();c.moveTo(AR.W/2,top+10);c.lineTo(b.x,b.y);c.stroke();
+    });
+  },
+  drawIdle:function(c){this.lives=5;this.t=0;this.bg(c);},
+  info:function(){return "Đợt "+Math.max(1,this.wave)+(this.combo>1?" · 🔥 Combo x"+Math.min(this.combo,5):"");},
+  result:function(){return {stats:[["Đợt đã qua",Math.max(0,this.wave-1)],["Chặn thành công",this.ok],["Combo cao nhất",this.bestC]],mist:this.mist};}
+};
+/* =====================================================================
+   GAME 4: CHIẾN BINH AN TOÀN (thử nghiệm – nội dung chờ đầu mối LV6 duyệt)
+   ===================================================================== */
+var G4MAPS=[
+ {name:"Màn 1 · Cháy chung cư",smoke:0.95,m:["#########","#E..#..B#","#.#.#.#.#","#.#...#.#","#.###.#.#","#...L.#.#","###.#.#.#","#...#...#","#.###.#F#","#.#...#.#","#.#.###.#","#...S...#","#########"]},
+ {name:"Màn 2 · Cháy trường học",smoke:0.8,m:["#########","#..B#..E#","#.#.#.#.#","#F#...#.#","#.###L#.#","#.......#","###.###.#","#...#..B#","#.#.#.###","#.#...#F#","#.#####.#","#...S...#","#########"]}
+];
+var G4={
+  id:"g4",name:"Chiến binh an toàn",icon:"🚒",maxLives:5,
+  how:["🔥 Màn 1, 2: thoát khỏi đám cháy. Bấm mũi tên (hoặc vuốt, phím mũi tên) để đi tới 🚪 lối thoát.","🧎 Khói lan rất nhanh: bật <b>CÚI THẤP</b> khi đi qua khói để giảm ngạt (đi chậm hơn).","🛗 Không dùng thang máy. 🎒 Không quay lại lấy đồ.","🛟 Màn 3: cứu bạn đuối nước bằng cách ném phao, không nhảy xuống."],
+  ranks:[[0,"Tập sự"],[250,"Đội viên an toàn"],[500,"Chiến binh an toàn"],[700,"Chiến binh xuất sắc"]],
+  ctrl:function(box){this.box=box;this.buildCtrl("maze");},
+  buildCtrl:function(mode){
+    var s=this,box=s.box;if(!box)return;box.innerHTML="";s.mode=mode;
+    if(mode==="maze"){
+      [["⬅️",0,-1],["⬆️",-1,0],["⬇️",1,0],["➡️",0,1]].forEach(function(d){
+        var b=document.createElement("button");b.className="cbtn";b.style.fontSize="20px";b.textContent=d[0];
+        var on=function(e){e.preventDefault();s.hold=[d[1],d[2]];s.moveCd=0;},off=function(){s.hold=null;};
+        b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointerleave",off);b.addEventListener("pointercancel",off);
+        b.addEventListener("contextmenu",function(e){e.preventDefault();});box.appendChild(b);});
+      var c=document.createElement("button");c.className="cbtn";c.id="g4crouch";c.innerHTML='<span class="e">🧎</span>Cúi thấp';
+      c.addEventListener("pointerdown",function(e){e.preventDefault();s.crouch=!s.crouch;c.classList.toggle("on",s.crouch);});box.appendChild(c);
+    }else{
+      var t=document.createElement("button");t.className="cbtn brake";t.style.background="#e3f6ea";t.style.color="#0d7a3c";t.textContent="🛟 NÉM PHAO";
+      t.addEventListener("pointerdown",function(e){e.preventDefault();s.throwRing();});box.appendChild(t);
+    }
+  },
+  release:function(){this.hold=null;},
+  init:function(){
+    var s=this;s.clearQ();s.hp=100;s.lives=5;s.score=0;s.lvl=0;s.cleared=0;s.mist=[];s.over=false;s.t=0;s.crouch=false;s.hold=null;s.sx=null;
+    s.loadLevel(0);
+  },
+  loadLevel:function(i){
+    var s=this;s.lvl=i;s.lt=0;s.phase="play";s.freeze=0;s.warned=false;
+    if(i<2){
+      var M=G4MAPS[i];s.g=M.m.map(function(r){return r.split("");});s.R=s.g.length;s.C=s.g[0].length;s.smI=M.smoke;s.smT=1.2;
+      s.sm=s.g.map(function(r){return r.map(function(){return 0;});});
+      for(var r=0;r<s.R;r++)for(var c=0;c<s.C;c++)if(s.g[r][c]==="S"){s.pr=r;s.pc=c;s.g[r][c]=".";}
+      s.crouch=false;s.buildCtrl("maze");arBanner(M.name);
+      if(i===0)setTimeout(function(){if(AR.run&&s.lvl===0)toast("Khói lan rất nhanh! Bật 🧎 CÚI THẤP khi đi qua khói.",true);},1500);
+    }else{
+      s.buildCtrl("rescue");arBanner("Màn 3 · Cứu bạn đuối nước");s.phase="quiz";s.rings=3;s.ring=null;s.pow=0;s.powDir=1;s.timeLeft=20;s.saved=false;
+      setTimeout(function(){s.ask("Bạn em bị đuối nước giữa hồ. Em không biết bơi. Em làm gì?",[
+        {x:"🏊 Nhảy xuống cứu bạn",ok:0,why:"Người không biết bơi nhảy xuống cứu rất dễ cùng bị đuối nước."},
+        {x:"📣 Hô to gọi người lớn, tìm phao hoặc vật nổi để ném",ok:1},
+        {x:"🏃 Chạy về nhà",ok:0,why:"Bạn cần được cứu ngay: hô hoán gọi người xung quanh và tìm vật nổi."}],function(){s.phase="play";});},900);
+    }
+  },
+  clearQ:function(){var q=document.querySelectorAll(".g4q");Array.prototype.forEach.call(q,function(x){x.remove();});},
+  ask:function(text,opts,cb){
+    var s=this;s.phase="quiz";s.clearQ();var d=document.createElement("div");d.className="ar-quick g4q";
+    d.innerHTML='<p></p><div class="qopts"></div>';d.querySelector("p").textContent=text;
+    shuffle(opts.slice()).forEach(function(o){var b=document.createElement("button");b.textContent=o.x;b.onclick=function(){
+      d.remove();
+      if(o.ok){s.score+=30;fx(AR.W/2,AR.H*0.4,"+30 Đúng rồi!","#7cffb0",18);}
+      else{s.hurt(25,"Chưa đúng!",o.why);}
+      if(!s.over)cb();};d.querySelector(".qopts").appendChild(b);});
+    $("arStage").appendChild(d);
+  },
+  hurt:function(n,a,b){var s=this;s.hp=Math.max(0,s.hp-n);s.mist.push({a:a,b:b});toast(a+" "+b);AR.shake=0.25;if(s.hp<=0)s.over=true;},
+  key:function(k,down,e){
+    var map={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
+    if(map[k]){e.preventDefault();if(down){this.hold=map[k];}else this.hold=null;}
+    if(k==="c"&&down){this.crouch=!this.crouch;var b=$("g4crouch");if(b)b.classList.toggle("on",this.crouch);}
+    if(k===" "&&down&&this.mode==="rescue"){e.preventDefault();this.throwRing();}
+  },
+  pdown:function(x,y){this.sx=x;this.sy=y;},
+  pup:function(x,y,cancel){if(this.sx==null||cancel){this.sx=null;return;}var dx=x-this.sx,dy=y-this.sy;this.sx=null;
+    if(this.mode==="rescue"){this.throwRing();return;}
+    if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;
+    if(Math.abs(dx)>Math.abs(dy))this.step(0,dx>0?1:-1);else this.step(dy>0?1:-1,0);},
+  step:function(dr,dc){
+    var s=this;if(s.phase!=="play"||s.freeze>0||s.lvl>1)return;
+    var nr=s.pr+dr,nc=s.pc+dc,t=s.g[nr]&&s.g[nr][nc];if(!t||t==="#"||t==="F")return;
+    s.moveCd=s.crouch?0.24:0.13;
+    if(t==="L"){s.hurt(20,"Không dùng thang máy khi có cháy!","Thang máy có thể mất điện, kẹt và thành bẫy khói. Đi thang bộ, lối thoát nạn.");return;}
+    s.pr=nr;s.pc=nc;
+    if(t==="B"){s.g[nr][nc]=".";s.freeze=1.2;s.hurt(10,"Đừng quay lại lấy đồ!","Đồ đạc có thể mua lại, tính mạng thì không.");}
+    if(t==="E")s.exitLevel();
+  },
+  exitLevel:function(){
+    var s=this;s.phase="quiz";s.cleared++;var bonus=100+Math.round(s.hp)+Math.max(0,Math.round((40-s.lt)*3));s.score+=bonus;
+    fx(AR.W/2,AR.H*0.35,"Thoát nạn! +"+bonus,"#ffd54f",20);
+    setTimeout(function(){s.ask("Em đã ra ngoài an toàn. Việc tiếp theo là gì?",[
+      {x:"📞 Gọi 114 báo cháy và báo người lớn",ok:1},
+      {x:"🎒 Quay vào lấy cặp sách",ok:0,why:"Không bao giờ quay lại đám cháy."},
+      {x:"📱 Đứng gần xem, quay video",ok:0,why:"Tránh xa khu vực cháy, nhường đường cho lực lượng chữa cháy."}],function(){s.loadLevel(s.lvl+1);});},500);
+  },
+  throwRing:function(){
+    var s=this;if(s.lvl!==2||s.phase!=="play"||s.ring||s.rings<=0)return;
+    s.rings--;var W=AR.W,H=AR.H,by=H*0.82,top=H*0.12;
+    s.ring={x0:W/2,y0:by-20,ty:by-20-s.pow*(by-20-top),t:0};
+  },
+  update:function(dt){
+    var s=this;s.t+=dt;s.lives=Math.max(0,Math.ceil(s.hp/20));
+    if(s.phase!=="play")return;s.lt+=dt;
+    if(s.lvl<2){
+      if(s.freeze>0)s.freeze-=dt;
+      s.moveCd=(s.moveCd||0)-dt;if(s.hold&&s.moveCd<=0)s.step(s.hold[0],s.hold[1]);
+      s.smT-=dt;
+      if(s.smT<=0){s.smT=s.smI;var add=[];
+        for(var r=1;r<s.R-1;r++)for(var c=1;c<s.C-1;c++){if(s.g[r][c]==="#"||s.sm[r][c])continue;
+          var src=[[1,0],[-1,0],[0,1],[0,-1]].some(function(d){var rr=r+d[0],cc=c+d[1];return s.g[rr][cc]==="F"||s.sm[rr][cc];});if(src)add.push([r,c]);}
+        add.forEach(function(p){s.sm[p[0]][p[1]]=1;});}
+      if(s.sm[s.pr][s.pc]){s.hp-=(s.crouch?6:26)*dt;if(!s.crouch&&!s.warned){s.warned=true;toast("Em đang hít khói! Bật 🧎 CÚI THẤP ngay.");s.mist.push({a:"Đi thẳng người qua khói",b:"Khói độc bốc lên cao; cúi thấp, che mũi miệng bằng khăn ướt."});}
+        if(s.hp<=0){s.hp=0;s.over=true;}}
+    }else{
+      s.pow+=s.powDir*dt/1.1;if(s.pow>=1){s.pow=1;s.powDir=-1;}if(s.pow<=0){s.pow=0;s.powDir=1;}
+      s.timeLeft-=dt;
+      var W=AR.W,H=AR.H;s.swX=W/2+Math.sin(s.t*1.3)*W*0.28;s.swY=H*0.32+Math.sin(s.t*0.7)*H*0.08;
+      if(s.ring){s.ring.t+=dt/0.7;s.ring.x=s.ring.x0+(s.swX-s.ring.x0)*Math.min(1,s.ring.t);if(s.ring.t>=1){var rx=s.ring.x,ry=s.ring.ty;s.ring=null;
+        if(Math.abs(ry-s.swY)<48){s.saved=true;s.phase="quiz";s.score+=150+Math.round(s.timeLeft*5);fx(W/2,H*0.4,"Bạn đã bám được phao!","#7cffb0",18);
+          setTimeout(function(){s.ask("Em và mọi người đã kéo bạn vào bờ. Việc tiếp theo?",[
+            {x:"🚑 Gọi 115, báo người lớn, giữ ấm cho bạn",ok:1},
+            {x:"🏠 Để bạn tự đi về nhà",ok:0,why:"Người bị đuối nước cần được sơ cứu và kiểm tra y tế ngay."},
+            {x:"🤐 Giấu chuyện để khỏi bị mắng",ok:0,why:"Báo người lớn để bạn được chăm sóc kịp thời."}],function(){s.cleared++;s.over=true;});},600);}
+        else{fx(rx,ry,"Trượt rồi!","#ffb4ac",16);if(s.rings<=0)s.failRescue();}}}
+      if(s.timeLeft<=0&&!s.saved&&s.phase==="play")s.failRescue();
+    }
+  },
+  failRescue:function(){var s=this;if(s.phase!=="play")return;s.phase="quiz";s.hurt(30,"Chưa ném trúng!","Ước lượng khoảng cách, ném phao vượt qua người bạn rồi kéo lại. Luôn gọi người lớn hỗ trợ.");
+    if(!s.over)setTimeout(function(){toast("Người lớn đã đến kịp và cứu được bạn. Hãy cùng luyện tập kỹ năng nhé!",true);s.over=true;},1200);},
+  draw:function(c){
+    var s=this,W=AR.W,H=AR.H;
+    if(s.lvl<2&&s.g){
+      c.fillStyle="#1d2b25";c.fillRect(0,0,W,H);
+      var cs=Math.floor(Math.min(W/s.C,(H-8)/s.R)),ox=(W-cs*s.C)/2,oy=(H-cs*s.R)/2;
+      c.textAlign="center";c.textBaseline="middle";
+      for(var r=0;r<s.R;r++)for(var cc=0;cc<s.C;cc++){var t=s.g[r][cc],x=ox+cc*cs,y=oy+r*cs;
+        c.fillStyle=t==="#"?"#2f3d37":(t==="E"?"#2ecc71":"#e8eee9");c.fillRect(x,y,cs,cs);
+        if(t!=="#"){c.strokeStyle="rgba(0,0,0,.05)";c.strokeRect(x,y,cs,cs);}
+        var e={E:"🚪",L:"🛗",B:"🎒",F:"🔥"}[t];
+        if(e){c.font=Math.floor(cs*(t==="F"?0.8+0.08*Math.sin(s.t*8):0.66))+"px "+EMO;c.fillText(e,x+cs/2,y+cs/2+1);}
+        if(s.sm[r][cc]&&t!=="#"){c.fillStyle="rgba(70,70,75,"+(0.55+0.1*Math.sin(s.t*2+r+cc))+")";c.fillRect(x,y,cs,cs);}
+      }
+      var px=ox+s.pc*cs+cs/2,py=oy+s.pr*cs+cs/2;
+      c.fillStyle="rgba(255,213,79,.45)";c.beginPath();c.arc(px,py,cs*0.48,0,Math.PI*2);c.fill();
+      c.font=Math.floor(cs*0.72)+"px "+EMO;c.fillText(s.crouch?"🧎":"🧍",px,py+1);
+      rr(c,10,8,150,16,8);c.fillStyle="rgba(0,0,0,.45)";c.fill();rr(c,12,10,146*s.hp/100,12,6);c.fillStyle=s.hp>50?"#2ecc71":(s.hp>25?"#e8870b":"#d93025");c.fill();
+      c.font="700 11px "+FONT;c.fillStyle="#fff";c.textAlign="left";c.fillText("Sức khỏe "+Math.round(s.hp)+"%",16,16);
+    }else{
+      var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,"#5ec8e5");g.addColorStop(0.72,"#1f8fb3");g.addColorStop(0.72,"#4caf50");g.addColorStop(1,"#357a38");c.fillStyle=g;c.fillRect(0,0,W,H);
+      c.strokeStyle="rgba(255,255,255,.35)";c.lineWidth=2;for(var k=0;k<8;k++){var yy=H*0.08+k*H*0.08;c.beginPath();for(var xx=0;xx<=W;xx+=10){c.lineTo(xx,yy+Math.sin(xx/30+s.t*2+k)*4);}c.stroke();}
+      c.textAlign="center";c.textBaseline="middle";
+      if(s.swX!=null){c.font="44px "+EMO;c.fillText(s.saved?"😮‍💨":"🙋",s.swX,s.swY);c.strokeStyle="rgba(255,255,255,.8)";c.beginPath();c.ellipse(s.swX,s.swY+20,30,8,0,0,Math.PI*2);c.stroke();}
+      var by=H*0.82;c.font="44px "+EMO;c.fillText("🧍",W/2,by+10);
+      if(s.ring){var t2=s.ring.t,ry=s.ring.y0+(s.ring.ty-s.ring.y0)*t2;c.font=(34+Math.sin(t2*Math.PI)*16)+"px "+EMO;c.fillText("🛟",s.ring.x||s.ring.x0,ry);}
+      else if(s.rings>0&&s.phase==="play"){c.font="30px "+EMO;c.fillText("🛟",W/2+30,by);}
+      var bx=W-34,top=H*0.12,h2=by-20-top;rr(c,bx,top,18,h2,9);c.fillStyle="rgba(0,0,0,.35)";c.fill();
+      var py2=by-20-s.pow*h2;rr(c,bx-6,py2-4,30,8,4);c.fillStyle="#ffd54f";c.fill();
+      c.font="700 13px "+FONT;c.fillStyle="#fff";c.textAlign="left";c.fillText("🛟 x"+s.rings+"  ⏱ "+Math.max(0,Math.ceil(s.timeLeft))+"s",12,18);
+      c.textAlign="center";c.font="600 12px "+FONT;c.fillText("Bấm NÉM PHAO khi vạch vàng ngang tầm người bạn",W/2,H*0.96);
+    }
+  },
+  drawIdle:function(c){c.fillStyle="#1d2b25";c.fillRect(0,0,AR.W,AR.H);c.font="80px "+EMO;c.textAlign="center";c.textBaseline="middle";c.fillText("🚒",AR.W/2,AR.H/2);},
+  info:function(){return ["Màn 1/3 · Cháy chung cư","Màn 2/3 · Cháy trường học","Màn 3/3 · Cứu đuối nước"][this.lvl]+(this.crouch&&this.lvl<2?" · 🧎":"");},
+  result:function(){return {stats:[["Màn hoàn thành",this.cleared+"/3"],["Sức khỏe còn",Math.round(this.hp)+"%"],["Lỗi cần nhớ",this.mist.length]],mist:this.mist};}
+};
+var GAMES={g1:G1,g2:G2,g3:G3,g4:G4};
+/* =====================================================================
+   LƯU TIẾN ĐỘ TRÊN MÁY NGƯỜI CHƠI (chỉ localStorage, không gửi đi đâu)
+   ===================================================================== */
+var LCXS=window.LCXS={k:"lcx_sanchoi_v1",d:null,
+  blank:function(){return {cap:null,badges:{},floor:{},week:{},rec:{},story1:false,vn:{}};},
+  load:function(){var d=null;try{d=JSON.parse(localStorage.getItem(this.k)||"null");}catch(e){d=null;}
+    var b=this.blank();if(!d||typeof d!=="object")d=b;Object.keys(b).forEach(function(x){if(d[x]==null)d[x]=b[x];});this.d=d;},
+  save:function(){try{localStorage.setItem(this.k,JSON.stringify(this.d));}catch(e){}},
+  clear:function(){try{localStorage.removeItem(this.k);}catch(e){}this.d=this.blank();}
+};
+LCXS.load();
+Object.keys(LCXS.d.rec).forEach(function(k){AR.best[k]=LCXS.d.rec[k];});
+if(LCXS.d.story1){safeDone=true;$("progress").textContent="Đã về đích an toàn: 1/3 chuyện";$("s1note").innerHTML='<span class="done">✓ Đã về đích an toàn</span>';}
+function hubRefresh(){updateRecords();if(window.vnHub)vnHub();var n=Object.keys(LCXS.d.badges).length;$("rec-arena").textContent=n?"🏅 "+n+"/7 huy hiệu":"";}
+hubRefresh();
+$("resetProg").onclick=function(){
+  if(!window.confirm("Xóa toàn bộ điểm, kỷ lục và huy hiệu đã lưu trên máy này?"))return;
+  LCXS.clear();AR.best={};safeDone=false;
+  $("progress").textContent="Đã về đích an toàn: 0/3 chuyện";$("s1note").textContent="“Chúc mừng! Em trúng skin giới hạn…”";
+  hubRefresh();
+};
+
+/* =====================================================================
+   ĐẤU TRƯỜNG PHÁP LUẬT (thử nghiệm – câu hỏi chờ đầu mối xác nhận)
+   ===================================================================== */
+var BANK=[{"i":"LV1-01","l":1,"c":"Chung","t":"mc","q":"Theo Luật Trật tự, an toàn giao thông đường bộ 2024, người từ đủ bao nhiêu tuổi được điều khiển xe gắn máy (xe đến 50 cm³ hoặc động cơ điện không quá 4 kW)?","o":["14 tuổi","16 tuổi","18 tuổi","20 tuổi"],"a":"B","g":"Người từ đủ 16 tuổi được điều khiển xe gắn máy. Xe trên 50 cm³ hoặc trên 4 kW là xe mô tô, phải đủ 18 tuổi và có giấy phép lái xe.","cc":"Điểm a khoản 1 Điều 59; Điều 34 Luật TTATGT đường bộ 2024 (Luật 36/2024/QH15)"},{"i":"LV1-02","l":1,"c":"THPT","t":"tf","q":"Học sinh đủ 16 tuổi được điều khiển xe máy 110 cm³.","o":["Đúng","Sai"],"a":"B","g":"Sai. Xe 110 cm³ là xe mô tô, người điều khiển phải đủ 18 tuổi và có giấy phép lái xe hạng A1. Đủ 16 tuổi chỉ được đi xe gắn máy.","cc":"Điều 34, Điều 59 Luật 36/2024/QH15"},{"i":"LV1-03","l":1,"c":"Chung","t":"mc","q":"Đèn tín hiệu chuyển sang màu đỏ khi em đang đến gần vạch dừng. Em làm gì?","o":["Tăng tốc vượt qua cho kịp","Dừng lại trước vạch dừng","Bấm chuông rồi đi tiếp","Đi chậm lại rồi qua"],"a":"B","g":"Đèn đỏ là tín hiệu cấm đi. Em dừng trước vạch dừng, chờ đèn xanh mới đi tiếp.","cc":"Luật 36/2024/QH15 – quy định về tín hiệu đèn giao thông (đầu mối điền điều, khoản)"},{"i":"LV1-04","l":1,"c":"Chung","t":"mc","q":"Đội mũ bảo hiểm thế nào là đúng?","o":["Đội lệch ra sau cho thoáng","Đội ngay ngắn, cài quai chắc chắn dưới cằm","Chỉ cần đội, không cần cài quai","Treo ở xe nếu đi đoạn ngắn"],"a":"B","g":"Mũ chỉ bảo vệ được đầu khi đội ngay ngắn và cài quai chắc chắn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV1-05","l":1,"c":"THCS","t":"tf","q":"Đi xe đạp dàn hàng ba trên đường để vừa đi vừa nói chuyện là an toàn.","o":["Đúng","Sai"],"a":"B","g":"Sai. Đi dàn hàng chiếm lòng đường, dễ va chạm với xe khác.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV1-06","l":1,"c":"THPT","t":"mc","q":"Từ 01/01/2026, trẻ em dưới 10 tuổi và cao dưới 1,35 m khi đi ô tô (trừ xe chỉ có một hàng ghế):","o":["Được ngồi ghế trước nếu thắt dây an toàn","Không được ngồi cùng hàng ghế với người lái","Phải ngồi trên đùi người lớn","Không có quy định nào"],"a":"B","g":"Luật quy định trẻ em dưới 10 tuổi và cao dưới 1,35 m không được ngồi cùng hàng ghế với người lái xe ô tô, trừ xe chỉ có một hàng ghế.","cc":"Khoản 3 Điều 10; khoản 2 Điều 88 Luật 36/2024/QH15"},{"i":"LV1-07","l":1,"c":"Chung","t":"order","q":"Em chứng kiến một vụ tai nạn giao thông. Sắp xếp các việc theo thứ tự:","o":["Đứng vào chỗ an toàn, không đứng giữa đường","Gọi 115 (cấp cứu) và 113 (công an)","Chờ và cung cấp thông tin khi lực lượng chức năng đến"],"a":"ABC","g":"An toàn của em là trước tiên, sau đó gọi người có chuyên môn. Không tự ý di chuyển người bị thương.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV1-08","l":1,"c":"THCS","t":"mc","q":"Bạn rủ: “Bám vào xe máy kia cho nhanh!”. Em trả lời thế nào?","o":["“Ok, bám luôn!”","“Không, rất dễ ngã và gây tai nạn.”","“Để tớ bám trước”","Im lặng làm theo"],"a":"B","g":"Bám, kéo, đẩy xe khác rất nguy hiểm cho cả mình và người khác.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV2-01","l":2,"c":"Chung","t":"mc","q":"Theo Luật Phòng, chống ma túy 2025, hành vi nào bị nghiêm cấm?","o":["Sử dụng trái phép chất ma túy","Lôi kéo, xúi giục người khác sử dụng trái phép chất ma túy","Cả hai hành vi trên","Không hành vi nào"],"a":"C","g":"Cả việc tự sử dụng lẫn rủ rê, xúi giục người khác sử dụng trái phép chất ma túy đều bị nghiêm cấm.","cc":"Khoản 5 Điều 5 Luật Phòng, chống ma túy số 120/2025/QH15 (ban hành 10/12/2025; đầu mối xác nhận ngày hiệu lực)"},{"i":"LV2-02","l":2,"c":"Chung","t":"tf","q":"Thuốc lá điện tử, thuốc lá nung nóng là sản phẩm hợp pháp, học sinh được dùng thử.","o":["Đúng","Sai"],"a":"B","g":"Sai. Quốc hội đã quyết định cấm sản xuất, kinh doanh, nhập khẩu, tàng trữ, vận chuyển, sử dụng thuốc lá điện tử, thuốc lá nung nóng từ năm 2025.","cc":"Nghị quyết số 173/2024/QH15 ngày 30/11/2024 của Quốc hội"},{"i":"LV2-03","l":2,"c":"Chung","t":"mc","q":"Người lạ ở quán mời em uống thử một gói “nước tăng lực lạ”. Em làm gì?","o":["Uống thử một chút","Từ chối, rời đi và kể với người lớn","Cầm về cho bạn","Hỏi giá để mua"],"a":"B","g":"Không dùng thứ gì người lạ mời. Ma túy có thể được trộn, ngụy trang trong đồ ăn, đồ uống.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV2-04","l":2,"c":"THCS","t":"mc","q":"Bạn rủ em hút thử vape. Câu từ chối nào tốt nhất?","o":["“Thôi, tớ không thích. Ra sân đá bóng đi!”","“Cho tớ một hơi thôi”","“Để tớ mua giúp”","“Tớ giữ hộ cho”"],"a":"A","g":"Từ chối rõ ràng và gợi ý việc khác giúp em thoát khỏi lời rủ rê mà không căng thẳng.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV2-05","l":2,"c":"THPT","t":"tf","q":"Ma túy có thể được ngụy trang dưới dạng kẹo, tem giấy hoặc gói đồ uống.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Đây là cách kẻ xấu đánh lừa người trẻ. Không thử đồ lạ không rõ nguồn gốc.","cc":"Khuyến cáo nghiệp vụ – đầu mối PC04 xác nhận"},{"i":"LV2-06","l":2,"c":"THPT","t":"mc","q":"Em phát hiện bạn thân có dấu hiệu dùng chất gây nghiện. Em nên:","o":["Giữ bí mật cho bạn","Khuyên bạn dừng lại và báo thầy cô, cha mẹ hoặc người lớn tin cậy","Xa lánh, nói xấu bạn","Đăng lên mạng cảnh báo"],"a":"B","g":"Báo người lớn là giúp bạn, không phải phản bội bạn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV2-07","l":2,"c":"Chung","t":"tf","q":"Chỉ thử một lần thì không thể bị nghiện.","o":["Đúng","Sai"],"a":"B","g":"Sai. Không có lần thử nào an toàn; rất nhiều trường hợp nghiện bắt đầu từ “chỉ thử một lần”.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV2-08","l":2,"c":"THCS","t":"mc","q":"Bị ép dùng chất lạ, em có thể tìm đến ai?","o":["Bố mẹ, thầy cô","Công an xã, phường hoặc gọi 113","Kênh tư vấn Lá chắn xanh","Tất cả các phương án trên"],"a":"D","g":"Em có nhiều nơi để tìm sự giúp đỡ. Nếu đang nguy hiểm, gọi ngay 113.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-01","l":3,"c":"Chung","t":"mc","q":"Ai được phép biết mã OTP (mã xác nhận) của em?","o":["Nhân viên ngân hàng gọi điện","Bạn thân","Admin trò chơi","Không ai cả"],"a":"D","g":"Mã OTP là chìa khóa tài khoản. Không đưa cho bất kỳ ai, kể cả người xưng là ngân hàng hay ban tổ chức.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-02","l":3,"c":"Chung","t":"tf","q":"Ngân hàng có thể gửi đường link yêu cầu em nhập mật khẩu để “cập nhật tài khoản”.","o":["Đúng","Sai"],"a":"B","g":"Sai. Đây là thủ đoạn giả mạo ngân hàng. Chỉ đăng nhập trên ứng dụng chính thức.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-03","l":3,"c":"THPT","t":"mc","q":"Theo khoản 1 Điều 174 Bộ luật Hình sự, lừa đảo chiếm đoạt tài sản trị giá từ bao nhiêu thì bị truy cứu trách nhiệm hình sự?","o":["500.000 đồng","2.000.000 đồng","10.000.000 đồng","50.000.000 đồng"],"a":"B","g":"Từ 2.000.000 đồng. Dưới mức này vẫn có thể bị truy cứu nếu thuộc một số trường hợp luật quy định, ví dụ đã bị xử phạt hành chính về hành vi chiếm đoạt mà còn vi phạm.","cc":"Khoản 1 Điều 174 BLHS 2015 (sửa đổi, bổ sung 2017, 2025)"},{"i":"LV3-04","l":3,"c":"THPT","t":"tf","q":"Cho thuê, cho mượn hoặc bán tài khoản ngân hàng của mình là chuyện cá nhân, không vi phạm pháp luật.","o":["Đúng","Sai"],"a":"B","g":"Sai. Hành vi này có thể bị xử phạt hành chính; mua bán trái phép thông tin tài khoản ngân hàng có thể bị truy cứu trách nhiệm hình sự. Tài khoản đó còn dễ bị kẻ gian dùng để lừa đảo.","cc":"Điều 30 Nghị định 340/2025/NĐ-CP; Điều 291 BLHS"},{"i":"LV3-05","l":3,"c":"Chung","t":"mc","q":"Có người dọa tung ảnh riêng tư của em nếu không chuyển tiền. Em làm gì?","o":["Chuyển tiền cho xong chuyện","Gửi thêm ảnh để xin tha","Không chuyển tiền, giữ lại bằng chứng, báo ngay người lớn và công an","Xóa tài khoản và im lặng"],"a":"C","g":"Chuyển tiền không làm kẻ xấu dừng lại. Giữ bằng chứng, báo người lớn tin cậy; nguy hiểm thì gọi 113.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-06","l":3,"c":"THCS","t":"mc","q":"Dấu hiệu nào cho thấy một đường link có thể là lừa đảo?","o":["Tên trang lạ, sai chính tả","Hứa tặng quà giá trị lớn","Giục bấm ngay kẻo hết hạn","Tất cả các dấu hiệu trên"],"a":"D","g":"Gặp một trong các dấu hiệu này: không bấm, hỏi người lớn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-07","l":3,"c":"Chung","t":"order","q":"Em lỡ đưa mật khẩu cho người lạ. Sắp xếp việc cần làm ngay:","o":["Đổi mật khẩu","Đăng xuất khỏi các thiết bị lạ","Bật xác thực hai lớp và báo bố mẹ"],"a":"ABC","g":"Đổi mật khẩu trước để chặn kẻ gian, rồi đuổi họ ra khỏi tài khoản và khóa thêm một lớp bảo vệ.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV3-08","l":3,"c":"THCS","t":"tf","q":"Người xưng là công an gọi video, yêu cầu em đến khách sạn một mình để “hợp tác điều tra”, đây là dấu hiệu lừa đảo.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Đây là thủ đoạn “bắt cóc online”. Báo ngay bố mẹ, gọi 113 để kiểm tra.","cc":"Khuyến cáo nghiệp vụ – đầu mối PA05 xác nhận"},{"i":"LV4-01","l":4,"c":"Chung","t":"mc","q":"Tổng đài quốc gia bảo vệ trẻ em là số nào?","o":["111","113","114","115"],"a":"A","g":"111 là Tổng đài quốc gia bảo vệ trẻ em, tiếp nhận thông tin về trẻ em bị xâm hại, bạo lực, có nguy cơ bị tổn hại.","cc":"Tổng đài 111 (đầu mối điền văn bản quy định)"},{"i":"LV4-02","l":4,"c":"Chung","t":"mc","q":"Em chứng kiến một bạn bị bắt nạt. Em nên:","o":["Quay video đăng lên mạng","Đứng xem","Báo ngay thầy cô hoặc người lớn, động viên bạn","Tham gia cho khỏi bị bắt nạt"],"a":"C","g":"Báo người lớn là cách giúp bạn an toàn nhất. Không quay, không phát tán clip.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV4-03","l":4,"c":"THPT","t":"mc","q":"Người từ đủ 14 đến dưới 16 tuổi phải chịu trách nhiệm hình sự về tội cố ý gây thương tích (Điều 134 BLHS) khi:","o":["Trong mọi trường hợp","Tội phạm thuộc loại rất nghiêm trọng hoặc đặc biệt nghiêm trọng","Không bao giờ phải chịu","Chỉ khi gia đình nạn nhân có đơn"],"a":"B","g":"Điều 134 nằm trong danh sách các tội mà người từ đủ 14 đến dưới 16 tuổi phải chịu trách nhiệm hình sự nếu thuộc loại rất nghiêm trọng hoặc đặc biệt nghiêm trọng.","cc":"Khoản 2 Điều 12 BLHS 2015 (sửa đổi, bổ sung 2017)"},{"i":"LV4-04","l":4,"c":"Chung","t":"tf","q":"Quay và phát tán clip bạn bị đánh lên mạng chỉ là chia sẻ thông tin, không gây hại.","o":["Đúng","Sai"],"a":"B","g":"Sai. Clip làm nạn nhân bị tổn thương thêm và người phát tán có thể bị xử lý theo quy định.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV4-05","l":4,"c":"THCS","t":"tf","q":"Nếu ai đó chạm vào vùng riêng tư của em rồi bảo em giữ bí mật, em nên giữ bí mật.","o":["Đúng","Sai"],"a":"B","g":"Sai. Kể ngay với người lớn em tin cậy hoặc gọi 111. Đó không phải lỗi của em.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV4-06","l":4,"c":"Chung","t":"order","q":"Em bị hẹn đánh sau giờ học. Sắp xếp việc cần làm:","o":["Không đến chỗ hẹn","Báo ngay thầy cô, bố mẹ","Nếu bị chặn đường, nguy hiểm: gọi 113"],"a":"ABC","g":"Không đối đầu một mình. Người lớn và công an sẽ giúp em.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV4-07","l":4,"c":"THPT","t":"mc","q":"Em bị bôi nhọ, tẩy chay trong nhóm chat lớp. Việc nên làm:","o":["Đáp trả bằng lời lẽ nặng hơn","Chụp lại bằng chứng, không đáp trả, báo giáo viên chủ nhiệm","Rời nhóm và im lặng chịu đựng","Lập nhóm khác để nói xấu lại"],"a":"B","g":"Bằng chứng giúp người lớn xử lý đúng. Đáp trả chỉ làm sự việc căng thẳng hơn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV4-08","l":4,"c":"THCS","t":"mc","q":"Người quen qua mạng hẹn gặp riêng và dặn “đừng kể với ai”. Em làm gì?","o":["Đi gặp một mình","Không đi và kể ngay với bố mẹ","Rủ thêm một bạn cùng lớp đi","Gửi ảnh trước để làm quen"],"a":"B","g":"Người tốt không bắt em giấu bố mẹ. Lời dặn “đừng kể với ai” là dấu hiệu nguy hiểm.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-01","l":5,"c":"Chung","t":"mc","q":"Bố của một bạn cùng lớp vừa chấp hành xong án phạt tù trở về. Em nên:","o":["Xa lánh bạn","Đối xử với bạn bình thường, tôn trọng","Bàn tán về gia đình bạn","Trêu chọc bạn"],"a":"B","g":"Bạn không có lỗi. Sự tôn trọng giúp bạn và gia đình vượt qua khó khăn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-02","l":5,"c":"THPT","t":"tf","q":"Người đã được xóa án tích được coi như chưa bị kết án.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Bộ luật Hình sự quy định người được xóa án tích coi như chưa bị kết án.","cc":"Khoản 1 Điều 69 BLHS 2015 (sửa đổi, bổ sung)"},{"i":"LV5-03","l":5,"c":"Chung","t":"tf","q":"Sự kỳ thị có thể khiến người tái hòa nhập khó tìm việc làm và dễ sa ngã trở lại.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Cộng đồng đón nhận là yếu tố quan trọng giúp họ làm lại cuộc đời.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-04","l":5,"c":"THCS","t":"tf","q":"Con của người từng phạm tội cũng sẽ “xấu” giống bố mẹ.","o":["Đúng","Sai"],"a":"B","g":"Sai. Mỗi người chịu trách nhiệm về việc làm của chính mình. Đừng gán nhãn bạn bè.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-05","l":5,"c":"THPT","t":"mc","q":"Ai tham gia hỗ trợ người chấp hành xong án phạt tù tái hòa nhập cộng đồng?","o":["Chỉ gia đình","Gia đình, chính quyền, đoàn thể và cộng đồng","Không ai cả","Chỉ lực lượng Công an"],"a":"B","g":"Tái hòa nhập là trách nhiệm chung của gia đình, chính quyền, các tổ chức và cộng đồng.","cc":"Luật Thi hành án hình sự 2019 (đầu mối điền điều, khoản)"},{"i":"LV5-06","l":5,"c":"Chung","t":"mc","q":"Một bạn mới chuyển trường, hoàn cảnh khó khăn, bị trêu chọc. Em làm gì?","o":["Cười theo các bạn","Lên tiếng bênh vực, rủ bạn chơi cùng và báo thầy cô nếu cần","Làm như không thấy","Trêu thêm cho vui"],"a":"B","g":"Một hành động nhỏ của em có thể giúp bạn hòa nhập.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-07","l":5,"c":"THCS","t":"mc","q":"Nghe tin đồn về quá khứ của một người trong xóm, em nên:","o":["Kể lại cho thật nhiều người","Không lan truyền, không phán xét","Đăng lên nhóm chat","Hỏi thẳng người đó trước mặt mọi người"],"a":"B","g":"Tin đồn có thể sai và làm tổn thương người khác.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV5-08","l":5,"c":"Chung","t":"order","q":"Em thấy một bạn bị cô lập vì hoàn cảnh gia đình. Sắp xếp cách giúp bạn:","o":["Chủ động hỏi han, rủ bạn chơi cùng","Rủ thêm các bạn khác cùng tham gia","Báo thầy cô nếu bạn bị trêu chọc, bắt nạt"],"a":"ABC","g":"Bắt đầu từ chính em, lan tỏa ra cả lớp, và nhờ người lớn khi cần.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-01","l":6,"c":"Chung","t":"mc","q":"Phát hiện đám cháy, em gọi số nào?","o":["111","113","114","115"],"a":"C","g":"114 là số báo cháy, cứu nạn, cứu hộ.","cc":"Số khẩn cấp 114 (đầu mối điền văn bản quy định)"},{"i":"LV6-02","l":6,"c":"Chung","t":"tf","q":"Gọi 114 báo cháy giả để trêu bạn là hành vi bị nghiêm cấm.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Báo cháy giả, báo tình huống cứu nạn, cứu hộ giả là hành vi bị nghiêm cấm, làm lãng phí lực lượng cứu hộ.","cc":"Khoản 6 Điều 14 Luật Phòng cháy, chữa cháy và cứu nạn, cứu hộ 2024 (Luật 55/2024/QH15, hiệu lực 01/7/2025)"},{"i":"LV6-03","l":6,"c":"Chung","t":"mc","q":"Thoát nạn qua khu vực nhiều khói, em nên:","o":["Đứng thẳng và chạy thật nhanh","Cúi thấp người, che mũi miệng bằng khăn ướt, đi theo lối thoát nạn","Đi thang máy","Quay lại lấy đồ đạc"],"a":"B","g":"Khói bốc lên cao; cúi thấp giúp tránh hít khói độc.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-04","l":6,"c":"THCS","t":"tf","q":"Sạc xe đạp điện qua đêm trong phòng ngủ là an toàn.","o":["Đúng","Sai"],"a":"B","g":"Sai. Pin có thể chập, cháy khi sạc lâu. Sạc nơi thoáng, có người trông, rút sạc khi đầy.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-05","l":6,"c":"Chung","t":"mc","q":"Em thấy bạn bị đuối nước nhưng em không biết bơi. Em làm gì?","o":["Nhảy xuống cứu bạn","Hô to gọi người lớn, ném vật nổi cho bạn, gọi 114 hoặc 115","Bỏ đi","Quay video"],"a":"B","g":"Không nhảy xuống nếu không biết bơi. Dùng vật nổi, sào, dây và gọi người lớn.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-06","l":6,"c":"THPT","t":"order","q":"Có cháy trong nhà. Sắp xếp các bước thoát nạn:","o":["Hô hoán báo cho mọi người","Cúi thấp, che mũi bằng khăn ướt, đi theo lối thoát nạn","Ra nơi an toàn, gọi 114, không quay lại lấy đồ"],"a":"ABC","g":"Báo động để mọi người cùng thoát, thoát ra an toàn rồi mới tính tiếp.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-07","l":6,"c":"THCS","t":"mc","q":"Đi bơi thế nào là an toàn?","o":["Bơi ở sông, hồ vắng người","Chỉ bơi nơi an toàn, có người lớn giám sát","Thi bơi ra xa xem ai giỏi","Bơi ngay sau khi ăn no"],"a":"B","g":"Đuối nước thường xảy ra ở nơi vắng, không có người giám sát.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV6-08","l":6,"c":"THPT","t":"tf","q":"Khi có cháy trong tòa nhà, đi thang máy giúp thoát nhanh hơn.","o":["Đúng","Sai"],"a":"B","g":"Sai. Thang máy có thể mất điện, kẹt và trở thành bẫy khói. Đi thang bộ.","cc":"Khuyến cáo kỹ năng (không phải quy định pháp luật) – đầu mối xác nhận"},{"i":"LV7-01","l":7,"c":"Chung","t":"mc","q":"Số điện thoại khẩn cấp để báo tin cho Công an là:","o":["111","113","114","115"],"a":"B","g":"113: Công an. 114: cứu hỏa, cứu nạn. 115: cấp cứu y tế. 111: bảo vệ trẻ em.","cc":"Các số khẩn cấp (đầu mối điền văn bản quy định)"},{"i":"LV7-02","l":7,"c":"THPT","t":"tf","q":"Cá độ bóng đá qua mạng với số tiền nhỏ thì không bị xử lý.","o":["Đúng","Sai"],"a":"B","g":"Sai. Đánh bạc dưới mọi hình thức là vi phạm pháp luật, có thể bị xử phạt hành chính hoặc truy cứu trách nhiệm hình sự.","cc":"Điều 321 BLHS; nghị định xử phạt hành chính (đầu mối điền)"},{"i":"LV7-03","l":7,"c":"Chung","t":"mc","q":"Theo Bộ luật Dân sự 2015, người thành niên là người từ đủ bao nhiêu tuổi?","o":["15 tuổi","16 tuổi","18 tuổi","21 tuổi"],"a":"C","g":"Người thành niên là người từ đủ 18 tuổi trở lên.","cc":"Điều 20 Bộ luật Dân sự 2015"},{"i":"LV7-04","l":7,"c":"Chung","t":"mc","q":"Theo Luật Trẻ em 2016, trẻ em là người dưới bao nhiêu tuổi?","o":["14 tuổi","16 tuổi","18 tuổi","15 tuổi"],"a":"B","g":"Trẻ em là người dưới 16 tuổi.","cc":"Điều 1 Luật Trẻ em 2016"},{"i":"LV7-05","l":7,"c":"THCS","t":"mc","q":"Em nhặt được một chiếc ví có tiền và giấy tờ. Em làm gì?","o":["Giữ lại tiền, vứt giấy tờ","Báo người lớn, tìm cách trả lại người mất hoặc nộp cho Công an xã, phường","Chia cho các bạn","Đăng ảnh lên mạng khoe"],"a":"B","g":"Nhặt được của rơi phải trả lại người mất; không biết người mất thì giao nộp cho cơ quan có thẩm quyền.","cc":"Điều 230 Bộ luật Dân sự 2015"},{"i":"LV7-06","l":7,"c":"THPT","t":"tf","q":"Đăng tin sai sự thật lên mạng xã hội “cho vui” có thể bị xử lý theo quy định pháp luật.","o":["Đúng","Sai"],"a":"A","g":"Đúng. Kiểm tra nguồn trước khi chia sẻ; tin giả gây hoang mang và có thể bị xử phạt.","cc":"Luật An ninh mạng; nghị định xử phạt (đầu mối điền điều, khoản)"},{"i":"LV7-07","l":7,"c":"Chung","t":"mc","q":"Em cần tư vấn pháp luật từ Lá chắn xanh. Em liên hệ qua đâu?","o":["Zalo OA “Ban Thanh niên Công an tỉnh Lạng Sơn”","Đường dây nóng 0936.692.111","Website lachanxanh.vn","Tất cả các kênh trên"],"a":"D","g":"Nhắn Zalo OA để được tư vấn; đang nguy hiểm thì gọi 113.","cc":"Quy chế vận hành mô hình (QĐ 119-QĐ/BTN)"},{"i":"LV7-08","l":7,"c":"THCS","t":"tf","q":"Ý kiến tư vấn của Lá chắn xanh có giá trị như một quyết định pháp lý.","o":["Đúng","Sai"],"a":"B","g":"Sai. Tư vấn chỉ mang tính tham khảo, giúp em biết cách xử lý và tìm đúng nơi hỗ trợ.","cc":"Khoản 3 Điều 4 Quy chế vận hành (QĐ 119-QĐ/BTN)"}];
+var LVS=[null,
+ {n:"An toàn giao thông",b:"Tay lái vàng",e:"🛵"},{n:"Ma túy, chất gây nghiện",b:"Bản lĩnh trẻ",e:"💪"},
+ {n:"Lừa đảo, an toàn trên mạng",b:"Mắt thần mạng",e:"👁️"},{n:"Bạo lực, xâm hại, tệ nạn",b:"Trái tim xanh",e:"💚"},
+ {n:"Hòa nhập cộng đồng",b:"Vòng tay nhân ái",e:"🤝"},{n:"Cháy nổ, đuối nước, cứu hộ",b:"Chiến binh an toàn",e:"🚒"},
+ {n:"Pháp luật quanh em",b:"Ngôi sao pháp luật",e:"⭐"}];
+var TYPE={mc:"Chọn đáp án đúng",tf:"Đúng hay sai?",order:"Sắp xếp theo thứ tự"};
+var AN={view:"home",run:null};
+function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML;}
+function hashStr(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){var x=seed||1;return function(){x^=x<<13;x^=x>>>17;x^=x<<5;return ((x>>>0)%100000)/100000;};}
+function shuf(a,r){r=r||Math.random;for(var i=a.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function weekId(){var d=new Date(),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var day=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-day);
+  var y0=new Date(Date.UTC(t.getUTCFullYear(),0,1));return t.getUTCFullYear()+"-T"+Math.ceil(((t-y0)/864e5+1)/7);}
+function pool(lv){var cap=LCXS.d.cap;return BANK.filter(function(q){return (!lv||q.l===lv)&&(q.c==="Chung"||q.c===cap);});}
+function prep(q,r){
+  var idx=q.o.map(function(_,i){return i;});
+  if(q.t==="mc"){var last=idx.filter(function(i){return /^(Tất cả|Cả hai)/.test(q.o[i]);});var rest=idx.filter(function(i){return last.indexOf(i)<0;});idx=shuf(rest,r).concat(last);}
+  if(q.t==="order"){idx=shuf(idx.slice(),r);if(idx.join()==="0,1,2")idx=[1,2,0];}
+  return {q:q,idx:idx,ans:"ABCD".indexOf(q.a.charAt(0))};
+}
+function anShow(){show("arena");anRender();}
+function anRender(){
+  var b=$("anBody"),cap=LCXS.d.cap;$("anCap").textContent=cap?cap+" ⇄":"Chọn cấp";
+  var nb=Object.keys(LCXS.d.badges).length;$("anSub").textContent=cap?("🏅 "+nb+"/7 huy hiệu"):"Học pháp luật qua thử thách";
+  b.scrollTop=0;
+  if(!cap||AN.view==="cap"){
+    b.innerHTML='<div class="an-card"><h3>Em đang học cấp nào?</h3><p class="an-muted">Câu hỏi sẽ phù hợp với lứa tuổi của em. Có thể đổi bất cứ lúc nào.</p>'+
+      '<div class="lvpick"><button data-cap="THCS">THCS<small>Lớp 6 – 9</small></button><button data-cap="THPT">THPT<small>Lớp 10 – 12</small></button></div></div>';
+    Array.prototype.forEach.call(b.querySelectorAll("[data-cap]"),function(x){x.onclick=function(){LCXS.d.cap=x.getAttribute("data-cap");LCXS.save();AN.view="home";anRender();};});
+    return;
+  }
+  if(AN.view==="home"){
+    var wk=weekId(),wd=LCXS.d.week[wk];
+    var h='<button class="week" id="anWeek"><span class="e">📅</span><span><b>Thử thách tuần '+esc(wk.split("-T")[1])+'</b><small>'+(wd!=null?"Đã hoàn thành: "+wd+"/5 câu đúng · Chơi lại":"5 câu hỏi mới mỗi tuần · Chơi ngay")+'</small></span></button>';
+    h+='<div class="an-card" style="padding:12px 14px"><h3>🗼 Tháp Lá chắn xanh</h3><p class="an-muted">Mỗi tầng 5 câu. Đúng từ 4 câu trở lên để nhận huy hiệu. Đủ 7 huy hiệu nhận chứng nhận <b>Chiến binh Lá chắn xanh</b>.</p></div><div class="tower">';
+    for(var lv=7;lv>=1;lv--){var L=LVS[lv],won=LCXS.d.badges[lv],best=LCXS.d.floor[lv];
+      h+='<button class="floor'+(won?" won":"")+'" data-lv="'+lv+'"><span class="fn">T'+lv+'</span><span class="fe">'+(won?L.e:L.e)+'</span><span><b>'+esc(L.n)+'</b><small>'+(won?"🏅 "+esc(L.b):"Huy hiệu: "+esc(L.b))+(best!=null?" · Tốt nhất "+best+"/5":"")+'</small></span><span class="go">›</span></button>';}
+    h+='</div>';
+    h+='<button class="btn '+(nb>=7?"pri":"ghost")+'" id="anCert" style="width:100%;margin:14px 0 0">'+(nb>=7?"🎖️ Xem chứng nhận Chiến binh Lá chắn xanh":"🎖️ Chứng nhận: "+nb+"/7 huy hiệu")+'</button>';
+    b.innerHTML=h;
+    Array.prototype.forEach.call(b.querySelectorAll("[data-lv]"),function(x){x.onclick=function(){anStart(+x.getAttribute("data-lv"));};});
+    $("anWeek").onclick=function(){anStart(0);};
+    $("anCert").onclick=function(){AN.view="cert";anRender();};
+    return;
+  }
+  if(AN.view==="cert"){
+    var h2='<div class="cert"><div class="seal">'+(nb>=7?"🎖️":"🔒")+'</div><div class="k1">SÂN CHƠI LÁ CHẮN XANH · CHỨNG NHẬN</div><h2>Chiến binh Lá chắn xanh</h2>';
+    h2+=nb>=7?'<p class="an-muted">Đã vượt qua 7 tầng tháp pháp luật, cấp '+esc(cap)+'.<br>Ngày '+new Date().toLocaleDateString("vi-VN")+'</p>':'<p class="an-muted">Cần thêm '+(7-nb)+' huy hiệu để nhận chứng nhận.</p>';
+    h2+='<div class="badgeline">';for(var i=1;i<=7;i++)h2+='<span class="'+(LCXS.d.badges[i]?"":"off")+'">'+LVS[i].e+" "+esc(LVS[i].b)+'</span>';
+    h2+='</div><p class="an-muted" style="margin-top:14px">Lắng nghe · Đồng hành · Bảo vệ<br>Ban Thanh niên Công an tỉnh Lạng Sơn</p></div>';
+    if(nb>=7)h2+='<p class="snap" style="color:var(--muted);text-align:center">📸 Chụp màn hình để lưu và khoe với bạn bè!</p>';
+    h2+='<button class="btn ghost" id="anHome" style="width:100%;margin:12px 0 0">‹ Về tháp</button>';
+    b.innerHTML=h2;$("anHome").onclick=function(){AN.view="home";anRender();};return;
+  }
+  if(AN.view==="quiz")return anQuestion();
+  if(AN.view==="done")return anDone();
+}
+function anStart(lv){
+  var r=lv===0?rng(hashStr(weekId()+LCXS.d.cap)):Math.random,list;
+  if(lv===0){var pick=[];shuf([1,2,3,4,5,6,7],r).slice(0,5).forEach(function(l){var p=pool(l);pick.push(p[Math.floor(r()*p.length)]);});list=pick;}
+  else list=shuf(pool(lv).slice()).slice(0,5);
+  AN.run={lv:lv,qs:list.map(function(q){return prep(q,r);}),i:0,res:[],pts:0,help:false,answered:false,ord:[]};
+  AN.view="quiz";anRender();
+}
+function anQuestion(){
+  var R=AN.run,P=R.qs[R.i],q=P.q,b=$("anBody");R.answered=false;R.ord=[];R.usedHelp=false;
+  var h='<div class="prog">';for(var i=0;i<R.qs.length;i++){var c=i<R.i?(R.res[i]?"ok":"no"):(i===R.i?"cur":"");h+='<i class="'+c+'"></i>';}h+='</div>';
+  h+='<div class="an-card"><div class="qtype">'+(R.lv?("Tầng "+R.lv+" · "+esc(LVS[R.lv].n)):"📅 Thử thách tuần · "+esc(LVS[q.l].n))+" · Câu "+(R.i+1)+"/"+R.qs.length+'</div>';
+  h+='<div class="qtext">'+esc(q.q)+'</div><div class="an-muted" style="margin:-8px 0 10px">'+TYPE[q.t]+'</div>';
+  if(q.t==="tf")h+='<div class="tfrow"><button class="opt" data-o="0">✅ Đúng</button><button class="opt" data-o="1">❌ Sai</button></div>';
+  else if(q.t==="order")h+='<div class="ordslot" id="anSlot"></div>'+P.idx.map(function(o){return '<button class="opt" data-o="'+o+'"><span class="k">•</span>'+esc(q.o[o])+'</button>';}).join("")+'<button class="help" id="anUndo">↺ Làm lại thứ tự</button>';
+  else h+=P.idx.map(function(o,k){return '<button class="opt" data-o="'+o+'"><span class="k">'+"ABCD".charAt(k)+'</span>'+esc(q.o[o])+'</button>';}).join("");
+  if(q.t==="mc")h+='<button class="help" id="anHelp"'+(R.help?" disabled":"")+'>🛡️ Hỏi Lá chắn xanh '+(R.help?"(đã dùng)":"· loại 2 phương án sai")+'</button>';
+  h+='<div id="anFb"></div></div>';
+  b.innerHTML=h;b.scrollTop=0;
+  Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(x){x.onclick=function(){anPick(+x.getAttribute("data-o"),x);};});
+  if($("anHelp"))$("anHelp").onclick=function(){
+    if(R.help||R.answered)return;R.help=true;R.usedHelp=true;this.disabled=true;this.textContent="🛡️ Lá chắn xanh đã loại 2 phương án sai";
+    var wrong=P.idx.filter(function(o){return o!==P.ans;});shuf(wrong).slice(0,2).forEach(function(o){var el=b.querySelector('.opt[data-o="'+o+'"]');if(el)el.classList.add("gone");});
+  };
+  if($("anUndo"))$("anUndo").onclick=function(){if(R.answered)return;R.ord=[];$("anSlot").innerHTML="";Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(x){x.style.display="";});};
+}
+function anPick(o,el){
+  var R=AN.run,P=R.qs[R.i],q=P.q,b=$("anBody");if(R.answered)return;
+  if(q.t==="order"){
+    R.ord.push(o);el.style.display="none";var d=document.createElement("div");d.innerHTML="<b>"+R.ord.length+".</b>"+esc(q.o[o]);$("anSlot").appendChild(d);
+    if(R.ord.length<q.o.length)return;
+    var ok=R.ord.join()==="0,1,2";anFeedback(ok);return;
+  }
+  var ok2=o===P.ans;
+  Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(x){var v=+x.getAttribute("data-o");if(v===P.ans)x.classList.add("right");else if(x===el)x.classList.add("wrong");});
+  anFeedback(ok2);
+}
+function anFeedback(ok){
+  var R=AN.run,P=R.qs[R.i],q=P.q;R.answered=true;R.res.push(ok);
+  var pts=ok?(R.usedHelp?5:10):0;R.pts+=pts;
+  var right=q.t==="order"?q.o.map(function(t,i){return (i+1)+". "+t;}).join(" → "):(q.t==="tf"?(P.ans===0?"Đúng":"Sai"):q.o[P.ans]);
+  var h='<div class="fb '+(ok?"ok":"no")+'"><h4>'+(ok?"✅ Chính xác! +"+pts:"❌ Chưa đúng")+'</h4>';
+  if(!ok)h+='<div><b>Đáp án:</b> '+esc(right)+'</div>';
+  h+='<div>'+esc(q.g)+'</div><div class="cc">📘 <b>Căn cứ:</b> '+esc(q.cc)+'</div><div class="draft">Dự thảo 07/11/2026 · Chờ đầu mối xác nhận</div></div>';
+  h+='<button class="btn pri" id="anNext" style="width:100%;margin:12px 0 0">'+(R.i+1<R.qs.length?"Câu tiếp theo ›":"Xem kết quả ›")+'</button>';
+  $("anFb").innerHTML=h;
+  if($("anHelp"))$("anHelp").disabled=true;if($("anUndo"))$("anUndo").style.display="none";
+  $("anNext").onclick=function(){R.i++;if(R.i<R.qs.length){anQuestion();}else{AN.view="done";anRender();}};
+  setTimeout(function(){var f=$("anFb");if(f)f.scrollIntoView({behavior:"smooth",block:"nearest"});},50);
+}
+function anDone(){
+  var R=AN.run,b=$("anBody"),n=R.res.filter(Boolean).length,lv=R.lv,newB=false;
+  if(lv){var prev=LCXS.d.floor[lv];if(prev==null||n>prev)LCXS.d.floor[lv]=n;if(n>=4&&!LCXS.d.badges[lv]){LCXS.d.badges[lv]=1;newB=true;}}
+  else{var wk=weekId(),pw=LCXS.d.week[wk];if(pw==null||n>pw)LCXS.d.week[wk]=n;}
+  LCXS.save();hubRefresh();
+  var h='<div class="an-card bigres"><div class="e">'+(n>=4?"🏆":(n>=2?"👍":"💪"))+'</div><div class="sc">'+n+'/'+R.qs.length+'</div><div class="an-muted">câu đúng · '+R.pts+' điểm</div>';
+  if(lv){h+=newB?'<p style="margin-top:12px;font-weight:800;color:var(--brand-d);font-size:17px">🎉 Em nhận huy hiệu '+LVS[lv].e+' '+esc(LVS[lv].b)+'!</p>':(LCXS.d.badges[lv]?'<p class="an-muted" style="margin-top:10px">Em đã có huy hiệu '+LVS[lv].e+' '+esc(LVS[lv].b)+'.</p>':'<p class="an-muted" style="margin-top:10px">Đúng từ 4 câu để nhận huy hiệu '+LVS[lv].e+' '+esc(LVS[lv].b)+'. Thử lại nhé!</p>');}
+  else h+='<p class="an-muted" style="margin-top:10px">Tuần sau sẽ có 5 câu hỏi mới.</p>';
+  if(Object.keys(LCXS.d.badges).length>=7&&newB)h+='<p style="margin-top:8px;font-weight:800">🎖️ Đủ 7 huy hiệu! Mở chứng nhận Chiến binh Lá chắn xanh.</p>';
+  h+='</div><button class="btn pri" id="anAgain" style="width:100%;margin:0">↻ Chơi lại</button><button class="btn ghost" id="anTower" style="width:100%;margin:8px 0 0">🗼 Về tháp</button>';
+  h+='<a class="btn ghost" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener" style="width:100%;margin:8px 0 0">💬 Còn thắc mắc? Hỏi Lá chắn xanh qua Zalo</a>';
+  b.innerHTML=h;b.scrollTop=0;
+  $("anAgain").onclick=function(){anStart(lv);};$("anTower").onclick=function(){AN.view="home";anRender();};
+}
+$("openArena").onclick=function(){AN.view=LCXS.d.cap?"home":"cap";anShow();};
+$("anCap").onclick=function(){if(AN.view==="quiz"&&AN.run&&!window.confirm("Đổi cấp học sẽ dừng lượt chơi này?"))return;AN.view="cap";anRender();};
+$("anBack").onclick=function(){
+  if(AN.view==="quiz"){if(!window.confirm("Thoát lượt chơi này?"))return;AN.view="home";anRender();return;}
+  if(AN.view==="home"||AN.view==="cap"&&!LCXS.d.cap||AN.view==="cap"){if(AN.view==="cap"&&LCXS.d.cap){AN.view="home";anRender();return;}show("hub");hubRefresh();return;}
+  AN.view="home";anRender();
+};
+
+$("arQNo").onclick=function(){G2.answer(false);};
+$("arQYes").onclick=function(){G2.answer(true);};
+
+/* =====================================================================
+   KHUNG NHẬP VAI TÌNH HUỐNG (thử nghiệm – nội dung chờ đầu mối xác nhận)
+   ===================================================================== */
+var VNG={
+ vn2:{name:"Bản lĩnh tuổi trẻ",icon:"💪",meter:"Bản lĩnh",field:"Lĩnh vực 2 · Ma túy, chất gây nghiện",
+  intro:"Em là một học sinh lớp 9. Những lời mời gọi đến từ người quen, trong lúc vui vẻ nhất. Em sẽ giữ được bản lĩnh chứ?",
+  verdicts:[[80,"🏆","Bản lĩnh thép","Em từ chối dứt khoát và biết tìm người lớn giúp đỡ."],[55,"👍","Khá vững vàng","Em đã tránh được nguy hiểm, nhưng còn vài lựa chọn có thể tốt hơn."],[0,"⚠️","Cần cảnh giác hơn","Một vài lựa chọn đã đưa em đến gần nguy hiểm. Xem lại bên dưới nhé."]],
+  chapters:[
+  {title:"Bữa tiệc sinh nhật",sum:"Bị rủ thử vape và “kẹo vui”",
+   key:["Thuốc lá điện tử, thuốc lá nung nóng đã bị cấm sử dụng từ năm 2025.","Không nhận, không thử bất cứ thứ gì không rõ nguồn gốc, kể cả “miễn phí”.","Kể với người lớn để bảo vệ cả các bạn khác."],
+   nodes:{
+    n1:{scene:["🎂","Tiệc sinh nhật nhà Tuấn","19:30 tối thứ Bảy"],ask:"Khi được mời thử vape",
+     lines:[["","",'Cả nhóm đang vui thì anh họ của Tuấn mang ra một chiếc vape màu hồng.'],["Anh Khánh","😎","Vị dưa hấu đấy, thơm lắm. Thử một hơi cho biết!"],["Tuấn","🧑","Mọi người thử hết rồi, còn mỗi cậu thôi đấy."]],
+     ch:[{x:"Thử một hơi thôi, cho vui",d:-30,go:"n1b",why:"Thuốc lá điện tử đã bị cấm sử dụng và có thể bị trộn chất gây nghiện."},
+         {x:"“Thôi, tớ không thích. Ra hát karaoke đi!”",d:25,go:"n2",best:1,why:"Từ chối rõ ràng, gợi ý việc khác giúp em thoát lời rủ rê mà không căng thẳng."},
+         {x:"Im lặng, lảng ra chỗ khác",d:5,go:"n2",why:"Rời đi là được, nhưng từ chối rõ ràng giúp em không bị rủ lại."}]},
+    n1b:{ask:"Sau khi lỡ thử",
+     lines:[["","","Một hơi... em thấy chóng mặt, buồn nôn."],["Anh Khánh","😎","Lần đầu thế thôi, lần sau quen!"],["","","Thứ em vừa hít, không ai biết thực sự có gì bên trong."]],
+     ch:[{x:"Dừng lại, gọi bố mẹ đến đón",d:15,go:"n2",best:1,why:"Nhận ra sai và dừng ngay là bản lĩnh."},
+         {x:"Thử thêm cho quen",d:-30,stop:"Càng thử càng dễ lệ thuộc. Không có “liều thử” nào an toàn.",why:"Không có “liều thử” nào an toàn."}]},
+    n2:{scene:["🌃","Ngoài cổng nhà Tuấn","21:00"],ask:"Khi được cho “kẹo vui” miễn phí",
+     lines:[["Anh Khánh","😎","Anh có loại “kẹo vui” này, ăn vào phê cả đêm. Cho em một viên, miễn phí."],["","","Viên kẹo nhiều màu, không nhãn mác."]],
+     ch:[{x:"Cầm lấy, mang về để mai thử",d:-30,stop:"Ma túy tổng hợp thường được ngụy trang thành kẹo. “Miễn phí lần đầu” là cách lôi kéo.",why:"Ma túy tổng hợp thường được ngụy trang thành kẹo; “miễn phí lần đầu” là cách lôi kéo."},
+         {x:"Không nhận, vào nhà kể với bố mẹ Tuấn",d:25,go:"n3",best:1,why:"Từ chối và báo ngay người lớn đang có mặt."},
+         {x:"Không nhận, nhưng không nói với ai",d:5,go:"n3",why:"Từ chối là đúng, nhưng kể với người lớn giúp bảo vệ các bạn khác."}]},
+    n3:{scene:["🏠","Về nhà","22:00"],ask:"Khi mẹ hỏi chuyện",
+     lines:[["Mẹ","👩","Tiệc vui không con?"],["","","Em nghĩ về chuyện tối nay..."]],
+     ch:[{x:"Kể hết với mẹ về chiếc vape và viên kẹo lạ",d:20,go:"END",best:1,why:"Người lớn cần biết để ngăn kẻ xấu tiếp cận các em."},
+         {x:"Không kể, sợ các bạn bị mắng",d:-5,go:"END",why:"Kể không phải là “mách lẻo”. Nếu ngại, em có thể nhắn Lá chắn xanh."}]}
+   }},
+  {title:"Người bạn thay đổi",sum:"Bạn thân có dấu hiệu dùng chất gây nghiện",
+   key:["Giữ bí mật không giúp được bạn; bạn cần người lớn hỗ trợ.","Không đưa tiền khi không rõ dùng vào việc gì.","Thông tin về kẻ lôi kéo nên được báo cho người lớn hoặc Công an xã, phường."],
+   nodes:{
+    n1:{scene:["🏫","Lớp 9A","Giờ ra chơi"],ask:"Khi bạn hỏi mượn tiền",
+     lines:[["","","Dạo này Nam hay ngủ gật, bỏ đá bóng, hay mượn tiền mà không nói để làm gì."],["Nam","🧒","Cho tớ mượn 100 nghìn. Đừng hỏi gì nhé."]],
+     ch:[{x:"Đưa tiền, không hỏi gì",d:-15,go:"n2",why:"Tiền có thể bị dùng để mua chất gây nghiện."},
+         {x:"Hỏi han nhẹ nhàng: “Dạo này cậu có chuyện gì à?”",d:20,go:"n2",best:1,why:"Quan tâm đúng lúc giúp bạn dám mở lòng."},
+         {x:"Kể với cả lớp là Nam dạo này lạ lắm",d:-20,go:"n2",why:"Bàn tán khiến bạn xấu hổ và càng giấu kín."}]},
+    n2:{ask:"Khi bạn tâm sự và xin giữ bí mật",
+     lines:[["Nam","🧒","...Tớ có thử mấy thứ anh Khánh cho. Giờ không có thì khó chịu lắm. Đừng nói với ai nhé."]],
+     ch:[{x:"“Ừ, tớ giữ bí mật.”",d:-20,go:"n3",why:"Giữ bí mật không giúp được bạn. Bạn cần người lớn hỗ trợ."},
+         {x:"“Tớ sẽ đi cùng cậu gặp cô chủ nhiệm hoặc bố mẹ cậu.”",d:25,go:"n3",best:1,why:"Đi cùng bạn giúp bạn bớt sợ và nhận được hỗ trợ sớm."},
+         {x:"Tránh xa Nam từ giờ",d:-10,go:"n3",why:"Xa lánh khiến bạn cô độc, dễ lún sâu hơn."}]},
+    n3:{scene:["👩‍🏫","Phòng cô chủ nhiệm","Chiều hôm đó"],ask:"Khi cô hỏi về người lôi kéo",
+     lines:[["Cô Hạnh","👩‍🏫","Cảm ơn em đã tin cô. Cô sẽ gặp gia đình Nam để cùng hỗ trợ bạn. Người tên Khánh, em có biết gì thêm không?"]],
+     ch:[{x:"Kể những gì em biết để cô báo Công an xã, phường",d:20,go:"END",best:1,why:"Thông tin của em giúp ngăn kẻ xấu lôi kéo thêm các bạn khác."},
+         {x:"Em sợ bị trả thù nên không nói",d:0,go:"END",why:"Em có thể cung cấp thông tin qua người lớn hoặc kênh Lá chắn xanh; thông tin được bảo mật theo quy định."}]}
+   }}
+ ]},
+ vn4:{name:"Phá giải tình huống",icon:"🛡️",meter:"An toàn",field:"Lĩnh vực 4 · Bạo lực học đường, xâm hại trẻ em",
+  intro:"Những tình huống có thể xảy ra ở trường, trên mạng, ngay cạnh nhà. Mỗi lựa chọn của em quyết định em và bạn bè có an toàn hay không.",
+  verdicts:[[80,"🏆","Người bảo vệ","Em giữ an toàn cho mình và giúp được bạn."],[55,"👍","Khá an toàn","Em đã tránh được nguy hiểm, còn vài lựa chọn có thể tốt hơn."],[0,"⚠️","Cần cảnh giác hơn","Một vài lựa chọn khiến em hoặc bạn gặp nguy hiểm. Xem lại bên dưới nhé."]],
+  chapters:[
+  {title:"Nhóm chat lớp",sum:"Bắt nạt trên mạng và lời hẹn chặn đường",
+   key:["Không hùa theo, không phát tán ảnh, clip bắt nạt.","Giữ bằng chứng và báo thầy cô, bố mẹ.","Không đánh trả; đi nơi đông người; nguy hiểm gọi 113."],
+   nodes:{
+    n1:{scene:["💬","Nhóm chat lớp 8A","22:10"],ask:"Khi bạn bị chế ảnh trong nhóm chat",
+     lines:[["","","Ai đó đăng ảnh chế của Lan kèm lời chê bai. Cả nhóm thả “haha”."],["Hùng","😏","Ảnh này chuẩn quá, share thêm đi!"]],
+     ch:[{x:"Thả “haha” cho vui",d:-20,go:"n2",why:"Một “haha” cũng là tiếp sức cho bắt nạt."},
+         {x:"Nhắn riêng hỏi thăm Lan, chụp màn hình làm bằng chứng",d:25,go:"n2",best:1,why:"Bạn cần được động viên; bằng chứng giúp người lớn xử lý đúng."},
+         {x:"Rời nhóm cho khỏi phiền",d:0,go:"n2",why:"Em giữ được mình, nhưng Lan vẫn một mình."}]},
+    n2:{ask:"Khi bạn bị dọa chặn đường",
+     lines:[["Lan","😢","Tớ không muốn đi học nữa... Mai họ còn hẹn chặn tớ ở cổng sau."]],
+     ch:[{x:"“Cứ mặc kệ họ.”",d:-15,go:"n3",why:"Lời đe dọa cần được người lớn biết để phòng ngừa."},
+         {x:"Nhắn bố mẹ Lan tối nay, sáng mai cùng Lan báo cô chủ nhiệm",d:25,go:"n3",best:1,why:"Báo sớm giúp nhà trường kịp ngăn chặn."},
+         {x:"Rủ nhóm mình ra “xử” lại bọn kia",d:-25,go:"n3",why:"Đánh trả biến em thành người vi phạm và dễ gây thương tích nghiêm trọng."}]},
+    n3:{scene:["🏫","Cổng sau trường","17:00"],ask:"Khi bị chặn đường",
+     lines:[["","","Hôm sau, Hùng và hai bạn đứng chặn ở cổng sau."],["Hùng","😏","Đi đâu đấy? Đứng lại!"]],
+     ch:[{x:"Cùng Lan quay lại cổng chính, nơi có bác bảo vệ và thầy cô",d:20,go:"END",best:1,why:"Đi về nơi đông người, có người lớn là cách an toàn nhất. Nếu bị tấn công, gọi 113."},
+         {x:"Lao vào đánh trước",d:-25,go:"END",why:"Đánh nhau có thể gây thương tích nghiêm trọng và bị xử lý theo quy định."},
+         {x:"Lấy điện thoại quay video đăng lên mạng",d:-15,go:"END",why:"Ưu tiên an toàn và báo người lớn; phát tán clip làm nạn nhân tổn thương thêm."}]}
+   }},
+  {title:"Người hàng xóm “tốt bụng”",sum:"Lời rủ kèm lời dặn giữ bí mật",
+   key:["“Đừng nói với bố mẹ” là dấu hiệu nguy hiểm.","Không vào nhà người khác khi bố mẹ không biết.","Bí mật khiến em sợ thì phải kể: bố mẹ, thầy cô, hoặc gọi 111."],
+   nodes:{
+    n1:{scene:["🏘️","Gần nhà","Chiều thứ Bảy"],ask:"Khi được rủ vào nhà và dặn giữ bí mật",
+     lines:[["","","Một anh hàng xóm mới chuyển đến hay cho em quà vặt, cho mượn điện thoại chơi."],["Anh hàng xóm","🙂","Vào nhà anh chơi game đi. Đừng nói với mẹ nhé, anh em mình thôi."]],
+     ch:[{x:"Vào chơi một lát",d:-30,stop:"Lời dặn “đừng nói với mẹ” là dấu hiệu nguy hiểm. Không vào nhà người khác khi bố mẹ không biết.",why:"Lời dặn giữ bí mật với bố mẹ là dấu hiệu nguy hiểm."},
+         {x:"“Em phải hỏi mẹ đã.” rồi đi về nhà",d:25,go:"n2",best:1,why:"Từ chối lịch sự và về ngay với người lớn."},
+         {x:"Từ chối, nhưng không kể với ai",d:5,go:"n2",why:"Kể với người lớn giúp bảo vệ cả các bạn nhỏ khác."}]},
+    n2:{scene:["🏠","Ở nhà","Tối hôm đó"],ask:"Khi mẹ thấy em lo lắng",
+     lines:[["Mẹ","👩","Sao trông con lo lắng thế?"]],
+     ch:[{x:"Kể với mẹ về lời rủ và lời dặn giữ bí mật",d:25,go:"n3",best:1,why:"Đó không phải lỗi của em. Kể ngay là đúng."},
+         {x:"“Không có gì đâu ạ.”",d:-15,go:"n3",why:"Đừng giữ những bí mật khiến em sợ. Em có thể kể với người lớn tin cậy hoặc gọi 111."}]},
+    n3:{ask:"Điều em ghi nhớ",
+     lines:[["Mẹ","👩","Con làm rất đúng. Có chuyện gì khiến con sợ, con luôn được kể với mẹ, thầy cô, hoặc gọi 111."],["","","Mẹ sẽ trao đổi với tổ dân phố và Công an phường."]],
+     ch:[{x:"“Bí mật làm mình sợ thì phải kể.”",d:10,go:"END",best:1,why:"Người lớn tin cậy và Tổng đài 111 luôn sẵn sàng giúp em."}]}
+   }}
+ ]},
+ vn5:{name:"Kết nối yêu thương",icon:"🤝",meter:"Tin tưởng",field:"Lĩnh vực 5 · Tái hòa nhập cộng đồng",
+  intro:"Người đã chấp hành xong án phạt cần cơ hội làm lại. Gia đình họ cần được đối xử công bằng. Thanh “Tin tưởng” cho biết bạn bè và hàng xóm có cảm thấy được đón nhận hay không.",
+  verdicts:[[80,"💚","Trái tim nhân ái","Em sẻ chia, không kỳ thị và lan tỏa sự tôn trọng."],[55,"👍","Biết sẻ chia","Em đã ứng xử khá tốt, còn vài lựa chọn có thể ấm áp hơn."],[0,"💭","Cần thấu hiểu hơn","Một vài lựa chọn có thể làm người khác tổn thương. Xem lại bên dưới nhé."]],
+  chapters:[
+  {title:"Bố của Minh trở về",sum:"Bạn cùng lớp bị bàn tán vì người thân",
+   key:["Con cái không phải chịu trách nhiệm về việc làm của bố mẹ.","Người đã chấp hành xong án phạt cần cơ hội việc làm để làm lại.","Không bàn tán, không gán nhãn bạn bè."],
+   nodes:{
+    n1:{scene:["🏫","Lớp 10B","Đầu giờ sáng"],ask:"Khi cả lớp bàn tán về bạn",
+     lines:[["","","Bố của Minh vừa chấp hành xong án phạt tù, về địa phương được một tuần."],["Hoa","🙊","Nghe nói bố Minh đi tù về đấy, tránh xa ra kẻo..."],["","","Minh ngồi một mình ở cuối lớp."]],
+     ch:[{x:"Gật gù theo Hoa",d:-20,go:"n2",why:"Minh không có lỗi; bàn tán khiến bạn tổn thương."},
+         {x:"Ngồi cạnh Minh, rủ bạn cùng làm bài nhóm",d:25,go:"n2",best:1,why:"Một hành động nhỏ giúp bạn thấy mình không bị bỏ rơi."},
+         {x:"Không tham gia, cũng không nói gì",d:0,go:"n2",why:"Không hùa theo là tốt, nhưng bạn cần thêm một người bạn."}]},
+    n2:{ask:"Khi bạn tâm sự",
+     lines:[["Minh","😔","Mọi người nhìn tớ khác hẳn. Bố tớ đi xin việc cũng chẳng ai nhận."]],
+     ch:[{x:"“Ai bảo bố cậu phạm tội.”",d:-25,go:"n3",why:"Câu nói này khiến bạn càng tổn thương và tự ti."},
+         {x:"“Bố cậu đã chấp hành xong rồi, ai cũng cần được làm lại. Tớ vẫn là bạn cậu.”",d:25,go:"n3",best:1,why:"Thấu hiểu và đứng về phía bạn giúp bạn vững vàng hơn."},
+         {x:"“Thôi đừng kể nữa.”",d:-10,go:"n3",why:"Lắng nghe là cách đơn giản nhất để giúp bạn."}]},
+    n3:{scene:["🏪","Cửa hàng nhà em","Buổi tối"],ask:"Khi bố hỏi ý kiến em",
+     lines:[["Bố","👨","Bố của Minh hỏi xin phụ giao hàng cho nhà mình. Con thấy sao?"]],
+     ch:[{x:"“Nên cho chú ấy cơ hội, chú đã chấp hành xong án rồi bố ạ.”",d:20,go:"END",best:1,why:"Việc làm ổn định giúp người tái hòa nhập không quay lại con đường cũ."},
+         {x:"“Thôi bố ạ, người ta dị nghị.”",d:-15,go:"END",why:"Định kiến khiến người muốn làm lại khó có cơ hội."}]}
+   }},
+  {title:"Tin đồn trong xóm",sum:"Vu cho người từng có án mà không có căn cứ",
+   key:["Không lan truyền tin đồn chưa được kiểm chứng.","Đăng tin sai sự thật có thể bị xử lý theo quy định.","Đón nhận người tái hòa nhập là trách nhiệm của cả cộng đồng."],
+   nodes:{
+    n1:{scene:["📱","Nhóm Zalo khu phố","20:00"],ask:"Khi thấy tin đồn trên nhóm",
+     lines:[["","","Có người đăng: “Nhà cô Lan mất xe đạp. Chú Tâm đầu ngõ từng đi tù, hỏi chú ấy là biết.”"],["Bà Ba","👵","Chắc chắn là nó rồi!"]],
+     ch:[{x:"Chia sẻ tin cho cả lớp biết",d:-25,go:"n2",why:"Tin chưa có căn cứ có thể vu oan người khác."},
+         {x:"Không chia sẻ, nhắc bố mẹ: chưa có căn cứ thì không nên kết luận",d:25,go:"n2",best:1,why:"Bình tĩnh và tôn trọng sự thật là cách ứng xử văn minh."},
+         {x:"Bỏ qua",d:0,go:"n2",why:"Không lan truyền là tốt; lên tiếng đúng lúc còn tốt hơn."}]},
+    n2:{scene:["🏘️","Đầu ngõ","Hôm sau"],ask:"Khi sự thật được làm rõ",
+     lines:[["","","Công an phường xác định người lấy xe là một người nơi khác đến."],["Chú Tâm","👨‍🔧","Cảm ơn nhà cháu đã không vội tin."]],
+     ch:[{x:"Rủ chú Tâm cùng tham gia tổng vệ sinh khu phố cuối tuần",d:20,go:"END",best:1,why:"Kết nối giúp mọi người hiểu và tin nhau hơn."},
+         {x:"“Vẫn nên tránh xa cho chắc.”",d:-15,go:"END",why:"Định kiến kéo dài khiến người tái hòa nhập bị cô lập."}]}
+   }}
+ ]}
+};
+var VN={id:null,g:null,ch:0,m:50,dec:[],tok:0,view:"home"};
+function vnBest(id,i){return LCXS.d.vn[id+"-"+i];}
+window.vnHub=function(){Object.keys(VNG).forEach(function(id){var n=VNG[id].chapters.filter(function(_,i){return vnBest(id,i)!=null;}).length;var el=$("rec-"+id);if(el)el.textContent=n?"✓ "+n+"/"+VNG[id].chapters.length+" chương":"";});};
+vnHub();
+function vnSetMeter(){$("vnBar").style.width=VN.m+"%";$("vnVal").textContent=VN.m;}
+function vnOpen(id){VN.id=id;VN.g=VNG[id];VN.view="home";VN.tok++;show("vn");vnRender();}
+function vnRender(){
+  var g=VN.g,b=$("vnBody");$("vnTitle").textContent=g.icon+" "+g.name;$("vnSub").textContent=g.field;$("vnFreeze").classList.add("hidden");
+  $("vnMeter").classList.toggle("hidden",VN.view!=="play");$("vnMName").textContent=g.meter;
+  if(VN.view==="home"){
+    var h='<div class="an-card"><h3>'+g.icon+' '+esc(g.name)+'</h3><p class="an-muted">'+esc(g.intro)+'</p><p class="an-muted" style="margin-top:8px">Thanh <b>'+esc(g.meter)+'</b> tăng hay giảm theo từng lựa chọn của em.</p>';
+    g.chapters.forEach(function(c,i){var bs=vnBest(VN.id,i);h+='<button class="chap" data-ch="'+i+'"><span class="n">'+(i+1)+'</span><span><b>'+esc(c.title)+'</b><small>'+esc(c.sum)+(bs!=null?' · Tốt nhất: '+bs+'/100':'')+'</small></span></button>';});
+    h+='</div>';b.innerHTML=h;b.scrollTop=0;
+    Array.prototype.forEach.call(b.querySelectorAll("[data-ch]"),function(x){x.onclick=function(){vnStart(+x.getAttribute("data-ch"));};});
+  }
+}
+function vnStart(i){VN.ch=i;VN.m=50;VN.dec=[];VN.view="play";VN.tok++;vnRender();vnSetMeter();var b=$("vnBody");b.innerHTML='<div id="vnLog"></div><div id="vnCh"></div>';b.scrollTop=0;vnNode("n1");}
+function vnScroll(){var b=$("vnBody");b.scrollTop=b.scrollHeight;}
+async function vnNode(k){
+  var tk=VN.tok,c=VN.g.chapters[VN.ch],n=c.nodes[k],log=$("vnLog");$("vnCh").innerHTML="";
+  if(n.scene){var sc=document.createElement("div");sc.className="vn-scene";sc.innerHTML='<span class="e"></span><span><b></b><small></small></span>';
+    sc.querySelector(".e").textContent=n.scene[0];sc.querySelector("b").textContent=n.scene[1];sc.querySelector("small").textContent=n.scene[2];log.appendChild(sc);vnScroll();await sleep(500);if(tk!==VN.tok)return;}
+  for(var i=0;i<n.lines.length;i++){
+    var L=n.lines[i],el=document.createElement("div");
+    if(!L[0]){el.className="vn-nar";el.textContent=L[2];}
+    else{el.className="vn-line";el.innerHTML='<div class="av"></div><div class="bb"><small></small><span></span></div>';el.querySelector(".av").textContent=L[1];el.querySelector("small").textContent=L[0];el.querySelector("span").textContent=L[2];}
+    log.appendChild(el);vnScroll();await sleep(500+Math.min(1300,L[2].length*14));if(tk!==VN.tok)return;
+  }
+  var box=$("vnCh"),ask=document.createElement("div");ask.className="vn-ask";ask.textContent="Em sẽ làm gì?";box.appendChild(ask);
+  n.ch.forEach(function(o){var bt=document.createElement("button");bt.className="choice";bt.style.width="100%";bt.style.marginBottom="7px";bt.textContent=o.x;bt.onclick=function(){vnChoose(n,o);};box.appendChild(bt);});
+  vnScroll();
+}
+async function vnChoose(n,o){
+  var tk=VN.tok,log=$("vnLog");$("vnCh").innerHTML="";
+  var best=n.ch.filter(function(z){return z.best;})[0];VN.dec.push({ask:n.ask,pick:o,best:best});
+  var me=document.createElement("div");me.className="vn-line me";me.innerHTML='<div class="bb"></div>';me.querySelector(".bb").textContent=o.x;log.appendChild(me);
+  VN.m=Math.max(0,Math.min(100,VN.m+o.d));vnSetMeter();
+  var dl=document.createElement("div");dl.className="vn-delta "+(o.d>0?"up":(o.d<0?"down":"flat"));dl.textContent=(o.d>0?"▲ +":(o.d<0?"▼ ":"● "))+o.d+" "+VN.g.meter;log.appendChild(dl);vnScroll();
+  await sleep(700);if(tk!==VN.tok)return;
+  if(o.stop){$("vnFreezeT").textContent=o.stop;$("vnFreeze").classList.remove("hidden");VN.failed=true;return;}
+  VN.failed=false;
+  if(o.go==="END"){vnEnd();return;}
+  vnNode(o.go);
+}
+function vnEnd(){
+  VN.tok++;VN.view="end";var g=VN.g,c=g.chapters[VN.ch],b=$("vnBody"),m=VN.failed?Math.min(VN.m,30):VN.m;
+  $("vnFreeze").classList.add("hidden");$("vnMeter").classList.add("hidden");
+  var v=g.verdicts.filter(function(x){return m>=x[0];})[0];if(VN.failed)v=["🚨","Dừng lại!","Lựa chọn vừa rồi đã đưa em vào nguy hiểm. Hãy xem lại và thử lại nhé."];else v=v.slice(1);
+  var key="vn-"+VN.id+"-"+VN.ch;var prev=vnBest(VN.id,VN.ch);if(prev==null||m>prev){LCXS.d.vn[VN.id+"-"+VN.ch]=m;LCXS.save();}vnHub();
+  var h='<div class="verdict '+(VN.failed?"trap":(m>=80?"safe":(m>=55?"safe":"near")))+'" style="margin:0 0 12px"><div class="v-icon">'+v[0]+'</div><h2>'+esc(v[1])+'</h2><p>'+esc(v[2])+'</p><p style="margin-top:6px;font-weight:800">'+esc(g.meter)+': '+m+'/100</p></div>';
+  h+='<h3 class="sec-t" style="margin:6px 0 8px">⏪ Những khoảnh khắc quyết định</h3><ul class="dec">';
+  VN.dec.forEach(function(d){var cls=d.pick.d>=20?"good":(d.pick.d>0||d.pick.d===0&&d.pick.best?"mid":"bad");if(d.pick.best)cls="good";
+    h+='<li class="'+cls+'"><b>'+esc(d.ask)+'</b>'+(d.pick.best?"✅ ":(cls==="mid"?"➖ ":"❌ "))+'Em chọn: '+esc(d.pick.x)+'<div>'+esc(d.pick.why||"")+'</div>';
+    if(!d.pick.best&&d.best)h+='<div class="best">👉 Tốt nhất: '+esc(d.best.x)+'</div>';h+='</li>';});
+  h+='</ul><div class="keybox"><h4>📌 Ghi nhớ</h4><ul>'+c.key.map(function(k){return "<li>"+esc(k)+"</li>";}).join("")+'</ul></div>';
+  if(VN.ch+1<g.chapters.length)h+='<button class="btn pri" id="vnNext" style="width:100%;margin:0 0 8px">Chương tiếp: '+esc(g.chapters[VN.ch+1].title)+' ›</button>';
+  h+='<button class="btn ghost" id="vnAgain" style="width:100%;margin:0 0 8px">↻ Chơi lại chương này</button><button class="btn ghost" id="vnList" style="width:100%;margin:0 0 8px">‹ Danh sách chương</button>';
+  h+='<a class="btn pri" href="https://zalo.me/1804677017141859905" target="_blank" rel="noopener" style="width:100%;margin:0">💬 Cần tư vấn? Nhắn Lá chắn xanh qua Zalo</a>';
+  h+='<div class="sosline">Khẩn cấp: <a href="tel:113" target="_top">📞 113</a> · Bảo vệ trẻ em <a href="tel:111" target="_top">111</a> · <a href="tel:0936692111" target="_top">0936.692.111</a></div>';
+  b.innerHTML=h;b.scrollTop=0;
+  if($("vnNext"))$("vnNext").onclick=function(){vnStart(VN.ch+1);};
+  $("vnAgain").onclick=function(){vnStart(VN.ch);};$("vnList").onclick=function(){VN.view="home";vnRender();};
+}
+$("vnFreezeBtn").onclick=function(){vnEnd();};
+$("vnBack").onclick=function(){
+  if(VN.view==="play"){if(!window.confirm("Thoát chương này?"))return;VN.tok++;VN.view="home";vnRender();return;}
+  if(VN.view==="end"){VN.view="home";vnRender();return;}
+  VN.tok++;show("hub");hubRefresh();
+};
+Array.prototype.forEach.call(document.querySelectorAll("[data-vn]"),function(b){b.onclick=function(){vnOpen(b.getAttribute("data-vn"));};});
+})();
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b3d2a">
 <title>Mini game Lá chắn xanh</title>
-<meta name="description" content="Chơi vui, nhận diện bẫy, tự bảo vệ mình. Mô hình Lá chắn xanh – Ban Thanh niên Công an tỉnh Lạng Sơn.">
+<meta name="description" content="Mini game Lá chắn xanh – Vừa chơi vui, vừa học tập pháp luật! Ban Thanh niên Công an tỉnh Lạng Sơn.">
 <style>
 :root{
   --bg:#0b3d2a; --brand:#12a150; --brand-d:#0d7a3c; --brand-l:#e3f6ea;
@@ -297,42 +297,42 @@ a{color:inherit}
         <path d="M50 30 C36 40 34 56 44 68 C46 60 50 52 58 46 C52 54 49 62 48 70 C62 68 68 52 62 38 C59 33 55 31 50 30 Z" fill="#c8f5d6"/>
       </svg>
       <h1>Mini game Lá chắn xanh</h1>
-      <p>Chơi vui · Nhận diện bẫy · Tự bảo vệ mình</p>
+      <p>Vừa chơi vui, vừa học tập pháp luật!</p>
     </div>
     <div class="card">
       <h2>🎮 Trò chơi hành động</h2>
       <button class="story play" data-game="g1">
         <span class="sava">🗡️</span>
-        <span><b>Chém bẫy</b><small>Chém tin nhắn lừa đảo, tha tin an toàn</small><small class="rec" id="rec-g1"></small></span>
+        <span><b>Chém bẫy</b><small>Vuốt thật nhanh, chém trúng tin nhắn lừa đảo, để thông điệp an toàn bay qua</small><small class="rec" id="rec-g1"></small></span>
         <span class="go">›</span>
       </button>
       <button class="story play" data-game="g2">
         <span class="sava">🚲</span>
-        <span><b>Đến trường an toàn</b><small>Né chướng ngại, dừng đèn đỏ, nói "không" với trò nguy hiểm</small><small class="rec" id="rec-g2"></small></span>
+        <span><b>Đến trường an toàn</b><small>Chấp hành đèn tín hiệu, đội mũ bảo hiểm, kiên quyết nói “KHÔNG” với hành vi nguy hiểm</small><small class="rec" id="rec-g2"></small></span>
         <span class="go">›</span>
       </button>
       <button class="story play" data-game="g3">
         <span class="sava">📱</span>
-        <span><b>Phòng thủ điện thoại</b><small>Chọn đúng lá chắn trước quái vật tin nhắn</small><small class="rec" id="rec-g3"></small></span>
+        <span><b>Phòng thủ điện thoại</b><small>Tin nhắn lạ hóa thành quái vật tấn công: chọn đúng lá chắn để bảo vệ điện thoại và thông tin cá nhân</small><small class="rec" id="rec-g3"></small></span>
         <span class="go">›</span>
       </button>
       <button class="story play" data-game="g4">
         <span class="sava">🚒</span>
-        <span><b>Chiến binh an toàn <span class="tag">Thử nghiệm</span></b><small>Thoát khỏi đám cháy, ném phao cứu bạn đuối nước</small><small class="rec" id="rec-g4"></small></span>
+        <span><b>Chiến binh an toàn <span class="tag">Thử nghiệm</span></b><small>Cúi thấp khi qua khói, không dùng thang máy khi có cháy, hỗ trợ an toàn người gặp nạn dưới nước</small><small class="rec" id="rec-g4"></small></span>
         <span class="go">›</span>
       </button>
     </div>
     <div class="card">
-      <h2>⚖️ Kiến thức pháp luật</h2>
+      <h2>⚖️ Đấu trường kiến thức</h2>
       <button class="story play" id="openArena">
         <span class="sava">⚖️</span>
-        <span><b>Đấu trường pháp luật <span class="tag">Thử nghiệm</span></b><small>Leo tháp 7 lĩnh vực, sưu tầm huy hiệu</small><small class="rec" id="rec-arena"></small></span>
+        <span><b>Đấu trường pháp luật <span class="tag">Thử nghiệm</span></b><small>Chinh phục tòa tháp bảy tầng, tích lũy điểm thưởng, sưu tầm huy hiệu</small><small class="rec" id="rec-arena"></small></span>
         <span class="go">›</span>
       </button>
     </div>
     <div class="foot">
       📸 Chụp màn hình điểm số để thi đua cùng bạn bè!<br><br>
-      Mini game thuộc mô hình <b>"Lá chắn xanh"</b><br>Ban Thanh niên Công an tỉnh Lạng Sơn<br>
+      <b>LÁ CHẮN XANH – LẮNG NGHE, ĐỒNG HÀNH, BẢO VỆ!</b><br>Ban Thanh niên Công an tỉnh Lạng Sơn<br>
       <a href="/" target="_top">← Về lachanxanh.vn</a><br>
       <button class="resetbtn" id="resetProg">🗑️ Xóa tiến độ chơi trên máy này</button>
     </div>
@@ -1128,7 +1128,7 @@ function anRender(){
   if(AN.view==="home"){
     var wk=weekId(),wd=LCXS.d.week[wk];
     var h='<button class="week" id="anWeek"><span class="e">📅</span><span><b>Thử thách tuần '+esc(wk.split("-T")[1])+'</b><small>'+(wd!=null?"Đã hoàn thành: "+wd+"/5 câu đúng · Chơi lại":"5 câu hỏi mới mỗi tuần · Chơi ngay")+'</small></span></button>';
-    h+='<div class="an-card" style="padding:12px 14px"><h3>🗼 Tháp Lá chắn xanh</h3><p class="an-muted">Mỗi tầng 5 câu. Đúng từ 4 câu trở lên để nhận huy hiệu. Đủ 7 huy hiệu nhận chứng nhận <b>Chiến binh Lá chắn xanh</b>.</p></div><div class="tower">';
+    h+='<div class="an-card" style="padding:12px 14px"><h3>🗼 Tháp Lá chắn xanh</h3><p class="an-muted">Chinh phục tòa tháp bảy tầng: mỗi tầng 5 câu, đúng từ 4 câu trở lên để nhận huy hiệu. Đủ 7 huy hiệu nhận chứng nhận <b>Chiến binh Lá chắn xanh</b>.</p></div><div class="tower">';
     for(var lv=7;lv>=1;lv--){var L=LVS[lv],won=LCXS.d.badges[lv],best=LCXS.d.floor[lv];
       h+='<button class="floor'+(won?" won":"")+'" data-lv="'+lv+'"><span class="fn">T'+lv+'</span><span class="fe">'+(won?L.e:L.e)+'</span><span><b>'+esc(L.n)+'</b><small>'+(won?"🏅 "+esc(L.b):"Huy hiệu: "+esc(L.b))+(best!=null?" · Tốt nhất "+best+"/5":"")+'</small></span><span class="go">›</span></button>';}
     h+='</div>';
@@ -1143,7 +1143,7 @@ function anRender(){
     var h2='<div class="cert"><div class="seal">'+(nb>=7?"🎖️":"🔒")+'</div><div class="k1">MINI GAME LÁ CHẮN XANH · CHỨNG NHẬN</div><h2>Chiến binh Lá chắn xanh</h2>';
     h2+=nb>=7?'<p class="an-muted">Đã vượt qua 7 tầng tháp pháp luật, cấp '+esc(cap)+'.<br>Ngày '+new Date().toLocaleDateString("vi-VN")+'</p>':'<p class="an-muted">Cần thêm '+(7-nb)+' huy hiệu để nhận chứng nhận.</p>';
     h2+='<div class="badgeline">';for(var i=1;i<=7;i++)h2+='<span class="'+(LCXS.d.badges[i]?"":"off")+'">'+LVS[i].e+" "+esc(LVS[i].b)+'</span>';
-    h2+='</div><p class="an-muted" style="margin-top:14px">Lắng nghe · Đồng hành · Bảo vệ<br>Ban Thanh niên Công an tỉnh Lạng Sơn</p></div>';
+    h2+='</div><p class="an-muted" style="margin-top:14px">Lá chắn xanh – Lắng nghe, đồng hành, bảo vệ!<br>Ban Thanh niên Công an tỉnh Lạng Sơn</p></div>';
     if(nb>=7)h2+='<p class="snap" style="color:var(--muted);text-align:center">📸 Chụp màn hình để lưu và khoe với bạn bè!</p>';
     h2+='<button class="btn ghost" id="anHome" style="width:100%;margin:12px 0 0">‹ Về tháp</button>';
     b.innerHTML=h2;$("anHome").onclick=function(){AN.view="home";anRender();};return;
